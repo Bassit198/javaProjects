@@ -77,7 +77,6 @@ public class TransactionsService {
     //db end
     //create transaction
     private String createTransaction_DB(String isbn, String maskedCC){
-        Transactions transaction = new Transactions();
         final String uri = "http://localhost:8080/transaction/create";
         Map<String, String> map = new HashMap<>();
         map.put("purchasedIsbn", isbn);

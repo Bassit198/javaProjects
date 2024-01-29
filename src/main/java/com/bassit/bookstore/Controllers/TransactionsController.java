@@ -23,8 +23,7 @@ public class TransactionsController {
     @PostMapping("/transaction/create")
     public String createTransaction(@RequestBody Transactions transactionDetails){
         Transactions newTransaction = new Transactions();
-//        newTransaction.setPurchaseDate(LocalDate.now());
-        newTransaction.setPurchaseDate(transactionDetails.getPurchaseDate());
+        newTransaction.setPurchaseDate(LocalDate.now());
         newTransaction.setPurchasedIsbn(transactionDetails.getPurchasedIsbn());
         newTransaction.setMaskedCC(transactionDetails.getMaskedCC());
         newTransaction.setTransactionStatus("ACTIVE");
