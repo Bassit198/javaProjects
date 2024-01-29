@@ -82,4 +82,7 @@ public class TransactionsController {
         log.info("Transaction successfully deleted with ID: " + id);
         return "Successfully Deleted Transaction with ID: " + id;
     }
+    private void test(){
+
+    }
 }
