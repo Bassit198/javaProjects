@@ -13,12 +13,7 @@ import java.util.function.Consumer;
 @Log
 public class HelperFunctions {
 
-
-
-    public static void header(String header){
-        System.out.printf("%s\n%s\n%s\n", "------------------------------------------------", header ,"------------------------------------------------");
-    }
-
+    //book helper functions
     public static void printBook(List<Books> bookList){
         int counter=1;
         for(Books book : bookList){
@@ -44,6 +39,8 @@ public class HelperFunctions {
         return Arrays.asList(sortBookList);
     }
 
+
+    //customer helper
     public static void printCustomer(List<Customers> customersList){
         int counter=1;
         for(Customers customers : customersList){
@@ -60,6 +57,40 @@ public class HelperFunctions {
         return Arrays.asList(customers);
     }
 
+
+    //members helper functions
+    public static void printMembers(List<Members> memberList){
+        int counter=1;
+        for(Members member : memberList){
+            System.out.printf(counter + "\nFirstName: %s\nLastName: %s\nPhone Number: %s\nEmail: %s\nMembership Plan: %s\nMembership Status: %s\nMembership Price: %.2f\nMembership Expiration: %s\nMembership Purchase: %s\n------------------------------------------------\n",member.getMemberFirstName(), member.getMemberLastName(), member.getMemberPhoneNumber(), member.getMemberEmail(), member.getMembershipPlan(), member.getMembershipStatus(), member.getMembershipPrice(), member.getMembershipExpiration().toLocalDate(), member.getMembershipPurchaseDate().toLocalDate());
+            counter++;
+        }
+    }
+
+    //transaction helper functions
+    public static void printTransaction(List<Transactions> transactions){
+        int counter=1;
+        for(Transactions transaction : transactions){
+            System.out.printf(counter + "\nTransaction Number: %s\nPurchased ISBN: %s\nPurchase Date: %s\nTransaction Status: %s\nMasked Credit Card: %s\n------------------------------------------------\n",transaction.getTransactionNumber(), transaction.getPurchasedIsbn(), transaction.getPurchaseDate(), transaction.getTransactionStatus(), transaction.getMaskedCC());
+            counter++;
+        }
+    }
+
+    public static List<Transactions>apiGetTransaction(String uriBase, String uriParam, RestTemplate restTemplate){
+        final String uri = uriBase + uriParam;
+        Transactions[] transactions = restTemplate.getForObject(uri, Transactions[].class);
+        assert transactions != null;
+        return Arrays.asList(transactions);
+    }
+
+    public static String apiUpdateTransaction(String uriBase, String uriParam, String endpointName, RestTemplate restTemplate){
+        final String uri = uriBase + uriParam;
+        restTemplate.postForEntity(uri, null, Void.class);
+        return "Transaction " + endpointName + " successfully";
+    }
+
+
+    //general functions
     public static String apiUpdate(String uriBase, String uriParam, String firstParameter, String value, String endpointName, RestTemplate restTemplate){
         final String uri = uriBase + uriParam;
         Map<String, String> map = new HashMap<>();
@@ -69,21 +100,13 @@ public class HelperFunctions {
         return endpointName + " successfully updated by User";
     }
 
-    public static void printMembers(List<Members> memberList){
-        int counter=1;
-        for(Members member : memberList){
-            System.out.printf(counter + "\nFirstName: %s\nLastName: %s\nPhone Number: %s\nEmail: %s\nMembership Plan: %s\nMembership Status: %s\nMembership Price: %.2f\nMembership Expiration: %s\nMembership Purchase: %s\n------------------------------------------------\n",member.getMemberFirstName(), member.getMemberLastName(), member.getMemberPhoneNumber(), member.getMemberEmail(), member.getMembershipPlan(), member.getMembershipStatus(), member.getMembershipPrice(), member.getMembershipExpiration().toLocalDate(), member.getMembershipPurchaseDate().toLocalDate());
-            counter++;
-        }
+    public static void header(String header){
+        System.out.printf("%s\n%s\n%s\n", "------------------------------------------------", header ,"------------------------------------------------");
     }
 
-    public static void printTransaction(List<Transactions> transactions){
-        int counter=1;
-        for(Transactions transaction : transactions){
-            System.out.printf(counter + "\nTransaction Number: %s\nPurchased ISBN: %s\nPurchase Date: %s\nTransaction Status: %s\nMasked Credit Card: %s\n------------------------------------------------\n",transaction.getTransactionNumber(), transaction.getPurchasedIsbn(), transaction.getPurchaseDate(), transaction.getTransactionStatus(), transaction.getMaskedCC());
-            counter++;
-        }
-    }
+
+
+
 
 
 

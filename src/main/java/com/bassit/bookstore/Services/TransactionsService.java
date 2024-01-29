@@ -1,6 +1,5 @@
 package com.bassit.bookstore.Services;
 
-import com.bassit.bookstore.Models.Members;
 import com.bassit.bookstore.Models.Transactions;
 import lombok.extern.java.Log;
 import org.springframework.web.client.RestTemplate;
@@ -9,8 +8,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import static com.bassit.bookstore.Services.HelperFunctions.header;
-import static com.bassit.bookstore.Services.HelperFunctions.printTransaction;
+import static com.bassit.bookstore.Services.HelperFunctions.*;
+import static com.bassit.bookstore.Services.HelperFunctions.apiUpdateTransaction;
 
 @Log
 public class TransactionsService {
@@ -90,18 +89,12 @@ public class TransactionsService {
     //get transaction
     //get transaction by transaction number
     private List<Transactions> getTransactionUsingTransactionNumber_DB(long transactionNumber){
-        final String uri = "http://localhost:8080/transaction/getTransaction/" + transactionNumber;
-        Transactions[] transactions = restTemplate.getForObject(uri, Transactions[].class);
-        assert transactions != null;
-        return Arrays.asList(transactions);
+        return apiGetTransaction("http://localhost:8080/transaction/getTransaction/", String.valueOf(transactionNumber), restTemplate);
     }
 
     //get list of transactions between specific dates (LocalDateTime format: yyyy-MM-dd)
     private List<Transactions> getTransactionUsingDateRange_DB(LocalDate lowerLimit, LocalDate upperLimit){
-        final String uri = "http://localhost:8080/transaction/getTransactionBetweenDate/" + lowerLimit + "/" + upperLimit;
-        Transactions[] transactions = restTemplate.getForObject(uri, Transactions[].class);
-        assert transactions != null;
-        return Arrays.asList(transactions);
+        return apiGetTransaction("http://localhost:8080/transaction/getTransactionBetweenDate/", (lowerLimit + "/" + upperLimit), restTemplate);
     }
 
     //get transaction by last 4 of cc
@@ -110,16 +103,12 @@ public class TransactionsService {
     //update transaction status
     //refund
     private String refundTransaction_DB(long transactionNumber){
-        final String uri = "http://localhost:8080/transaction/refund/" + transactionNumber;
-        restTemplate.postForEntity(uri, null, Void.class);
-        return "Transaction refunded successfully";
+        return apiUpdateTransaction("http://localhost:8080/transaction/refund/", String.valueOf(transactionNumber), "refunded", restTemplate);
     }
 
     //cancel
     private String cancelTransaction_DB(long transactionNumber){
-        final String uri = "http://localhost:8080/transaction/cancel/" + transactionNumber;
-        restTemplate.postForEntity(uri, null, Void.class);
-        return "Transaction cancelled successfully";
+        apiUpdateTransaction("http://localhost:8080/transaction/cancel/", String.valueOf(transactionNumber), "cancelled", restTemplate);
     }
 
 
