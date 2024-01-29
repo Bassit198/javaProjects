@@ -41,10 +41,19 @@ public class MembersService {
         header("Find Member By Username");
         System.out.print("Enter member username: ");
         String username = keyboard.nextLine();
-        getMemberByUsername_DB(username);
+        printMembers(getMemberByUsername_DB(username));
     }
 
     //update memberFirstName
+    public void updateMemberFirstName_User(){
+        header("Update Member First Name");
+        System.out.print("Enter member username: ");
+        String username = keyboard.nextLine();
+        System.out.print("Enter member updated first name: ");
+        String newFirstName = keyboard.nextLine();
+        System.out.println(updateMemberFirstName_DB(username, newFirstName));
+
+    }
     //update memberLastName
     //update memberPhoneNumber
     //update memberEmail

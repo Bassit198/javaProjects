@@ -2,6 +2,7 @@ package com.bassit.bookstore.Services;
 
 import com.bassit.bookstore.Models.Books;
 import com.bassit.bookstore.Models.Customers;
+import com.bassit.bookstore.Models.Members;
 import lombok.extern.java.Log;
 import org.springframework.web.client.RestTemplate;
 
@@ -67,6 +68,14 @@ public class HelperFunctions {
         restTemplate.postForEntity(uri, map, Void.class);
         log.info(endpointName + " successfully updated by User");
         return endpointName + " successfully updated by User";
+    }
+
+    public static void printMembers(List<Members> memberList){
+        int counter=1;
+        for(Members member : memberList){
+            System.out.printf(counter + "\nFirstName: %s\nLastName: %s\nPhone Number: %s\nEmail: %s\nMembership Plan: %s\nMembership Status: %s\nMembership Price: %.2f\nMembership Expiration: %s\nMembership Purchase: %s\n------------------------------------------------\n",member.getMemberFirstName(), member.getMemberLastName(), member.getMemberPhoneNumber(), member.getMemberEmail(), member.getMembershipPlan(), member.getMembershipStatus(), member.getMembershipPrice(), member.getMembershipExpiration().toLocalDate(), member.getMembershipPurchaseDate().toLocalDate());
+            counter++;
+        }
     }
 
 
