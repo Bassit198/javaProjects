@@ -37,11 +37,11 @@ public class MembersService {
     }
 
     //read member by username
-    public List<Members> getMemberByUsername_User(){
+    public void getMemberByUsername_User(){
         header("Find Member By Username");
         System.out.print("Enter member username: ");
         String username = keyboard.nextLine();
-        return getMemberByUsername_DB(username);
+        getMemberByUsername_DB(username);
     }
 
     //update memberFirstName
