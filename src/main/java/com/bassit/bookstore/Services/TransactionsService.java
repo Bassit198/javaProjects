@@ -5,6 +5,8 @@ import com.bassit.bookstore.Models.Transactions;
 import lombok.extern.java.Log;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static com.bassit.bookstore.Services.HelperFunctions.header;
@@ -35,7 +37,21 @@ public class TransactionsService {
         long transactionNumber = keyboard.nextLong();
         printTransaction(getTransactionUsingTransactionNumber_DB(transactionNumber));
     }
+
     //get list of transactions between specific dates (LocalDateTime format: yyyy-MM-dd-HH-mm-ss)
+    public void getTransactionUsingDateRange_User(){
+        header("Get Transaction in Date Range");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        formatter = formatter.withLocale(Locale.US);
+
+        System.out.print("Enter beginning date (YYYY-MM-DD): ");
+        LocalDate lowerLimitDate = LocalDate.parse(keyboard.nextLine(), formatter);
+
+        System.out.print("Enter ending date (YYYY-MM-DD): ");
+        LocalDate upperLimitDate = LocalDate.parse(keyboard.nextLine(), formatter);
+
+        printTransaction(getTransactionUsingDateRange_DB(lowerLimitDate, upperLimitDate));
+    }
     //get transaction by last 4 of cc
     //update transaction
 
@@ -62,7 +78,15 @@ public class TransactionsService {
         assert transactions != null;
         return Arrays.asList(transactions);
     }
-    //get list of transactions between specific dates (LocalDateTime format: yyyy-MM-dd-HH-mm-ss)
+
+    //get list of transactions between specific dates (LocalDateTime format: yyyy-MM-dd)
+    private List<Transactions> getTransactionUsingDateRange_DB(LocalDate lowerLimit, LocalDate upperLimit){
+        final String uri = "http://localhost:8080/transaction/getTransactionBetweenDate/" + lowerLimit + "/" + upperLimit;
+        Transactions[] transactions = restTemplate.getForObject(uri, Transactions[].class);
+        assert transactions != null;
+        return Arrays.asList(transactions);
+    }
+
     //get transaction by last 4 of cc
     //update transaction
 

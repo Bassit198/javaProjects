@@ -42,7 +42,7 @@ public class TransactionsController {
     }
 
     //find transaction list within date range
-    @GetMapping("/transaction/getTransactionBetweenDate3/{lowerLimit}/{upperLimit}")
+    @GetMapping("/transaction/getTransactionBetweenDate/{lowerLimit}/{upperLimit}")
     public List<Transactions> findTransactionBetweenDateRange(@PathVariable LocalDate lowerLimit, @PathVariable LocalDate upperLimit){
         return transactionsRepo.findAllByPurchaseDateGreaterThanEqualAndPurchaseDateLessThanEqual(lowerLimit, upperLimit);
     }
