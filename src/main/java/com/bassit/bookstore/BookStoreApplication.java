@@ -10,6 +10,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.Scanner;
 
+import static com.bassit.bookstore.Services.HelperFunctions.header;
+
 @SpringBootApplication
 @Log
 public class BookStoreApplication implements CommandLineRunner {
@@ -24,7 +26,7 @@ public class BookStoreApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
 //        log.info("Application Started Successfully");
 //        BooksService booksService = new BooksService();
-//        booksService.header("\t\t\t\t  Main Menu");
+//        header("\t\t\t\t  Main Menu");
 //
 //        int stop = 0;
 //        while(stop == 0){
@@ -44,9 +46,10 @@ public class BookStoreApplication implements CommandLineRunner {
 //                stop = 1;
 //            }else{
 //                System.out.println("\n*** Invalid Input Please Try Again ***\n");
-//                booksService.header("\t\t\t\t  Main Menu");
+//                header("\t\t\t\t  Main Menu");
 //            }
 //        }
+
         MembersService membersService = new MembersService();
         membersService.getMemberByUsername_User();
 
