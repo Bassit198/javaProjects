@@ -6,10 +6,8 @@ import com.bassit.bookstore.Models.Members;
 import lombok.extern.java.Log;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Consumer;
 
 @Log
 public class HelperFunctions {
@@ -77,6 +75,8 @@ public class HelperFunctions {
             counter++;
         }
     }
+
+
 
 
 }

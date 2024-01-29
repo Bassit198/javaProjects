@@ -51,7 +51,7 @@ public class BookStoreApplication implements CommandLineRunner {
 //        }
 
         MembersService membersService = new MembersService();
-        membersService.updateMemberFirstName_User();
+        membersService.updateMemberLastName_User();
 
 
     }

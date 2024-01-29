@@ -53,18 +53,106 @@ public class MembersService {
         String newFirstName = keyboard.nextLine();
         System.out.println(updateMemberFirstName_DB(username, newFirstName));
 
+
     }
+
     //update memberLastName
+    public void updateMemberLastName_User(){
+        header("Update Member Last Name");
+        System.out.print("Enter member username: ");
+        String username = keyboard.nextLine();
+        System.out.print("Enter member updated last name: ");
+        String newLastName = keyboard.nextLine();
+        System.out.println(updateMemberLastName_DB(username, newLastName));
+    }
+
     //update memberPhoneNumber
+    public void updateMemberPhoneNumber_User(){
+        header("Update Member Phone Number");
+        System.out.print("Enter member username: ");
+        String username = keyboard.nextLine();
+        System.out.print("Enter member updated phone Number (xxx-xxx-xxxx): ");
+        String newPhoneNumber = keyboard.nextLine();
+        System.out.println(updateMemberFirstName_DB(username, newPhoneNumber));
+    }
+
     //update memberEmail
+    public void updateMemberEmail_User(){
+        header("Update Member Email");
+        System.out.print("Enter member username: ");
+        String username = keyboard.nextLine();
+        System.out.print("Enter member updated email: ");
+        String newEmail = keyboard.nextLine();
+        System.out.println(updateMemberFirstName_DB(username, newEmail));
+    }
+
     //update username
+    public void updateMemberUsername_User(){
+        header("Update Member Username");
+        System.out.print("Enter member old username: ");
+        String username = keyboard.nextLine();
+        System.out.print("Enter member new username: ");
+        String newUsername = keyboard.nextLine();
+        System.out.println(updateMemberFirstName_DB(username, newUsername));
+    }
+
     //update member password
+    public void updateMemberPassword_User(){
+        header("Update Member Password");
+        System.out.print("Enter member username: ");
+        String username = keyboard.nextLine();
+        System.out.print("Enter member new password: ");
+        String newPassword = keyboard.nextLine();
+        System.out.println(updateMemberFirstName_DB(username, newPassword));
+    }
+
     //update membershipPlan
+    public void updateMemberPlan_User(){
+        header("Update Member Plan");
+        System.out.print("Enter member username: ");
+        String username = keyboard.nextLine();
+        System.out.print("Enter member new plan: ");
+        String newPlan = keyboard.nextLine();
+        System.out.println(updateMemberFirstName_DB(username, newPlan));
+    }
+
     //update membershipStatus
+    public void updateMemberStatus_User(){
+        header("Update Member Status");
+        System.out.print("Enter member username: ");
+        String username = keyboard.nextLine();
+        System.out.print("Enter member new status: ");
+        String newStatus = keyboard.nextLine();
+        System.out.println(updateMemberFirstName_DB(username, newStatus));
+    }
+
     //update membershipPrice
+    public void updateMemberPrice_User(){
+        header("Update Member Price");
+        System.out.print("Enter member username: ");
+        String username = keyboard.nextLine();
+        System.out.print("Enter member new price: ");
+        String newPrice = keyboard.nextLine();
+        System.out.println(updateMemberFirstName_DB(username, newPrice));
+    }
+
     //update membershipExpiration
+    public void updateMemberExp_User(){
+        header("Update Member Expiration Date");
+        System.out.print("Enter member username: ");
+        String username = keyboard.nextLine();
+        System.out.print("Enter member new expiration date: ");
+        String newExpDate = keyboard.nextLine();
+        System.out.println(updateMemberFirstName_DB(username, newExpDate));
+    }
 
     //delete member
+    public void deleteMember_User(){
+        header("Delete Member");
+        System.out.print("Enter member ID: ");
+        long id = keyboard.nextLong();
+        System.out.println(deleteMemberByID_DB(id));
+    }
 
 
     //db end
