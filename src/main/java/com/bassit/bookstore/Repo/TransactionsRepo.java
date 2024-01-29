@@ -13,6 +13,8 @@ public interface TransactionsRepo extends JpaRepository<Transactions, Long> {
 
     List<Transactions> findAllByPurchaseDateGreaterThanEqualAndPurchaseDateLessThanEqual(LocalDate lowerLimit, LocalDate upperLimit);
 
+    List<Transactions> findAllByTransactionStatus(String transactionStatus);
+
 
     Transactions findByTransactionNumber(long transactionNumber);
 

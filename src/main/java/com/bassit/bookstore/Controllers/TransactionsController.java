@@ -47,7 +47,12 @@ public class TransactionsController {
         return transactionsRepo.findAllByPurchaseDateGreaterThanEqualAndPurchaseDateLessThanEqual(lowerLimit, upperLimit);
     }
     //find transaction list with last 4 of cc
+
     //find transaction list by status
+    @GetMapping("/transaction/getTransactionByStatus/{transactionStatus}")
+    public List<Transactions> findTransactionsByStatus(@PathVariable String transactionStatus){
+        return transactionsRepo.findAllByTransactionStatus(transactionStatus);
+    }
 
     //update(refund) transaction
     @PostMapping("/transaction/refund/{transactionNumber}")
