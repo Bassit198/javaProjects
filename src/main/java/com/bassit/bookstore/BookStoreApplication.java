@@ -26,34 +26,12 @@ public class BookStoreApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-//        log.info("Application Started Successfully");
-//        BooksService booksService = new BooksService();
-//        header("\t\t\t\t  Main Menu");
-//
-//        int stop = 0;
-//        while(stop == 0){
-//            mainMenu();
-//            int selection = keyboard.nextInt();
-//            if(selection == 1){
-//                booksService.displayBooksOptions();
-//                stop = 1;
-//            } else if (selection == 2) {
-//                System.out.println("Option 2 Selected");
-//                stop = 1;
-//            } else if (selection == 3) {
-//                System.out.println("Option 3 Selected");
-//                stop = 1;
-//            } else if (selection == 4) {
-//                System.out.println("Option 4 Selected");
-//                stop = 1;
-//            }else{
-//                System.out.println("\n*** Invalid Input Please Try Again ***\n");
-//                header("\t\t\t\t  Main Menu");
-//            }
-//        }
+        log.info("Application Started Successfully");
 
-        TransactionsService transactionsService = new TransactionsService();
-        transactionsService.cancelTransaction_User();
+        header("\t\t\t\t  Main Menu");
+
+        mainMenu();
+
 
     }
 
@@ -61,6 +39,15 @@ public class BookStoreApplication implements CommandLineRunner {
     public void mainMenu(){
         System.out.println("Select an Option to Continue\n1. List Books \n2. Manage Customer Information \n3. Manage Membership Information \n4. Manage Transactions");
         System.out.print("Input corresponding number to your choice: ");
+        BooksService booksService = new BooksService();
+        int response_mainMenu = keyboard.nextInt();
+
+        if(response_mainMenu == 1){
+            booksService.displayBooksOptions();
+
+
+        }
+
     }
 
 

@@ -193,66 +193,17 @@ public class BooksService {
 
 
     public void displayBooksOptions(){
-        header("List Of Book Menu");
-        System.out.println("Please Select An Option Below: \n1.  List All Books\n2.  List Books By Newest \n3.  List Books By Oldest \n4.  Sort Books By Authors \n5.  Sort Books By ISBN \n6.  Sort Books By Title \n7.  Sort Books By Price (Low to High) \n8.  Sort Books By Price (High to Low) \n9.  Search For Books By Year \n10. Search For Books By Author \n11. Search For Books By Title \n12. Search For Books By ISBN \n");
-
         //this scanner will read with spaces from input
         Scanner charScanner = new Scanner( System.in ).useDelimiter( "(\\b|\\B)" ) ;
         int response;
         int stop = 0;
+
         while(stop == 0){
+            header("List Of Book Menu");
+            System.out.println("Please Select An Option Below: \n1.  List All Books\n2.  List Books By Newest \n3.  List Books By Oldest \n4.  Sort Books By Authors \n5.  Sort Books By ISBN \n6.  Sort Books By Title \n7.  Sort Books By Price (Low to High) \n8.  Sort Books By Price (High to Low) \n9.  Search For Books By Year \n10. Search For Books By Author \n11. Search For Books By Title \n12. Search For Books By ISBN \n");
             System.out.print("Input corresponding number to your choice: ");
             response = keyboard.nextInt();
 
-            if(response == 1){
-                listAllBooks_User();
-                stop = 1;
-            } else if (response == 2) {
-                sortBooksByNewest_User();
-                stop = 1;
-            }else if (response == 3) {
-                sortBooksByOldest_User();
-                stop = 1;
-            }else if (response == 4) {
-                sortBooksByAuthor_User();
-                stop = 1;
-            }else if (response == 5) {
-                sortBooksByISBN_User();
-                stop = 1;
-            }else if (response == 6) {
-                sortBooksByTitle_User();
-                stop = 1;
-            }else if (response == 7) {
-                sortBooksByPriceLowToHigh_User();
-                stop = 1;
-            }else if (response == 8) {
-                sortBooksByPriceHighToLow_User();
-                stop = 1;
-            }else if (response == 9) {
-                System.out.print("Input year: ");
-                String year = keyboard.next();
-                searchByYear_User(year);
-                stop = 1;
-            }else if (response == 10) {
-                System.out.print("Input author: ");
-                String author = charScanner.nextLine();
-                searchByAuthor_User(author);
-                stop = 1;
-            }else if (response == 11) {
-                System.out.println("Input title: ");
-                String title = charScanner.nextLine();
-                searchByTitle_User(title);
-                stop = 1;
-            }else if (response == 12) {
-                System.out.print("Input ISBN: ");
-                String isbn = keyboard.next();
-                searchByISBN_User(isbn);
-                stop = 1;
-            }else if (response == 13) {
-                stop = 1;
-            }else{
-                System.out.println("Invalid Input Please Try Again.");
-            }
         }
     }
 
