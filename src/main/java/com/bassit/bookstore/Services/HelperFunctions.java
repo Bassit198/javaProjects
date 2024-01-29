@@ -3,6 +3,7 @@ package com.bassit.bookstore.Services;
 import com.bassit.bookstore.Models.Books;
 import com.bassit.bookstore.Models.Customers;
 import com.bassit.bookstore.Models.Members;
+import com.bassit.bookstore.Models.Transactions;
 import lombok.extern.java.Log;
 import org.springframework.web.client.RestTemplate;
 
@@ -72,6 +73,14 @@ public class HelperFunctions {
         int counter=1;
         for(Members member : memberList){
             System.out.printf(counter + "\nFirstName: %s\nLastName: %s\nPhone Number: %s\nEmail: %s\nMembership Plan: %s\nMembership Status: %s\nMembership Price: %.2f\nMembership Expiration: %s\nMembership Purchase: %s\n------------------------------------------------\n",member.getMemberFirstName(), member.getMemberLastName(), member.getMemberPhoneNumber(), member.getMemberEmail(), member.getMembershipPlan(), member.getMembershipStatus(), member.getMembershipPrice(), member.getMembershipExpiration().toLocalDate(), member.getMembershipPurchaseDate().toLocalDate());
+            counter++;
+        }
+    }
+
+    public static void printTransaction(List<Transactions> transactions){
+        int counter=1;
+        for(Transactions transaction : transactions){
+            System.out.printf(counter + "\nTransaction Number: %s\nPurchased ISBN: %s\nPurchase Date: %s\nTransaction Status: %s\nMasked Credit Card: %s\n------------------------------------------------\n",transaction.getTransactionNumber(), transaction.getPurchasedIsbn(), transaction.getPurchaseDate(), transaction.getTransactionStatus(), transaction.getMaskedCC());
             counter++;
         }
     }

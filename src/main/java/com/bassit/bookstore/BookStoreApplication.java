@@ -53,7 +53,7 @@ public class BookStoreApplication implements CommandLineRunner {
 //        }
 
         TransactionsService transactionsService = new TransactionsService();
-        transactionsService.createTransaction_User();
+        transactionsService.getTransactionUsingTransactionNumber_User();
 
 
     }

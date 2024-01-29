@@ -1,12 +1,14 @@
 package com.bassit.bookstore.Services;
 
+import com.bassit.bookstore.Models.Members;
 import com.bassit.bookstore.Models.Transactions;
 import lombok.extern.java.Log;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
+
+import static com.bassit.bookstore.Services.HelperFunctions.header;
+import static com.bassit.bookstore.Services.HelperFunctions.printTransaction;
 
 @Log
 public class TransactionsService {
@@ -17,6 +19,7 @@ public class TransactionsService {
     //user end
     //create transaction
     public void createTransaction_User(){
+        header("Create Transaction");
         System.out.print("Enter ISBN: ");
         String isbn = keyboard.nextLine();
         System.out.print("Enter credit card number: ");
@@ -26,6 +29,12 @@ public class TransactionsService {
 
     //get transaction
     //get transaction by transaction number
+    public void getTransactionUsingTransactionNumber_User(){
+        header("Get Transaction by Transaction Number");
+        System.out.print("Enter transaction number: ");
+        long transactionNumber = keyboard.nextLong();
+        printTransaction(getTransactionUsingTransactionNumber_DB(transactionNumber));
+    }
     //get list of transactions between specific dates (LocalDateTime format: yyyy-MM-dd-HH-mm-ss)
     //get transaction by last 4 of cc
     //update transaction
@@ -47,14 +56,15 @@ public class TransactionsService {
     }
     //get transaction
     //get transaction by transaction number
+    private List<Transactions> getTransactionUsingTransactionNumber_DB(long transactionNumber){
+        final String uri = "http://localhost:8080/transaction/getTransaction/" + transactionNumber;
+        Transactions[] transactions = restTemplate.getForObject(uri, Transactions[].class);
+        assert transactions != null;
+        return Arrays.asList(transactions);
+    }
     //get list of transactions between specific dates (LocalDateTime format: yyyy-MM-dd-HH-mm-ss)
     //get transaction by last 4 of cc
     //update transaction
 
-    public void printTransaction(Transactions transactions){
-        System.out.println("Transaction Number: " + transactions.getTransactionNumber());
-        System.out.println("Purchased ISBN: " + transactions.getPurchasedIsbn());
-        System.out.println("Purchase Date: " + transactions.getPurchaseDate());
-        System.out.println("Transaction Status: " + transactions.getTransactionStatus());
-    }
+
 }
