@@ -190,52 +190,52 @@ public class MembersService {
     }
 
     //update memberFirstName
-    public String updateMemberFirstName_DB(String username, String firstName){
+    private String updateMemberFirstName_DB(String username, String firstName){
         return apiUpdate("http://localhost:8080/updateMember/firstName/", username, "memberFirstName", firstName, "Member First Name", restTemplate);
     }
 
     //update memberLastName
-    public String updateMemberLastName_DB(String username, String lastName){
+    private String updateMemberLastName_DB(String username, String lastName){
         return apiUpdate("http://localhost:8080/updateMember/lastName/", username, "memberLastName", lastName, "Member Last Name", restTemplate);
     }
 
     //update memberPhoneNumber
-    public String updateMemberPhoneNumber_DB(String username, String phoneNumber){
+    private String updateMemberPhoneNumber_DB(String username, String phoneNumber){
         return apiUpdate("http://localhost:8080/updateMember/phoneNumber/", username, "memberPhoneNumber", phoneNumber, "Member Phone Number", restTemplate);
     }
 
     //update memberEmail
-    public String updateMemberEmail_DB(String username, String email){
+    private String updateMemberEmail_DB(String username, String email){
         return apiUpdate("http://localhost:8080/updateMember/email/", username, "memberEmail", email, "Member Email", restTemplate);
     }
 
     //update username
-    public String updateMemberUsername_DB(String username, String newUsername){
+    private String updateMemberUsername_DB(String username, String newUsername){
         return apiUpdate("http://localhost:8080/updateMember/username/", username, "username", newUsername, "Member Username", restTemplate);
     }
 
     //update member password
-    public String updateMemberPassword_DB(String username, String password){
+    private String updateMemberPassword_DB(String username, String password){
         return apiUpdate("http://localhost:8080/updateMember/password/", username, "password", password, "Member Password", restTemplate);
     }
 
     //update membershipPlan
-    public String updateMemberPlan_DB(String username, String plan){
+    private String updateMemberPlan_DB(String username, String plan){
         return apiUpdate("http://localhost:8080/updateMember/membership/", username, "membershipPlan", plan, "Member Plan", restTemplate);
     }
 
     //update membershipStatus
-    public String updateMemberStatus_DB(String username, String status){
+    private String updateMemberStatus_DB(String username, String status){
         return apiUpdate("http://localhost:8080/updateMember/memberStatus/", username, "membershipStatus", status, "Member Status", restTemplate);
     }
 
     //update membershipPrice
-    public String updateMemberPrice_DB(String username, String price){
+    private String updateMemberPrice_DB(String username, String price){
         return apiUpdate("http://localhost:8080/updateMember/memberPrice/", username, "membershipPrice", price, "Member Price", restTemplate);
     }
 
     //update membershipExpiration
-    public String updateMemberExpiration_DB(String username, String expiration){
+    private String updateMemberExpiration_DB(String username, String expiration){
         return apiUpdate("http://localhost:8080/updateMember/memberPrice/", username, "membershipExpiration", expiration, "Member Expiration", restTemplate);
     }
 

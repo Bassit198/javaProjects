@@ -14,16 +14,13 @@ import java.util.Date;
 @Setter
 public class Transactions {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
-    private long id;
 
-    @Column(unique = true)
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long transactionNumber;
 
     @Column
-    private LocalDateTime purchaseDate, modifiedDate;
+    private LocalDate purchaseDate, modifiedDate;
 
     @Column
     private String purchasedIsbn, maskedCC, transactionStatus;

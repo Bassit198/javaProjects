@@ -1,8 +1,10 @@
 package com.bassit.bookstore;
 
+import com.bassit.bookstore.Models.Transactions;
 import com.bassit.bookstore.Services.BooksService;
 import com.bassit.bookstore.Services.CustomersService;
 import com.bassit.bookstore.Services.MembersService;
+import com.bassit.bookstore.Services.TransactionsService;
 import lombok.extern.java.Log;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -50,8 +52,8 @@ public class BookStoreApplication implements CommandLineRunner {
 //            }
 //        }
 
-        MembersService membersService = new MembersService();
-        membersService.updateMemberLastName_User();
+        TransactionsService transactionsService = new TransactionsService();
+        transactionsService.createTransaction_User();
 
 
     }
