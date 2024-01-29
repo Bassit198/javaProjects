@@ -27,7 +27,7 @@ public class TransactionsController {
         newTransaction.setPurchaseDate(transactionDetails.getPurchaseDate());
         newTransaction.setPurchasedIsbn(transactionDetails.getPurchasedIsbn());
         newTransaction.setMaskedCC(transactionDetails.getMaskedCC());
-        newTransaction.setTransactionStatus("Active");
+        newTransaction.setTransactionStatus("ACTIVE");
         transactionsRepo.save(newTransaction);
         log.info("Transaction created successfully from API endpoint with transaction number: " + newTransaction.getTransactionNumber());
         return "Transaction Completed Successfully";

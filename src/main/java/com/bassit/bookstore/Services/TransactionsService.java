@@ -53,7 +53,25 @@ public class TransactionsService {
         printTransaction(getTransactionUsingDateRange_DB(lowerLimitDate, upperLimitDate));
     }
     //get transaction by last 4 of cc
-    //update transaction
+
+
+    //update transaction status
+    //refund
+    public void refundTransaction_User(){
+        header("Refund Transaction");
+        System.out.print("Enter transaction number to refund: ");
+        long transactionNumber = keyboard.nextLong();
+        System.out.println(refundTransaction_DB(transactionNumber));
+    }
+
+    //cancel
+    public void cancelTransaction_User(){
+        header("Cancel Transaction");
+        System.out.print("Enter transaction number to cancel: ");
+        long transactionNumber = keyboard.nextLong();
+        System.out.println(cancelTransaction_DB(transactionNumber));
+    }
+
 
 
     //db end
@@ -88,7 +106,22 @@ public class TransactionsService {
     }
 
     //get transaction by last 4 of cc
-    //update transaction
+
+
+    //update transaction status
+    //refund
+    private String refundTransaction_DB(long transactionNumber){
+        final String uri = "http://localhost:8080/transaction/refund/" + transactionNumber;
+        restTemplate.postForEntity(uri, null, Void.class);
+        return "Transaction refunded successfully";
+    }
+
+    //cancel
+    private String cancelTransaction_DB(long transactionNumber){
+        final String uri = "http://localhost:8080/transaction/cancel/" + transactionNumber;
+        restTemplate.postForEntity(uri, null, Void.class);
+        return "Transaction cancelled successfully";
+    }
 
 
 }
