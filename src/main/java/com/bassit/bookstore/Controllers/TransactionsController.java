@@ -34,6 +34,7 @@ public class TransactionsController {
     }
 
     //read transaction
+    //find transaction by transaction number
     @GetMapping("/transaction/getTransaction/{transactionNumber}")
     public List<Transactions> findTransactionByTranNumber(@PathVariable long transactionNumber){
         log.info("Transaction successfully found with transaction number: " + transactionNumber);
