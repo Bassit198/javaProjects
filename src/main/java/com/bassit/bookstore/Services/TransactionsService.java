@@ -108,7 +108,7 @@ public class TransactionsService {
 
     //cancel
     private String cancelTransaction_DB(long transactionNumber){
-        apiUpdateTransaction("http://localhost:8080/transaction/cancel/", String.valueOf(transactionNumber), "cancelled", restTemplate);
+        return apiUpdateTransaction("http://localhost:8080/transaction/cancel/", String.valueOf(transactionNumber), "cancelled", restTemplate);
     }
 
 
