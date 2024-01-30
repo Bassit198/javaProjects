@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.awt.print.Book;
+
 import static com.bassit.bookstore.Services.HelperFunctions.header;
 
 
@@ -28,9 +31,8 @@ public class BookStoreApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         log.info("Application Started Successfully");
-        header("\t\t\t\t  Main Menu");
-        MainMenu mainMenu = new MainMenu();
-        mainMenu.menu();
+        MainMenu.menu();
+
 
 
 

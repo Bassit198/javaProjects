@@ -28,6 +28,7 @@ public class BooksService {
         System.out.println("Price: ");
         Double price = keyboard.nextDouble();
         System.out.println(addBookToDB(title, author, isbn, year, price));
+
     }
 
     public void updatePriceOfBook_User(){
@@ -86,25 +87,48 @@ public class BooksService {
         printBook(sortBooksByPriceHighToLowDB());
     }
 
-    public void searchByYear_User(String year){
+    public void searchByYear_User(){
+        System.out.print("Enter year of Book: ");
+        String year = keyboard.nextLine();
         header("List Of All Books For " + year);
         printBook(searchByYearDB(year));
+
     }
 
-    public void searchByAuthor_User(String author){
+    public void searchByAuthor_User(){
+        System.out.print("Enter Author of Book: ");
+        String author = keyboard.nextLine();
         header("List Of All Books By: " + author);
         printBook(searchByAuthorDB(author));
     }
 
-    public void searchByTitle_User(String title){
+    public void searchByTitle_User(){
+        System.out.print("Enter Title of Book: ");
+        String title = keyboard.nextLine();
         header("List Of All Books With Name: " + title);
         printBook(searchByTitleDB(title));
     }
 
-    public void searchByISBN_User(String isbn){
+    public void searchByISBN_User(){
+        System.out.print("Enter ISBN of Book: ");
+        String isbn = keyboard.nextLine();
         header("List Of All Books With ISBN: " + isbn);
         printBook(searchByISBNDB(isbn));
     }
+
+//    public void searchByPriceLessThan_User(){
+//        System.out.print("Enter Price to search less than: ");
+//        double price = keyboard.nextDouble();
+//        header("List Of All Books With Price Less Than: " + price);
+//        printBook(searchByPriceLessThan(price));
+//    }
+//
+//    public void searchByPriceGreaterThan_User(){
+//        System.out.print("Enter Price to search Greater than: ");
+//        double price = keyboard.nextDouble();
+//        header("List Of All Books With Price Greater Than: " + price);
+//        printBook(searchByPriceGreaterThan(price));
+//    }
 
     //methods for sending requests to API
     private String addBookToDB(String title, String author, String isbn, String year, Double price){
@@ -190,6 +214,14 @@ public class BooksService {
     private List<Books> searchByISBNDB(String isbn){
         return apiGetBook("http://localhost:8080/booksByISBN/", isbn, "Search By Title", restTemplate);
     }
+
+//    private List<Books> searchByPriceLessThan(double price){
+//        return apiGetBook("http://localhost:8080/booksByPriceLess/", String.valueOf(price), "Search By Price (Less Than)", restTemplate);
+//    }
+//
+//    private List<Books> searchByPriceGreaterThan(double price){
+//        return apiGetBook("http://localhost:8080/booksByPriceGreater/", String.valueOf(price), "Search By Price (Greater Than)", restTemplate);
+//    }
 
 
 

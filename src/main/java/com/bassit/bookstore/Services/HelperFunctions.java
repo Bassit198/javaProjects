@@ -20,6 +20,7 @@ public class HelperFunctions {
             System.out.printf(counter + "\nTitle: %s\nAuthor: %s\nISBN: %s\nReleaseYear: %s\nPrice: %.2f\n------------------------------------------------\n", book.getTitle(), book.getAuthor(), book.getIsbn(), book.getReleaseYear(), book.getPrice());
             counter++;
         }
+        System.out.println("*** End Of List ***");
     }
 
     public static  List<Books> apiGetBook(String uri, String endpointName, RestTemplate restTemplate){
