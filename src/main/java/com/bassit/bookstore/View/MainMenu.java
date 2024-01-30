@@ -1,6 +1,7 @@
 package com.bassit.bookstore.View;
 
 import com.bassit.bookstore.Services.BooksService;
+import com.bassit.bookstore.Services.MembersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,7 @@ public class MainMenu {
     private static final Scanner keyboard = new Scanner(System.in);
     private static final BookMainMenu bookMainMenu = new BookMainMenu();
     private static final CustomerMainMenu customerMainMenu = new CustomerMainMenu();
+    private static final MembersMainMenu membersMainMenu = new MembersMainMenu();
 
 
 
@@ -34,7 +36,7 @@ public class MainMenu {
                     customerMainMenu.displayOptions();
                     break;
                 case 3:
-                    System.out.println("Manage membership selected");
+                    membersMainMenu.displayOptions();
                     break;
                 case 4:
                     System.out.println("Manage transactions selected");
