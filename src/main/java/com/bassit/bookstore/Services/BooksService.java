@@ -88,6 +88,7 @@ public class BooksService {
     }
 
     public void searchByYear_User(){
+        header("Search by Year");
         System.out.print("Enter year of Book: ");
         String year = keyboard.nextLine();
         header("List Of All Books For " + year);
@@ -96,6 +97,7 @@ public class BooksService {
     }
 
     public void searchByAuthor_User(){
+        header("Search By Author");
         System.out.print("Enter Author of Book: ");
         String author = keyboard.nextLine();
         header("List Of All Books By: " + author);
@@ -103,6 +105,7 @@ public class BooksService {
     }
 
     public void searchByTitle_User(){
+        header("Search By Title");
         System.out.print("Enter Title of Book: ");
         String title = keyboard.nextLine();
         header("List Of All Books With Name: " + title);
@@ -110,6 +113,7 @@ public class BooksService {
     }
 
     public void searchByISBN_User(){
+        header("Search By ISBN");
         System.out.print("Enter ISBN of Book: ");
         String isbn = keyboard.nextLine();
         header("List Of All Books With ISBN: " + isbn);

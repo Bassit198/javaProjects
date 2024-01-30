@@ -124,7 +124,7 @@ public class CustomersService {
 
     //methods for sending requests to API
     //create customer_DB
-    public String createCustomer_DB(String firstName, String lastName, String email, String phoneNumber){
+    private String createCustomer_DB(String firstName, String lastName, String email, String phoneNumber){
         final String uri = "http://localhost:8080/addCustomer";
         Map<String, String> map = new HashMap<>();
         map.put("firstName", firstName);
