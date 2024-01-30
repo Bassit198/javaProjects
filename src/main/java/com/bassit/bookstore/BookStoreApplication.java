@@ -22,8 +22,6 @@ import static com.bassit.bookstore.Services.HelperFunctions.header;
 @Log
 public class BookStoreApplication implements CommandLineRunner {
 
-
-
     public static void main(String[] args) {
         SpringApplication.run(BookStoreApplication.class, args);
     }
@@ -32,10 +30,6 @@ public class BookStoreApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         log.info("Application Started Successfully");
         MainMenu.menu();
-
-
-
-
     }
 
 

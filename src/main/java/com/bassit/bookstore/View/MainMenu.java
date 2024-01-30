@@ -1,12 +1,6 @@
 package com.bassit.bookstore.View;
 
-import com.bassit.bookstore.Services.BooksService;
-import com.bassit.bookstore.Services.MembersService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import java.util.Scanner;
-
 import static com.bassit.bookstore.Services.HelperFunctions.header;
 
 
