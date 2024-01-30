@@ -57,6 +57,7 @@ public class BookMainMenu {
                     break;
                 case 13:
                     MainMenu.menu();
+                    break;
             }
 
         }while (userResponse != 14);

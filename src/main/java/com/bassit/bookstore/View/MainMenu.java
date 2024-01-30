@@ -10,6 +10,7 @@ public class MainMenu {
     private static final BookMainMenu bookMainMenu = new BookMainMenu();
     private static final CustomerMainMenu customerMainMenu = new CustomerMainMenu();
     private static final MembersMainMenu membersMainMenu = new MembersMainMenu();
+    private static final TransactionMainMenu transactionsMainMenu = new TransactionMainMenu();
 
 
 
@@ -33,7 +34,8 @@ public class MainMenu {
                     membersMainMenu.displayOptions();
                     break;
                 case 4:
-                    System.out.println("Manage transactions selected");
+                    transactionsMainMenu.displayOptions();
+                    break;
             }
         }while (response_mainMenu != 5);
         System.exit(0);

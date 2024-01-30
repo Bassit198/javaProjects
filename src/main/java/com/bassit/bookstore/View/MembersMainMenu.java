@@ -55,6 +55,7 @@ public class MembersMainMenu {
                     break;
                 case 13:
                     MainMenu.menu();
+                    break;
             }
 
         }while (userResponse != 14);
