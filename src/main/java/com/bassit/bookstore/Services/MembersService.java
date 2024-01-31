@@ -73,7 +73,7 @@ public class MembersService {
         String username = keyboard.nextLine();
         System.out.print("Enter member updated phone Number (xxx-xxx-xxxx): ");
         String newPhoneNumber = keyboard.nextLine();
-        System.out.println(updateMemberFirstName_DB(username, newPhoneNumber));
+        System.out.println(updateMemberPhoneNumber_DB(username, newPhoneNumber));
     }
 
     //update memberEmail
@@ -83,7 +83,7 @@ public class MembersService {
         String username = keyboard.nextLine();
         System.out.print("Enter member updated email: ");
         String newEmail = keyboard.nextLine();
-        System.out.println(updateMemberFirstName_DB(username, newEmail));
+        System.out.println(updateMemberEmail_DB(username, newEmail));
     }
 
     //update username
@@ -93,7 +93,7 @@ public class MembersService {
         String username = keyboard.nextLine();
         System.out.print("Enter member new username: ");
         String newUsername = keyboard.nextLine();
-        System.out.println(updateMemberFirstName_DB(username, newUsername));
+        System.out.println(updateMemberUsername_DB(username, newUsername));
     }
 
     //update member password
@@ -103,7 +103,7 @@ public class MembersService {
         String username = keyboard.nextLine();
         System.out.print("Enter member new password: ");
         String newPassword = keyboard.nextLine();
-        System.out.println(updateMemberFirstName_DB(username, newPassword));
+        System.out.println(updateMemberPassword_DB(username, newPassword));
     }
 
     //update membershipPlan
@@ -113,7 +113,7 @@ public class MembersService {
         String username = keyboard.nextLine();
         System.out.print("Enter member new plan: ");
         String newPlan = keyboard.nextLine();
-        System.out.println(updateMemberFirstName_DB(username, newPlan));
+        System.out.println(updateMemberPlan_DB(username, newPlan));
     }
 
     //update membershipStatus
@@ -123,7 +123,7 @@ public class MembersService {
         String username = keyboard.nextLine();
         System.out.print("Enter member new status: ");
         String newStatus = keyboard.nextLine();
-        System.out.println(updateMemberFirstName_DB(username, newStatus));
+        System.out.println(updateMemberStatus_DB(username, newStatus));
     }
 
     //update membershipPrice
@@ -133,7 +133,7 @@ public class MembersService {
         String username = keyboard.nextLine();
         System.out.print("Enter member new price: ");
         String newPrice = keyboard.nextLine();
-        System.out.println(updateMemberFirstName_DB(username, newPrice));
+        System.out.println(updateMemberPrice_DB(username, newPrice));
     }
 
     //update membershipExpiration
@@ -143,7 +143,7 @@ public class MembersService {
         String username = keyboard.nextLine();
         System.out.print("Enter member new expiration date: ");
         String newExpDate = keyboard.nextLine();
-        System.out.println(updateMemberFirstName_DB(username, newExpDate));
+        System.out.println(updateMemberExpiration_DB(username, newExpDate));
     }
 
     //delete member
