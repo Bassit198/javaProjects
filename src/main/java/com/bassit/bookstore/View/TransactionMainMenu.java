@@ -39,7 +39,7 @@ public class TransactionMainMenu {
                     MainMenu.menu();
                     break;
             }
-
+            System.out.println("Invalid Input. Please Try Again");
         }while (userResponse != 7);
         System.exit(0);
     }

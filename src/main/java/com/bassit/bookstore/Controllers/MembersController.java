@@ -9,6 +9,7 @@ import org.springframework.web.bind.MissingMatrixVariableException;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Member;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class MembersController {
         member.setPassword(memberInfo.getPassword());
         member.setMembershipPrice(memberInfo.getMembershipPrice());
         member.setMembershipExpiration(memberInfo.getMembershipExpiration());
-        member.setMembershipPurchaseDate(LocalDateTime.now());
+        member.setMembershipPurchaseDate(LocalDate.now());
         log.info("Member added successfully from API endpoint");
         return membersRepo.save(memberInfo);
     }
@@ -180,11 +181,11 @@ public class MembersController {
     }
 
     //update member membership expiration
-    @PostMapping("/updateMember/memberExp/{username}")
-    public String updateMemberExp(@PathVariable String username, @RequestBody Members membersInfo){
+    @PostMapping("/updateMember/memberExp/{username}/{newExpirationDate}")
+    public String updateMemberExp(@PathVariable String username, @PathVariable LocalDate newExpirationDate){
         List<Members> membersList = membersRepo.findAllByUsername(username);
         for(Members member : membersList){
-            member.setMembershipExpiration(membersInfo.getMembershipExpiration());
+            member.setMembershipExpiration(newExpirationDate);
             membersRepo.save(member);
         }
         log.info("Member membership expiration updated successfully from API endpoint for username: " + username);

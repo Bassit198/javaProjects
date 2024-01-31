@@ -37,6 +37,7 @@ public class MainMenu {
                     transactionsMainMenu.displayOptions();
                     break;
             }
+            System.out.println("Invalid Input. Please Try Again");
         }while (response_mainMenu != 5);
         System.exit(0);
     }

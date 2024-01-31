@@ -4,6 +4,7 @@ import com.bassit.bookstore.Models.Members;
 import lombok.extern.java.Log;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -143,7 +144,7 @@ public class MembersService {
         String username = keyboard.nextLine();
         System.out.print("Enter member new expiration date: ");
         String newExpDate = keyboard.nextLine();
-        System.out.println(updateMemberExpiration_DB(username, newExpDate));
+        System.out.println(updateMemberExpiration_DB(username, LocalDate.parse(newExpDate)));
     }
 
     //delete member
@@ -235,8 +236,10 @@ public class MembersService {
     }
 
     //update membershipExpiration
-    private String updateMemberExpiration_DB(String username, String expiration){
-        return apiUpdate("http://localhost:8080/updateMember/memberPrice/", username, "membershipExpiration", expiration, "Member Expiration", restTemplate);
+    private String updateMemberExpiration_DB(String username, LocalDate expiration){
+        final String uri = "http://localhost:8080/updateMember/memberExp/" + username +"/" + expiration;
+        restTemplate.postForEntity(uri, null, Void.class);
+        return "Expiration successfully updated";
     }
 
     //delete member
