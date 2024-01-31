@@ -13,6 +13,7 @@ public class BooksService {
 
     private final RestTemplate restTemplate = new RestTemplate();
     private final Scanner keyboard = new Scanner(System.in);
+    private final Scanner doubleInput = new Scanner(System.in);
 
     //methods for user section
     public void addBookToDB_User(){
@@ -93,7 +94,6 @@ public class BooksService {
         String year = keyboard.nextLine();
         header("List Of All Books For " + year);
         printBook(searchByYearDB(year));
-
     }
 
     public void searchByAuthor_User(){
@@ -120,19 +120,19 @@ public class BooksService {
         printBook(searchByISBNDB(isbn));
     }
 
-//    public void searchByPriceLessThan_User(){
-//        System.out.print("Enter Price to search less than: ");
-//        double price = keyboard.nextDouble();
-//        header("List Of All Books With Price Less Than: " + price);
-//        printBook(searchByPriceLessThan(price));
-//    }
-//
-//    public void searchByPriceGreaterThan_User(){
-//        System.out.print("Enter Price to search Greater than: ");
-//        double price = keyboard.nextDouble();
-//        header("List Of All Books With Price Greater Than: " + price);
-//        printBook(searchByPriceGreaterThan(price));
-//    }
+    public void searchByPriceLessThan_User(){
+        System.out.print("Enter Price to search less than: ");
+        double price = doubleInput.nextDouble();
+        header("List Of All Books With Price Less Than: " + price);
+        printBook(searchByPriceLessThan(price));
+    }
+
+    public void searchByPriceGreaterThan_User(){
+        System.out.print("Enter Price to search Greater than: ");
+        double price = doubleInput.nextDouble();
+        header("List Of All Books With Price Greater Than: " + price);
+        printBook(searchByPriceGreaterThan(price));
+    }
 
     //methods for sending requests to API
     private String addBookToDB(String title, String author, String isbn, String year, Double price){
@@ -219,13 +219,14 @@ public class BooksService {
         return apiGetBook("http://localhost:8080/booksByISBN/", isbn, "Search By Title", restTemplate);
     }
 
-//    private List<Books> searchByPriceLessThan(double price){
-//        return apiGetBook("http://localhost:8080/booksByPriceLess/", String.valueOf(price), "Search By Price (Less Than)", restTemplate);
-//    }
-//
-//    private List<Books> searchByPriceGreaterThan(double price){
-//        return apiGetBook("http://localhost:8080/booksByPriceGreater/", String.valueOf(price), "Search By Price (Greater Than)", restTemplate);
-//    }
+    private List<Books> searchByPriceLessThan(double price){
+        return apiGetBook("http://localhost:8080/booksByPriceLess/", String.valueOf(price), "Search By Price (Less Than)", restTemplate);
+    }
+
+
+    private List<Books> searchByPriceGreaterThan(double price){
+        return apiGetBook("http://localhost:8080/booksByPriceGreater/", String.valueOf(price), "Search By Price (Greater Than)", restTemplate);
+    }
 
 
 

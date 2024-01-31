@@ -109,7 +109,7 @@ public class CustomersService {
         String lastName = keyboard.nextLine();
         System.out.print("Enter new phone number: ");
         String newPhoneNumber = keyboard.nextLine();
-        System.out.println(updateCustomerLastName_DB(firstName, lastName, newPhoneNumber));
+        System.out.println(updateCustomerPhoneNumber_DB(firstName, lastName, newPhoneNumber));
     }
     
     //delete customer (admin_delete by id)

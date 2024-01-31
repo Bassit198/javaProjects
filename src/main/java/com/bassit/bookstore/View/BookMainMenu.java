@@ -33,12 +33,10 @@ public class BookMainMenu {
                     booksService.searchByISBN_User();
                     break;
                 case 6:
-                    System.out.println("needs to fix");
-                    //booksService.searchByPriceLessThan_User();
+                    booksService.searchByPriceLessThan_User();
                     break;
                 case 7:
-                    System.out.println("needs to fix");
-                    //booksService.searchByPriceGreaterThan_User();
+                    booksService.searchByPriceGreaterThan_User();
                     break;
                 case 8:
                     booksService.sortBooksByTitle_User();
