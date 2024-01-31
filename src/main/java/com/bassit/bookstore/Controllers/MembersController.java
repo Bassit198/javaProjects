@@ -23,6 +23,11 @@ public class MembersController {
     //create member
     @PostMapping("/addMember")
     public Members addMembers(@RequestBody Members memberInfo){
+        double price = switch (memberInfo.getMembershipPlan()) {
+            case "Middle" -> 20.99;
+            case "Basic" -> 15.99;
+            default -> 29.99;
+        };
         Members member = new Members();
         member.setMemberFirstName(memberInfo.getMemberFirstName());
         member.setMemberLastName(memberInfo.getMemberLastName());
@@ -30,11 +35,13 @@ public class MembersController {
         member.setMemberPhoneNumber(memberInfo.getMemberPhoneNumber());
         member.setUsername(memberInfo.getUsername());
         member.setPassword(memberInfo.getPassword());
-        member.setMembershipPrice(memberInfo.getMembershipPrice());
-        member.setMembershipExpiration(memberInfo.getMembershipExpiration());
+        member.setMembershipPlan(memberInfo.getMembershipPlan());
+        member.setMembershipStatus("Active");
+        member.setMembershipPrice(price);
+        member.setMembershipExpiration(LocalDate.now());
         member.setMembershipPurchaseDate(LocalDate.now());
         log.info("Member added successfully from API endpoint");
-        return membersRepo.save(memberInfo);
+        return membersRepo.save(member);
     }
 
     //read member admin_find by id
@@ -147,9 +154,15 @@ public class MembersController {
     //update member membership plan
     @PostMapping("/updateMember/membership/{username}")
     public String updateMemberPlan(@PathVariable String username, @RequestBody Members membersInfo){
+        double price = switch (membersInfo.getMembershipPlan()) {
+            case "Middle" -> 20.99;
+            case "Basic" -> 15.99;
+            default -> 29.99;
+        };
         List<Members> membersList = membersRepo.findAllByUsername(username);
         for(Members member : membersList){
             member.setMembershipPlan(membersInfo.getMembershipPlan());
+            member.setMembershipPrice(price);
             membersRepo.save(member);
         }
         log.info("Member membership updated successfully from API endpoint for username: " + username);

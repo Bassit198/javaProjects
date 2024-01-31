@@ -159,11 +159,6 @@ public class MembersService {
     //db end
     //create member
     private String createMembers_DB(String firstName, String lastName, String email, String phoneNumber, String username, String password, String plan){
-        Double price = switch (plan) {
-            case "Middle" -> 20.99;
-            case "Basic" -> 15.99;
-            default -> 29.99;
-        };
         final String uri = "http://localhost:8080/addMember";
         Map<String, String> map = new HashMap<>();
         map.put("memberFirstName", firstName);
@@ -173,10 +168,6 @@ public class MembersService {
         map.put("username", username);
         map.put("password", password);
         map.put("membershipPlan", plan);
-        map.put("membershipStatus", "Active");
-        map.put("membershipPrice", String.valueOf(price));
-        map.put("membershipExpiration", String.valueOf(LocalDateTime.now().plusMonths(1)));
-        map.put("membershipPurchaseDate", String.valueOf(LocalDateTime.now()));
         restTemplate.postForEntity(uri,map, Void.class);
         log.info("Member successfully created from service layer");
         return "Member successfully created.";
