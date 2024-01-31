@@ -1,0 +1,1466 @@
+{
+	"info": {
+		"_postman_id": "9b2ea94a-9a7a-4406-b91e-dbe454216a3f",
+		"name": "BookStore",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32041606"
+	},
+	"item": [
+		{
+			"name": "BookController",
+			"item": [
+				{
+					"name": "Admin_Add Book To DataBase",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"test\",\r\n    \"author\": \"test\",\r\n    \"isbn\": \"test\",\r\n    \"releaseYear\": \"test\",\r\n    \"price\": 12.99\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/addBook",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"addBook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin_Update Price of A Book By ID",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"price\": 100.01\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/updatePrice/15",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"updatePrice",
+								"15"
+							]
+						},
+						"description": "/updatePrice/{id}"
+					},
+					"response": []
+				},
+				{
+					"name": "Admin_Delete Book By ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/deleteBookById/16",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"deleteBookById",
+								"16"
+							]
+						},
+						"description": "/deleteBookById/{id}"
+					},
+					"response": []
+				},
+				{
+					"name": "List All Books In Database",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/bookList",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"bookList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort Books By Newest Releases",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/yearSortDesc",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"yearSortDesc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort Books By Oldest Releases",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/yearSortAsc",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"yearSortAsc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort Books By Author Names",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/authorSort",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"authorSort"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort Books By ISBN",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/isbnSort",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"isbnSort"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort Books By Title",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/titleSort",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"titleSort"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort Books By Price Lowest to Highest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/priceSortAsc",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"priceSortAsc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort Books By Price Highest to Lowest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/priceSortDesc",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"priceSortDesc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search By Year",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/booksByYear/2020",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"booksByYear",
+								"2020"
+							]
+						},
+						"description": "Returns the title and ISBN of books for a given year.\r\n/titleByYear/{year}"
+					},
+					"response": []
+				},
+				{
+					"name": "Search By Author",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/booksByAuthor/Frank Baum",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"booksByAuthor",
+								"Frank Baum"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search By Ttile",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/booksByTitle/Harry Potter and the Deathly Hallows",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"booksByTitle",
+								"Harry Potter and the Deathly Hallows"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search By ISBN",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/booksByISBN/1338635174",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"booksByISBN",
+								"1338635174"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Books Less than Specified Price",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/booksByPriceLess/27.59",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"booksByPriceLess",
+								"27.59"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Books Greater than Specified Price",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/booksByPriceGreater/27.59",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"booksByPriceGreater",
+								"27.59"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "This folder houses all endpoints responsible for managing Books"
+		},
+		{
+			"name": "CustomerController",
+			"item": [
+				{
+					"name": "Add a customer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\":\"FN\",\r\n    \"lastName\":\"LN\",\r\n    \"email\":\"f@gmail.com\",\r\n    \"phoneNumber\":\"9549809999\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/addCustomer",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"addCustomer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find a customer with ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\":\"FN\",\r\n    \"lastName\":\"LN\",\r\n    \"email\":\"f@gmail.com\",\r\n    \"phoneNumber\":\"9549809999\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/getCustomerById/12",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"getCustomerById",
+								"12"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find a customer with first name and last name",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\":\"FN\",\r\n    \"lastName\":\"LN\",\r\n    \"email\":\"f@gmail.com\",\r\n    \"phoneNumber\":\"9549809999\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/getCustomer/newFirstName/testLN",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"getCustomer",
+								"newFirstName",
+								"testLN"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find a customer with email",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\":\"FN\",\r\n    \"lastName\":\"LN\",\r\n    \"email\":\"f@gmail.com\",\r\n    \"phoneNumber\":\"9549809999\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/getCustomer/email/unique@example.com",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"getCustomer",
+								"email",
+								"unique@example.com"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find a customer with phone number",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\":\"FN\",\r\n    \"lastName\":\"LN\",\r\n    \"email\":\"f@gmail.com\",\r\n    \"phoneNumber\":\"9549809999\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/getCustomer/phone/9871230000",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"getCustomer",
+								"phone",
+								"9871230000"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update customer first name",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\":\"Barry\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/updateCustomerFirstName/test/uniqueLN",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"updateCustomerFirstName",
+								"test",
+								"uniqueLN"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update customer last name",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"lastName\":\"Allen\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/updateCustomerLastName/Barry/uniqueLN",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"updateCustomerLastName",
+								"Barry",
+								"uniqueLN"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update customer email",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"flash@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/updateCustomerEmail/Barry/Allen",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"updateCustomerEmail",
+								"Barry",
+								"Allen"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update customer phone number",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phoneNumber\":\"9549549544\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/updateCustomerPhone/Barry/Allen",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"updateCustomerPhone",
+								"Barry",
+								"Allen"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete customer by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phoneNumber\":\"9549549544\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/deleteCustomer/3",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"deleteCustomer",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "This folder houses all the endpoints responsible for managing customers"
+		},
+		{
+			"name": "MembersController",
+			"item": [
+				{
+					"name": "Create Member",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"memberFirstName\":\"Bruce\",\r\n    \"memberLastName\":\"Wayne\",\r\n    \"memberEmail\":\"batman@gmail.com\",\r\n    \"memberPhoneNumber\":\"9599800000\",\r\n    \"username\":\"b.man\",\r\n    \"password\":\"batman\",\r\n    \"membershipPlan\": \"Basic\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/addMember",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"addMember"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Member by ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"memberFirstName\":\"Bruce\",\r\n    \"memberLastName\":\"Wayne\",\r\n    \"memberEmail\":\"batman@gmail.com\",\r\n    \"memberPhoneNumber\":\"9599800000\",\r\n    \"username\":\"b.man\",\r\n    \"password\":\"batman\",\r\n    \"membershipPlan\": \"Basic\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/getMember/24",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"getMember",
+								"24"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Member by first and last name ",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"memberFirstName\":\"Bruce\",\r\n    \"memberLastName\":\"Wayne\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/getMember/firstAndLastName",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"getMember",
+								"firstAndLastName"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Member by username",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"memberFirstName\":\"Bruce\",\r\n    \"memberLastName\":\"Wayne\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/getMemberByUsername/qef",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"getMemberByUsername",
+								"qef"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Member by email",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"memberEmail\":\"new@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/getMember/email",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"getMember",
+								"email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Member by phone number",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"memberPhoneNumber\": \"99999999\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/getMember/phoneNumber",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"getMember",
+								"phoneNumber"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Member first name using username to search",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"memberFirstName\": \"newName\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/updateMember/firstName/nun",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"updateMember",
+								"firstName",
+								"nun"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Member last name using username to search",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"memberLastName\": \"LN new\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/updateMember/lastName/nun",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"updateMember",
+								"lastName",
+								"nun"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Member username using old username to search",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"nunnew\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/updateMember/username/nun",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"updateMember",
+								"username",
+								"nun"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Member password using username to search",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"nunnew\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/updateMember/password/nunnew",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"updateMember",
+								"password",
+								"nunnew"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Member email using username to search",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"memberEmail\": \"nunnew@gmail\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/updateMember/email/nunnew",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"updateMember",
+								"email",
+								"nunnew"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Member phone number using username to search",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"memberPhoneNumber\": \"1111111\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/updateMember/phoneNumber/nunnew",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"updateMember",
+								"phoneNumber",
+								"nunnew"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Member plan using username to search",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"membershipPlan\": \"Basic\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/updateMember/membership/nunnew",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"updateMember",
+								"membership",
+								"nunnew"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Member status using username to search",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"membershipStatus\": \"CANCELLED\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/updateMember/memberStatus/nunnew",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"updateMember",
+								"memberStatus",
+								"nunnew"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Member price using username to search",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"membershipPrice\": 99.99\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/updateMember/memberPrice/nunnew",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"updateMember",
+								"memberPrice",
+								"nunnew"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Member expiration using username to search",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"membershipPrice\": 99.99\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/updateMember/memberExp/nunnew/2026-05-19",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"updateMember",
+								"memberExp",
+								"nunnew",
+								"2026-05-19"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Member by ID",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"membershipPrice\": 99.99\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/deleteMember/24",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"deleteMember",
+								"24"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "This folder houses all endpoints for managing members"
+		},
+		{
+			"name": "TransactionsController",
+			"item": [
+				{
+					"name": "Create a transaction",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"purchasedIsbn\":\"0545425115\",\r\n    \"maskedCC\":\"XXXXXXXXXXXX9999\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/transaction/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transaction",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find transaction by transaction number",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"purchasedIsbn\":\"0545425115\",\r\n    \"maskedCC\":\"XXXXXXXXXXXX9999\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/transaction/getTransaction/14",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transaction",
+								"getTransaction",
+								"14"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find transactions within a date range",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"purchasedIsbn\":\"0545425115\",\r\n    \"maskedCC\":\"XXXXXXXXXXXX9999\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/transaction/getTransactionBetweenDate/2024-01-21/2024-01-22",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transaction",
+								"getTransactionBetweenDate",
+								"2024-01-21",
+								"2024-01-22"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find transactions by status",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"purchasedIsbn\":\"0545425115\",\r\n    \"maskedCC\":\"XXXXXXXXXXXX9999\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/transaction/getTransactionByStatus/CANCELLED",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transaction",
+								"getTransactionByStatus",
+								"CANCELLED"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refund transaction by transaction number",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"purchasedIsbn\":\"0545425115\",\r\n    \"maskedCC\":\"XXXXXXXXXXXX9999\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/transaction/refund/10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transaction",
+								"refund",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel transaction by transaction number",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"purchasedIsbn\":\"0545425115\",\r\n    \"maskedCC\":\"XXXXXXXXXXXX9999\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/transaction/cancel/9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transaction",
+								"cancel",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete transaction by transaction number",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/transaction/delete/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transaction",
+								"delete",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
