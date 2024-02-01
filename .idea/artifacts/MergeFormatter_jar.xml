@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="MergeFormatter:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/MergeFormatter_jar</output-path>
+    <root id="archive" name="MergeFormatter.jar">
+      <element id="module-output" name="MergeFormatter" />
+    </root>
+  </artifact>
+</component>
