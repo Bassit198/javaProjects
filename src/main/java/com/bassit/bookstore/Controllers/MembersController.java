@@ -5,6 +5,7 @@ import com.bassit.bookstore.Models.Members;
 import com.bassit.bookstore.Repo.MembersRepo;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.MissingMatrixVariableException;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,8 @@ public class MembersController {
     @Autowired
     private MembersRepo membersRepo;
 
+    private BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+
     //create member
     @PostMapping("/addMember")
     public Members addMembers(@RequestBody Members memberInfo){
@@ -28,13 +31,14 @@ public class MembersController {
             case "Basic" -> 15.99;
             default -> 29.99;
         };
+        String hashPassword = bcrypt.encode(memberInfo.getPassword());
         Members member = new Members();
         member.setMemberFirstName(memberInfo.getMemberFirstName());
         member.setMemberLastName(memberInfo.getMemberLastName());
         member.setMemberEmail(memberInfo.getMemberEmail());
         member.setMemberPhoneNumber(memberInfo.getMemberPhoneNumber());
         member.setUsername(memberInfo.getUsername());
-        member.setPassword(memberInfo.getPassword());
+        member.setPassword(hashPassword);
         member.setMembershipPlan(memberInfo.getMembershipPlan());
         member.setMembershipStatus("Active");
         member.setMembershipPrice(price);

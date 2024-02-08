@@ -107,6 +107,39 @@ public class HelperFunctions {
 
 
 
+    //encryption
+    public static String encrypt(String text) {
+        int key = 6;
+        char[] chars = text.toCharArray();
+        for(int i=0; i<chars.length; i++) {
+            if(i%2==0) {
+                chars[i]+=key;
+            }else {
+                chars[i]-=key;
+            }
+
+        }
+        return String.copyValueOf(chars);
+
+    }
+
+    public static String decrypt(String text) {
+        int key = 6;
+        char[] chars = text.toCharArray();
+        for(int i=0; i<chars.length; i++) {
+            if(i%2==0) {
+                chars[i]-=key;
+            }else {
+                chars[i]+=key;
+            }
+
+        }
+        return String.copyValueOf(chars);
+
+    }
+
+
+
 
 
 

@@ -45,7 +45,6 @@ public class CustomerMainMenu {
                     MainMenu.menu();
                     break;
             }
-            System.out.println("Invalid Input. Please Try Again");
         }while (userResponse != 10);
         System.exit(0);
     }

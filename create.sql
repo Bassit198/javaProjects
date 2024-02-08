@@ -1,0 +1,6 @@
+create table books (price float(53), id bigint not null auto_increment, author varchar(255), isbn varchar(255), release_year varchar(255), title varchar(255), primary key (id)) engine=InnoDB;
+create table customers (id bigint not null auto_increment, email varchar(255), first_name varchar(255), last_name varchar(255), phone_number varchar(255), primary key (id)) engine=InnoDB;
+create table members (membership_expiration date, membership_price float(53), membership_purchase_date date, id bigint not null auto_increment, member_email varchar(255), member_first_name varchar(255), member_last_name varchar(255), member_phone_number varchar(255), membership_plan varchar(255), membership_status varchar(255), password varchar(255), username varchar(255), primary key (id)) engine=InnoDB;
+create table transactions (modified_date date, purchase_date date, transaction_number bigint not null auto_increment, maskedcc varchar(255), purchased_isbn varchar(255), transaction_status varchar(255), primary key (transaction_number)) engine=InnoDB;
+alter table members add constraint UK_835lvjlms8astl3cgutrgb0c5 unique (member_email);
+alter table members add constraint UK_lj4daw762ura5d2y6iu7g5n1i unique (username);
