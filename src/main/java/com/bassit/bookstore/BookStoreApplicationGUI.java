@@ -89,10 +89,7 @@ public class BookStoreApplicationGUI {
     private static final JFrame frame = new JFrame("Token Formatter");
 
     public BookStoreApplicationGUI() {
-
-
-
-        //panel lists
+        //panels lists
         List<JPanel> sideBarPanelList = new ArrayList<>();
         Collections.addAll(sideBarPanelList, listCard, customerCard, memberCard, transactionCard);
 
@@ -109,15 +106,7 @@ public class BookStoreApplicationGUI {
         //button styles
         HashMap<String, String> buttonStyle = getButtonStyleHashMap();
 
-        //quit button
-        quitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-            }
-        });
-
-
+        //painting all components
         //set toggle action for sidebar - paint all buttons default blue, paint selected button dark blue and also switch cards as necessary
         setButtonSelected(sideBarPanelList, 0, sideBarButtonList, buttonStyle, sideBarButtonList.get(0), 0, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
         setButtonSelected(sideBarPanelList, 1, sideBarButtonList, buttonStyle, sideBarButtonList.get(1), 1, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
@@ -163,64 +152,14 @@ public class BookStoreApplicationGUI {
         hoverEffectButtonDefaultSize(updateButton_customerPhone, buttonStyle.get("DarkGreen"), buttonStyle.get("Green"));
 
 
-
-
-        //change side button cards
-//        List<JPanel> sideButtonList = new ArrayList<>();
-//        Collections.addAll(sideButtonList, listCard, customerCard, memberCard, transactionCard);
-//        changeCardPanel(sideButtonList, listAllBooksButton, 0);
-//        changeCardPanel(sideButtonList, manageCustomerButton, 1);
-//        changeCardPanel(sideButtonList, manageMembershipButton, 2);
-//        changeCardPanel(sideButtonList, manageTransactionButton, 3);
-//
-//        //change customer button cards
-//        List<JPanel> customerCardsList = new ArrayList<>();
-//        Collections.addAll(customerCardsList, createCustomerCard, searchNameCard, searchEmailCard, searchNumberCard, updateFnameCard, updateLnameCard, updateEmailCard, updatePhoneCard);
-//        changeCardPanel(customerCardsList, createCustomerButton, 0);
-//        changeCardPanel(customerCardsList, searchNameButton, 1);
-//        changeCardPanel(customerCardsList, searchEmailButton, 2);
-//        changeCardPanel(customerCardsList, searchNumberButton, 3);
-//        changeCardPanel(customerCardsList, updateFnameButton, 4);
-//        changeCardPanel(customerCardsList, updateLnameButton, 5);
-//        changeCardPanel(customerCardsList, updateEmailButton, 6);
-//        changeCardPanel(customerCardsList, updatePhoneButton, 7);
-//
-
-//
-//        HashMap<String, String> buttonsList = getButtonsPathHashMap();
-//
-//        paintButtonDefaultSize(listAllBooksButton, buttonsList.get("Blue"));
-//        paintButtonDefaultSize(manageCustomerButton, buttonsList.get("Blue"));
-//        paintButtonDefaultSize(manageMembershipButton, buttonsList.get("Blue"));
-//        paintButtonDefaultSize(manageTransactionButton, buttonsList.get("Blue"));
-//        paintButtonDefaultSize(quitButton, buttonsList.get("Blue"));
-//        paintButtonDefaultSize(listAllBooksButton, buttonsList.get("Blue"));
-//
-//        hoverEffectButtonDefaultSize(listAllBooksButton, buttonsList.get("DarkBlue"),  buttonsList.get("Blue"));
-//        hoverEffectButtonDefaultSize(manageCustomerButton, buttonsList.get("DarkBlue"),  buttonsList.get("Blue"));
-//        hoverEffectButtonDefaultSize(manageMembershipButton, buttonsList.get("DarkBlue"),  buttonsList.get("Blue"));
-//        hoverEffectButtonDefaultSize(manageTransactionButton, buttonsList.get("DarkBlue"),  buttonsList.get("Blue"));
-//        hoverEffectButtonDefaultSize(quitButton, buttonsList.get("DarkBlue"),  buttonsList.get("Blue"));
-//
-//
-//        paintButtonDefaultSize(createCustomerButton, buttonsList.get("Blue"));
-//        paintButtonDefaultSize(searchNameButton, buttonsList.get("Blue"));
-//        paintButtonDefaultSize(searchEmailButton, buttonsList.get("Blue"));
-//        paintButtonDefaultSize(searchNumberButton, buttonsList.get("Blue"));
-//        paintButtonDefaultSize(updateFnameButton, buttonsList.get("Blue"));
-//        paintButtonDefaultSize(updateLnameButton, buttonsList.get("Blue"));
-//        paintButtonDefaultSize(updateEmailButton, buttonsList.get("Blue"));
-//        paintButtonDefaultSize(updatePhoneButton, buttonsList.get("Blue"));
-//
-//        hoverEffectButtonDefaultSize(createCustomerButton, buttonsList.get("DarkBlue"),  buttonsList.get("Blue"));
-//        hoverEffectButtonDefaultSize(searchNameButton, buttonsList.get("DarkBlue"),  buttonsList.get("Blue"));
-//        hoverEffectButtonDefaultSize(searchEmailButton, buttonsList.get("DarkBlue"),  buttonsList.get("Blue"));
-//        hoverEffectButtonDefaultSize(searchNumberButton, buttonsList.get("DarkBlue"),  buttonsList.get("Blue"));
-//        hoverEffectButtonDefaultSize(updateFnameButton, buttonsList.get("DarkBlue"),  buttonsList.get("Blue"));
-//        hoverEffectButtonDefaultSize(updateLnameButton, buttonsList.get("DarkBlue"),  buttonsList.get("Blue"));
-//        hoverEffectButtonDefaultSize(updateEmailButton, buttonsList.get("DarkBlue"),  buttonsList.get("Blue"));
-//        hoverEffectButtonDefaultSize(updatePhoneButton, buttonsList.get("DarkBlue"),  buttonsList.get("Blue"));
-//
+        //action listeners for all buttons
+        //quit button
+        quitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+            }
+        });
 
 
     }
@@ -233,8 +172,6 @@ public class BookStoreApplicationGUI {
         buttonStyle.put("DarkGreen", "C:\\Users\\Bassit\\IdeaProjectsUltimate\\BookStore\\src\\main\\resources\\buttonImages\\darkGreenButton.png");
         return buttonStyle;
     }
-
-
 
     public void paintButtonDefaultSize(JButton button, String imagePath){
         ImageIcon icon = new ImageIcon(imagePath);
@@ -262,80 +199,16 @@ public class BookStoreApplicationGUI {
         button.setForeground(Color.WHITE);
     }
 
-    //    public void paintButton(JButton button, int width, int height, String imagePath){
-//        ImageIcon icon = new ImageIcon(imagePath);
-//        Image img = icon.getImage();
-//        Image newimg = img.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
-//        ImageIcon newIcon = new ImageIcon(newimg);
-//
-//        button.setIcon(newIcon);
-//        button.setHorizontalTextPosition(SwingConstants.CENTER);
-//        button.setContentAreaFilled(false);
-//        button.setBorder(null);
-//        button.setForeground(Color.WHITE);
-//    }
-
-//    public void hoverEffectButton(JButton button, String hoverEnterPath, String hoverExitPath ,int width, int height){
-//
-//        button.addMouseListener(new java.awt.event.MouseAdapter() {
-//            public void mouseEntered(java.awt.event.MouseEvent evt) {
-//                paintButton(button, width, height, hoverEnterPath);
-//            }
-//
-//            public void mouseExited(java.awt.event.MouseEvent evt) {
-//                paintButton(button, width, height, hoverExitPath);
-//            }
-//        });
-//    }
-//
-
     public void hoverEffectButtonDefaultSize(JButton button, String hoverEnterPath, String hoverExitPath){
-
         button.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 paintButtonDefaultSize(button, hoverEnterPath);
             }
-
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 paintButtonDefaultSize(button, hoverExitPath);
             }
         });
     }
-//
-//    public void hoverEffectButtonDefaultSize(JToggleButton button, String hoverEnterPath, String hoverExitPath){
-//
-//        button.addMouseListener(new java.awt.event.MouseAdapter() {
-//            public void mouseEntered(java.awt.event.MouseEvent evt) {
-//                paintButtonDefaultSize(button, hoverEnterPath);
-//            }
-//
-//            public void mouseExited(java.awt.event.MouseEvent evt) {
-//                paintButtonDefaultSize(button, hoverExitPath);
-//            }
-//        });
-//    }
-//
-//    public void changeCardPanel(List<JPanel> list, JButton button, int indexShow){
-//        button.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                for (int i=0; i<list.size(); i++){
-//                    if(i==indexShow){
-//                        list.get(i).setVisible(true);
-//                    }else{
-//                        list.get(i).setVisible(false);
-//                    }
-//                }
-//            }
-//        });
-//
-//    }
-
-
-
-
-
-
 
     public void setButtonSelected(List<JPanel> panelList, int panelToShow, List<JToggleButton> buttonList, HashMap<String, String> buttonStyle, JToggleButton buttonToClick, int buttonToToggle, String hoverEnterPath, String hoverExitPath){
         //paint all buttons to default blue
@@ -380,6 +253,70 @@ public class BookStoreApplicationGUI {
         button.setBorder(null);
         button.setForeground(Color.WHITE);
     }
+
+//
+//    public void hoverEffectButtonDefaultSize(JToggleButton button, String hoverEnterPath, String hoverExitPath){
+//
+//        button.addMouseListener(new java.awt.event.MouseAdapter() {
+//            public void mouseEntered(java.awt.event.MouseEvent evt) {
+//                paintButtonDefaultSize(button, hoverEnterPath);
+//            }
+//
+//            public void mouseExited(java.awt.event.MouseEvent evt) {
+//                paintButtonDefaultSize(button, hoverExitPath);
+//            }
+//        });
+//    }
+//
+//    public void changeCardPanel(List<JPanel> list, JButton button, int indexShow){
+//        button.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                for (int i=0; i<list.size(); i++){
+//                    if(i==indexShow){
+//                        list.get(i).setVisible(true);
+//                    }else{
+//                        list.get(i).setVisible(false);
+//                    }
+//                }
+//            }
+//        });
+//
+//    }
+
+    //    public void paintButton(JButton button, int width, int height, String imagePath){
+//        ImageIcon icon = new ImageIcon(imagePath);
+//        Image img = icon.getImage();
+//        Image newimg = img.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
+//        ImageIcon newIcon = new ImageIcon(newimg);
+//
+//        button.setIcon(newIcon);
+//        button.setHorizontalTextPosition(SwingConstants.CENTER);
+//        button.setContentAreaFilled(false);
+//        button.setBorder(null);
+//        button.setForeground(Color.WHITE);
+//    }
+
+//    public void hoverEffectButton(JButton button, String hoverEnterPath, String hoverExitPath ,int width, int height){
+//
+//        button.addMouseListener(new java.awt.event.MouseAdapter() {
+//            public void mouseEntered(java.awt.event.MouseEvent evt) {
+//                paintButton(button, width, height, hoverEnterPath);
+//            }
+//
+//            public void mouseExited(java.awt.event.MouseEvent evt) {
+//                paintButton(button, width, height, hoverExitPath);
+//            }
+//        });
+//    }
+
+
+
+
+
+
+
+
 
 
     public static void main(String[] args) {
