@@ -2,6 +2,7 @@ package com.bassit.bookstore;
 
 import com.bassit.bookstore.Models.Customers;
 import com.bassit.bookstore.Services.CustomersService;
+import lombok.extern.java.Log;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -14,6 +15,7 @@ import java.util.List;
 
 
 @SpringBootApplication
+@Log
 public class BookStoreApplicationGUI {
     private JPanel mainPanel;
     private JPanel basePanel;
@@ -347,13 +349,14 @@ public class BookStoreApplicationGUI {
         submitButton_customer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                log.info("Submit button pressed for creating customer.");
                 resultPanel.setVisible(false);
                 String firstName = createCustomerFname.getText();
                 String lastName = createCustomerLname.getText();
                 String email = createCustomerEmail.getText();
                 String phoneNumber = createCustomerPhone.getText();
                 customersService.createdCustomer_User(firstName, lastName, email, phoneNumber);
-                //JOptionPane.showMessageDialog(frame, "Successfully Created Customer");
+                log.info("Request sent to API successfully");
                 resultPopUp("Success", "Successfully Created Customer");
             }
         });
@@ -362,10 +365,12 @@ public class BookStoreApplicationGUI {
         searchButton_customerName.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                log.info("Search button pressed for search by name");
                 resultPanel.setVisible(false);
                 String firstName = searchNameFname.getText();
                 String lastName = searchNameLname.getText();
                 List<Customers> resultsList = customersService.findCustomerByFirstAndLastName_User(firstName, lastName);
+                log.info("Request sent to API successfully");
                 showResults(resultsList);
             }
         });
@@ -377,6 +382,7 @@ public class BookStoreApplicationGUI {
                 resultPanel.setVisible(false);
                 String email = searchEmail_Email.getText();
                 List<Customers> resultsList = customersService.findCustomerByEmail_User(email);
+                log.info("Request sent to API successfully");
                 showResults(resultsList);
             }
         });
@@ -388,6 +394,7 @@ public class BookStoreApplicationGUI {
                 resultPanel.setVisible(false);
                 String phone = searchNumber_number.getText();
                 List<Customers> resultsList = customersService.findCustomerByPhoneNumber_User(phone);
+                log.info("Request sent to API successfully");
                 showResults(resultsList);
             }
         });
@@ -401,6 +408,7 @@ public class BookStoreApplicationGUI {
                 String lastName = updateFname_lname.getText();
                 String newFirstName = updateFname_newFname.getText();
                 customersService.updateCustomerFirstName_User(oldFirstName, lastName, newFirstName);
+                log.info("Request sent to API successfully");
                 resultPopUp("Success", "Successfully Updated Customer First Name");
             }
         });
@@ -414,6 +422,7 @@ public class BookStoreApplicationGUI {
                 String oldLastName = updateLname_oldLname.getText();
                 String newLastName = updateLname_newLname.getText();
                 customersService.updateCustomerLastName_User(firstName, oldLastName, newLastName);
+                log.info("Request sent to API successfully");
                 resultPopUp("Success", "Successfully Updated Customer Last Name");
             }
         });
@@ -427,6 +436,7 @@ public class BookStoreApplicationGUI {
                 String lastName = updateEmail_lname.getText();
                 String newEmail = updateEmail_newEmail.getText();
                 customersService.updateCustomerEmail_User(firstName, lastName, newEmail);
+                log.info("Request sent to API successfully");
                 resultPopUp("Success", "Successfully Updated Customer Email");
             }
         });
@@ -440,6 +450,7 @@ public class BookStoreApplicationGUI {
                 String lastName = updatePhone_lname.getText();
                 String newPhone = updatePhone_newPhone.getText();
                 customersService.updateCustomerPhoneNumber_User(firstName, lastName, newPhone);
+                log.info("Request sent to API successfully");
                 resultPopUp("Success", "Successfully Updated Customer Phone");
             }
         });
@@ -457,11 +468,13 @@ public class BookStoreApplicationGUI {
             phoneResult.setText(customers.getPhoneNumber());
         }
         resultPanel.setVisible(true);
+        log.info("Result displayed to user successfully");
     }
 
     public static void resultPopUp(String title, String message){
         ImageIcon icon = new ImageIcon("src/main/resources/greenCheck.png");
         JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE, icon);
+        log.info("Result displayed to user successfully");
     }
 
     public void setButtonSelected(List<JPanel> panelList, int panelToShow, List<JToggleButton> buttonList, HashMap<String, String> buttonStyle, JToggleButton buttonToClick, int buttonToToggle, String hoverEnterPath, String hoverExitPath) {
