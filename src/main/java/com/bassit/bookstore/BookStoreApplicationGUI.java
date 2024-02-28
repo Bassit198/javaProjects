@@ -1,5 +1,10 @@
 package com.bassit.bookstore;
 
+import com.bassit.bookstore.Models.Customers;
+import com.bassit.bookstore.Services.CustomersService;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,6 +12,8 @@ import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.List;
 
+
+@SpringBootApplication
 public class BookStoreApplicationGUI {
     private JPanel mainPanel;
     private JPanel basePanel;
@@ -171,13 +178,50 @@ public class BookStoreApplicationGUI {
     private JTextField updateMemberExpiration_username;
     private JTextField updateMemberExpiration_newExpiration;
     private JButton updateButton_expirationMembership;
-    private JButton createTransaction;
-    private JButton button2;
-    private JButton button3;
-    private JButton button4;
-    private JButton button5;
+
+    //manage transaction buttons
+    private JToggleButton createTransactionButton;
+    private JToggleButton findTransactionNumberButton;
+    private JToggleButton findTransactionDateButton;
+    private JToggleButton refundTransactionButton;
+    private JToggleButton cancelTransactionButton;
+
+    //panels for transaction
     private JPanel transactionMenuPanel;
     private JPanel transactionViewPanel;
+    private JPanel startTransactionPanel;
+    private JPanel findTransactionByNumberPanel;
+    private JPanel findTransactionByDatePanel;
+    private JPanel refundTransactionPanel;
+    private JPanel cancelTransactionPanel;
+
+    //fields and buttons for transaction
+    //start transaction
+    private JTextField isbnStartTransaction;
+    private JTextField ccNumberStartTransaction;
+    private JButton purchaseButtonStartTransaction;
+
+    //search by transaction number
+    private JTextField transactionNumberSearchByNumber;
+    private JButton searchButtonSearchByNumber;
+
+    //search within date range
+    private JTextField startDateTextFieldSearchByDate;
+    private JTextField endDateTextFieldSearchByDate;
+    private JButton searchButtonSearchWithinDateRange;
+
+    //refund transaction
+    private JTextField transactionNumberRefundTransaction;
+    private JButton refundButtonRefundTransaction;
+
+    //cancel transaction
+    private JTextField transactionNumberCancelTransaction;
+    private JButton cancelButtonCancelTransaction;
+    private JPanel resultPanel;
+    private JLabel firstNameResult;
+    private JLabel lastNameResult;
+    private JLabel emailResult;
+    private JLabel phoneResult;
 
 
     private JPanel card1;
@@ -185,7 +229,7 @@ public class BookStoreApplicationGUI {
     private JButton card1Button;
     private JButton card2Button;
 
-    private static final JFrame frame = new JFrame("Token Formatter");
+    private static final JFrame frame = new JFrame("Virtual Bookstore");
 
     public BookStoreApplicationGUI() {
         //panels lists
@@ -198,6 +242,9 @@ public class BookStoreApplicationGUI {
         List<JPanel> membershipCardPanelList = new ArrayList<>();
         Collections.addAll(membershipCardPanelList, createMemberPanel_membership, searchUsernamePanel_membership, updateFirstNamePanel_membership, updateLastNamePanel_membership, updatePhonePanel_membership, updateEmailPanel_membership, updateUsernamePanel_membership, updatePasswordPanel_membership, updatePlanPanel_membership, updateStatusPanel_membership, updatePricePanel_membership, updateExpirationPanel_membership);
 
+        List<JPanel> transactionCardPanelList = new ArrayList<>();
+        Collections.addAll(transactionCardPanelList, startTransactionPanel, findTransactionByNumberPanel, findTransactionByDatePanel, refundTransactionPanel, cancelTransactionPanel);
+
         //buttons lists
         List<JToggleButton> sideBarButtonList = new ArrayList<>();
         Collections.addAll(sideBarButtonList, listAllBooksButton, manageCustomerButton, manageMembershipButton, manageTransactionButton);
@@ -207,6 +254,9 @@ public class BookStoreApplicationGUI {
 
         List<JToggleButton> membershipCardButtonList = new ArrayList<>();
         Collections.addAll(membershipCardButtonList, createMembershipButton_membership, searchUsernameButton_membership, updateFirstNameButton_membership, updateLastNameButton_membership, updatePhoneButton_membership, updateEmailButton_membership, changeUsernameButton_membership, changePasswordButton_membership, updatePlanButton_membership, updateStatusButton_membership, updatePriceButton_membership, updateExpirationButton_membership);
+
+        List<JToggleButton> transactionCardButtonList = new ArrayList<>();
+        Collections.addAll(transactionCardButtonList, createTransactionButton, findTransactionNumberButton, findTransactionDateButton, refundTransactionButton, cancelTransactionButton);
 
         //button styles
         HashMap<String, String> buttonStyle = getButtonStyleHashMap();
@@ -229,7 +279,7 @@ public class BookStoreApplicationGUI {
         setButtonSelected(customerCardPanelList, 6, customerCardButtonList, buttonStyle, customerCardButtonList.get(6), 6, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
         setButtonSelected(customerCardPanelList, 7, customerCardButtonList, buttonStyle, customerCardButtonList.get(7), 7, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
 
-        //set toggle action for manage membership - paint all buttons default blue, paint selected button dark blue and also switch cards as necessary
+        //set toggle action for manage membership - paint all buttons default blue, paint selected button dark blue and also switch cards as nesetButtonSelected(membershipCardPanelList, 0, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(0), 0, buttonStyle.get("DarkBlue"), buttonStyle.get("BsetButtonSelected(membershipCardPanelList, 1, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(1), 1, buttonStyle.get("DarkBlue"), buttonStyle.get("BsetButtonSelected(membershipCardPanelList, 2, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(2), 2, buttonStyle.get("DarkBlue"), buttonStyle.get("BsetButtonSelected(membershipCardPanelList, 3, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(3), 3, buttonStyle.get("DarkBlue"), buttonStyle.get("BsetButtonSelected(membershipCardPanelList, 4, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(4), 4, buttonStyle.get("DarkBlue"), buttonStyle.get("BsetButtonSelected(membershipCardPanelList, 5, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(5), 5, buttonStyle.get("DarkBlue"), buttonStyle.get("BsetButtonSelected(membershipCardPanelList, 6, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(6), 6, buttonStyle.get("DarkBlue"), buttonStyle.get("BsetButtonSelected(membershipCardPanelList, 7, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(7), 7, buttonStyle.get("DarkBlue"), buttonStyle.get("BsetButtonSelected(membershipCardPanelList, 8, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(8), 8, buttonStyle.get("DarkBlue"), buttonStyle.get("BsetButtonSelected(membershipCardPanelList, 9, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(9), 9, buttonStyle.get("DarkBlue"), buttonStyle.get("BsetButtonSelected(membershipCardPanelList, 10, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(10), 10, buttonStyle.get("DarkBlue"), buttonStyle.get("BsetButtonSelected(membershipCardPanelList, 11, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(11), 11, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
         setButtonSelected(membershipCardPanelList, 0, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(0), 0, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
         setButtonSelected(membershipCardPanelList, 1, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(1), 1, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
         setButtonSelected(membershipCardPanelList, 2, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(2), 2, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
@@ -238,23 +288,26 @@ public class BookStoreApplicationGUI {
         setButtonSelected(membershipCardPanelList, 5, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(5), 5, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
         setButtonSelected(membershipCardPanelList, 6, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(6), 6, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
         setButtonSelected(membershipCardPanelList, 7, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(7), 7, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
-        setButtonSelected(membershipCardPanelList, 8, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(8), 8, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
-        setButtonSelected(membershipCardPanelList, 9, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(9), 9, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
-        setButtonSelected(membershipCardPanelList, 10, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(10), 10, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
-        setButtonSelected(membershipCardPanelList, 11, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(11), 11, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
 
-        //manage customer additional buttons painting
-        paintButtonDefaultSize(quitButton, buttonStyle.get("Blue"));
-        //manage customer additional buttons painting
-        paintButtonGreenWithHoverEffect(submitButton_customer);
-        paintButtonGreenWithHoverEffect(searchButton_customerName);
-        paintButtonGreenWithHoverEffect(searchButton_customerEmail);
-        paintButtonGreenWithHoverEffect(searchButton_customerPhone);
-        paintButtonGreenWithHoverEffect(updateButton_customerFName);
-        paintButtonGreenWithHoverEffect(updateButton_customerLName);
-        paintButtonGreenWithHoverEffect(updateButton_customerEmail);
-        paintButtonGreenWithHoverEffect(updateButton_customerPhone);
-        paintButtonGreenWithHoverEffect(updateButton_customerPhone);
+        //set toggle action for manage transaction - paint all buttons default blue, paint selected button dark blue and also switch cards as necessary
+        setButtonSelected(transactionCardPanelList, 0, transactionCardButtonList, buttonStyle, transactionCardButtonList.get(0), 0, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
+        setButtonSelected(transactionCardPanelList, 1, transactionCardButtonList, buttonStyle, transactionCardButtonList.get(1), 1, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
+        setButtonSelected(transactionCardPanelList, 2, transactionCardButtonList, buttonStyle, transactionCardButtonList.get(2), 2, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
+        setButtonSelected(transactionCardPanelList, 3, transactionCardButtonList, buttonStyle, transactionCardButtonList.get(3), 3, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
+        setButtonSelected(transactionCardPanelList, 4, transactionCardButtonList, buttonStyle, transactionCardButtonList.get(4), 4, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
+
+        //manage customer additional buttons
+         paintButtonDefaultSize(quitButton, buttonStyle.get("Blue"));
+
+        //manage customer additional buttons
+         paintButtonGreenWithHoverEffect(submitButton_customer);
+         paintButtonGreenWithHoverEffect(searchButton_customerName);
+         paintButtonGreenWithHoverEffect(searchButton_customerEmail);
+         paintButtonGreenWithHoverEffect(searchButton_customerPhone);
+         paintButtonGreenWithHoverEffect(updateButton_customerFName);
+         paintButtonGreenWithHoverEffect(updateButton_customerLName);
+         paintButtonGreenWithHoverEffect(updateButton_customerEmail);
+         paintButtonGreenWithHoverEffect(updateButton_customerPhone);
 
         //manage members additional buttons painting
         paintButtonGreenWithHoverEffect(submitButton_createMembership);
@@ -270,7 +323,12 @@ public class BookStoreApplicationGUI {
         paintButtonGreenWithHoverEffect(updateButton_priceMembership);
         paintButtonGreenWithHoverEffect(updateButton_expirationMembership);
 
-
+        //manage transaction additional buttons painting
+        paintButtonGreenWithHoverEffect(purchaseButtonStartTransaction);
+        paintButtonGreenWithHoverEffect(searchButtonSearchByNumber);
+        paintButtonGreenWithHoverEffect(searchButtonSearchWithinDateRange);
+        paintButtonGreenWithHoverEffect(refundButtonRefundTransaction);
+        paintButtonGreenWithHoverEffect(cancelButtonCancelTransaction);
 
 
         //action listeners for all buttons
@@ -282,15 +340,165 @@ public class BookStoreApplicationGUI {
             }
         });
 
+        //button actions for manage customers page
+        CustomersService customersService = new CustomersService();
+        resultPanel.setVisible(false);
+        //create new customer submit button
+        submitButton_customer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resultPanel.setVisible(false);
+                String firstName = createCustomerFname.getText();
+                String lastName = createCustomerLname.getText();
+                String email = createCustomerEmail.getText();
+                String phoneNumber = createCustomerPhone.getText();
+                customersService.createdCustomer_User(firstName, lastName, email, phoneNumber);
+                //JOptionPane.showMessageDialog(frame, "Successfully Created Customer");
+                resultPopUp("Success", "Successfully Created Customer");
+            }
+        });
 
+        //search customer by name button
+        searchButton_customerName.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resultPanel.setVisible(false);
+                String firstName = searchNameFname.getText();
+                String lastName = searchNameLname.getText();
+                List<Customers> resultsList = customersService.findCustomerByFirstAndLastName_User(firstName, lastName);
+                showResults(resultsList);
+            }
+        });
+
+        //search customer by email button
+        searchButton_customerEmail.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resultPanel.setVisible(false);
+                String email = searchEmail_Email.getText();
+                List<Customers> resultsList = customersService.findCustomerByEmail_User(email);
+                showResults(resultsList);
+            }
+        });
+
+        //search customer by phone button
+        searchButton_customerPhone.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resultPanel.setVisible(false);
+                String phone = searchNumber_number.getText();
+                List<Customers> resultsList = customersService.findCustomerByPhoneNumber_User(phone);
+                showResults(resultsList);
+            }
+        });
+
+        //update customer first name button
+        updateButton_customerFName.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resultPanel.setVisible(false);
+                String oldFirstName = updateFname_fname.getText();
+                String lastName = updateFname_lname.getText();
+                String newFirstName = updateFname_newFname.getText();
+                customersService.updateCustomerFirstName_User(oldFirstName, lastName, newFirstName);
+                resultPopUp("Success", "Successfully Updated Customer First Name");
+            }
+        });
+
+        //update customer last name button
+        updateButton_customerLName.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resultPanel.setVisible(false);
+                String firstName = updateLname_fname.getText();
+                String oldLastName = updateLname_oldLname.getText();
+                String newLastName = updateLname_newLname.getText();
+                customersService.updateCustomerLastName_User(firstName, oldLastName, newLastName);
+                resultPopUp("Success", "Successfully Updated Customer Last Name");
+            }
+        });
+
+        //update customer email button
+        updateButton_customerEmail.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resultPanel.setVisible(false);
+                String firstName = updateEmail_fname.getText();
+                String lastName = updateEmail_lname.getText();
+                String newEmail = updateEmail_newEmail.getText();
+                customersService.updateCustomerEmail_User(firstName, lastName, newEmail);
+                resultPopUp("Success", "Successfully Updated Customer Email");
+            }
+        });
+
+        //update customer phone number button
+        updateButton_customerPhone.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resultPanel.setVisible(false);
+                String firstName = updatePhone_fname.getText();
+                String lastName = updatePhone_lname.getText();
+                String newPhone = updatePhone_newPhone.getText();
+                customersService.updateCustomerPhoneNumber_User(firstName, lastName, newPhone);
+                resultPopUp("Success", "Successfully Updated Customer Phone");
+            }
+        });
     }
 
-    private static HashMap<String, String> getButtonStyleHashMap() {
+
+
+
+    //------------------------------------------------------------------------------------------------HELPERS------------------------------------------------------------------------------------------------
+    private void showResults(List<Customers> resultsList){
+        for(Customers customers : resultsList){
+            firstNameResult.setText(customers.getFirstName());
+            lastNameResult.setText(customers.getLastName());
+            emailResult.setText(customers.getEmail());
+            phoneResult.setText(customers.getPhoneNumber());
+        }
+        resultPanel.setVisible(true);
+    }
+
+    public static void resultPopUp(String title, String message){
+        ImageIcon icon = new ImageIcon("src/main/resources/greenCheck.png");
+        JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE, icon);
+    }
+
+    public void setButtonSelected(List<JPanel> panelList, int panelToShow, List<JToggleButton> buttonList, HashMap<String, String> buttonStyle, JToggleButton buttonToClick, int buttonToToggle, String hoverEnterPath, String hoverExitPath) {
+        //paint all buttons to default blue
+        for (JToggleButton button : buttonList) {
+            paintButtonDefaultSize(button, buttonStyle.get("Blue"));
+        }
+        buttonToClick.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resultPanel.setVisible(false);
+                for (int i = 0; i < buttonList.size(); i++) {
+                    if (i == buttonToToggle) {
+                        paintButtonToggle(buttonList.get(i), buttonStyle.get("DarkBlue"));
+                    } else {
+                        buttonList.get(i).setSelected(false);
+                        paintButtonToggle(buttonList.get(i), buttonStyle.get("Blue"));
+                    }
+                }
+
+                for (int i = 0; i < panelList.size(); i++) {
+                    if (i == panelToShow) {
+                        panelList.get(i).setVisible(true);
+                    } else {
+                        panelList.get(i).setVisible(false);
+                    }
+                }
+            }
+        });
+    }
+
+    public static HashMap<String, String> getButtonStyleHashMap() {
         HashMap<String, String> buttonStyle = new HashMap<>();
-        buttonStyle.put("Blue", "C:\\Users\\Bassit\\IdeaProjectsUltimate\\BookStore\\src\\main\\resources\\buttonImages\\blueButton.png");
-        buttonStyle.put("DarkBlue", "C:\\Users\\Bassit\\IdeaProjectsUltimate\\BookStore\\src\\main\\resources\\buttonImages\\darkBlueButton.png");
-        buttonStyle.put("Green", "C:\\Users\\Bassit\\IdeaProjectsUltimate\\BookStore\\src\\main\\resources\\buttonImages\\greenButton.png");
-        buttonStyle.put("DarkGreen", "C:\\Users\\Bassit\\IdeaProjectsUltimate\\BookStore\\src\\main\\resources\\buttonImages\\darkGreenButton.png");
+        buttonStyle.put("Blue", "src/main/resources/buttonImages/blueButton.png");
+        buttonStyle.put("DarkBlue", "src/main/resources/buttonImages/darkBlueButton.png");
+        buttonStyle.put("Green", "src/main/resources/buttonImages/greenButton.png");
+        buttonStyle.put("DarkGreen", "src/main/resources/buttonImages/darkGreenButton.png");
         return buttonStyle;
     }
 
@@ -337,42 +545,11 @@ public class BookStoreApplicationGUI {
         });
     }
 
-    public void setButtonSelected(List<JPanel> panelList, int panelToShow, List<JToggleButton> buttonList, HashMap<String, String> buttonStyle, JToggleButton buttonToClick, int buttonToToggle, String hoverEnterPath, String hoverExitPath){
-        //paint all buttons to default blue
-        for (JToggleButton button : buttonList) {
-            paintButtonDefaultSize(button, buttonStyle.get("Blue"));
-        }
-        buttonToClick.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                for(int i=0; i<buttonList.size(); i++){
-                    if(i==buttonToToggle){
-                        paintButtonToggle(buttonList.get(i), buttonStyle.get("DarkBlue"));
-                    }else{
-                        buttonList.get(i).setSelected(false);
-                        paintButtonToggle(buttonList.get(i), buttonStyle.get("Blue"));
-                    }
-                }
-
-                for(int i=0; i<panelList.size(); i++){
-                    if(i==panelToShow){
-                        panelList.get(i).setVisible(true);
-                    }else{
-                        panelList.get(i).setVisible(false);
-                    }
-                }
-            }
-        });
-
-
-    }
-
     public void paintButtonToggle(JToggleButton button, String imagePath){
         ImageIcon icon = new ImageIcon(imagePath);
         Image img = icon.getImage();
-        Image newimg = img.getScaledInstance(150, 30, java.awt.Image.SCALE_SMOOTH);
-        ImageIcon newIcon = new ImageIcon(newimg);
+        Image newimage = img.getScaledInstance(150, 30, java.awt.Image.SCALE_SMOOTH);
+        ImageIcon newIcon = new ImageIcon(newimage);
 
         button.setIcon(newIcon);
         button.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -381,72 +558,14 @@ public class BookStoreApplicationGUI {
         button.setForeground(Color.WHITE);
     }
 
-//
-//    public void hoverEffectButtonDefaultSize(JToggleButton button, String hoverEnterPath, String hoverExitPath){
-//
-//        button.addMouseListener(new java.awt.event.MouseAdapter() {
-//            public void mouseEntered(java.awt.event.MouseEvent evt) {
-//                paintButtonDefaultSize(button, hoverEnterPath);
-//            }
-//
-//            public void mouseExited(java.awt.event.MouseEvent evt) {
-//                paintButtonDefaultSize(button, hoverExitPath);
-//            }
-//        });
-//    }
-//
-//    public void changeCardPanel(List<JPanel> list, JButton button, int indexShow){
-//        button.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                for (int i=0; i<list.size(); i++){
-//                    if(i==indexShow){
-//                        list.get(i).setVisible(true);
-//                    }else{
-//                        list.get(i).setVisible(false);
-//                    }
-//                }
-//            }
-//        });
-//
-//    }
-
-    //    public void paintButton(JButton button, int width, int height, String imagePath){
-//        ImageIcon icon = new ImageIcon(imagePath);
-//        Image img = icon.getImage();
-//        Image newimg = img.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
-//        ImageIcon newIcon = new ImageIcon(newimg);
-//
-//        button.setIcon(newIcon);
-//        button.setHorizontalTextPosition(SwingConstants.CENTER);
-//        button.setContentAreaFilled(false);
-//        button.setBorder(null);
-//        button.setForeground(Color.WHITE);
-//    }
-
-//    public void hoverEffectButton(JButton button, String hoverEnterPath, String hoverExitPath ,int width, int height){
-//
-//        button.addMouseListener(new java.awt.event.MouseAdapter() {
-//            public void mouseEntered(java.awt.event.MouseEvent evt) {
-//                paintButton(button, width, height, hoverEnterPath);
-//            }
-//
-//            public void mouseExited(java.awt.event.MouseEvent evt) {
-//                paintButton(button, width, height, hoverExitPath);
-//            }
-//        });
-//    }
 
 
 
 
 
-
-
-
-
-
+    //main method
     public static void main(String[] args) {
+        SpringApplication.run(BookStoreApplicationGUI.class, args);
         frame.setContentPane(new BookStoreApplicationGUI().mainPanel);
         frame.setSize(1200, 1200);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -455,6 +574,7 @@ public class BookStoreApplicationGUI {
         frame.setVisible(true);
         frame.setLayout(null);
     }
+
 
 
 }

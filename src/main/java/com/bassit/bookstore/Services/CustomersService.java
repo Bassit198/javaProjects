@@ -16,17 +16,8 @@ public class CustomersService {
 
     //methods for user section
     //create customer_User
-    public void createdCustomer_User(){
-        header("Create Customer");
-        System.out.print("Enter First Name: ");
-        String firstName = keyboard.nextLine();
-        System.out.print("Enter Last Name: ");
-        String lastName = keyboard.nextLine();
-        System.out.print("Enter Email: ");
-        String email = keyboard.nextLine();
-        System.out.print("Enter Phone Number in the Format of xxx-xxx-xxxx: ");
-        String phoneNumber = keyboard.nextLine();
-        System.out.println(createCustomer_DB(firstName, lastName, email, phoneNumber));
+    public void createdCustomer_User(String firstName, String lastName, String email, String phoneNumber){
+        createCustomer_DB(firstName, lastName, email, phoneNumber);
     }
 
     //read customer admin_find by id
@@ -39,77 +30,38 @@ public class CustomersService {
     }
 
     //read customer by first name and last name_User
-    public void findCustomerByFirstAndLastName_User(){
-        header("Find Customer By First Name and Last Name");
-        System.out.print("Enter first name: ");
-        String firstName = keyboard.nextLine();
-        System.out.print("Enter last name: ");
-        String lastName = keyboard.nextLine();
-        printCustomer(findCustomersByFirstAndLastname_DB(firstName, lastName));
+    public List<Customers> findCustomerByFirstAndLastName_User(String firstName, String lastName){
+        return findCustomersByFirstAndLastname_DB(firstName, lastName);
     }
 
     //read customer by email_User
-    public void findCustomerByEmail_User(){
-        HelperFunctions.header("Find Customer By Email");
-        System.out.print("Enter customer email: ");
-        String email = keyboard.nextLine();
-        printCustomer(findCustomersByEmail_DB(email));
+    public List<Customers> findCustomerByEmail_User(String email){
+        return findCustomersByEmail_DB(email);
     }
 
     //read customer by phone_User
-    public void findCustomerByPhoneNumber_User(){
-        header("Find Customer By Phone Number");
-        System.out.print("Enter customer phone number: ");
-        String phone = keyboard.nextLine();
-        printCustomer(findCustomersByPhone_DB(phone));
+    public List<Customers> findCustomerByPhoneNumber_User(String phone){
+        return findCustomersByPhone_DB(phone);
     }
 
     //update customer first name_User
-    public void updateCustomerFirstName_User(){
-        header("Update Customer First Name");
-        System.out.print("Enter old first name: ");
-        String firstName = keyboard.nextLine();
-        System.out.print("Enter last name: ");
-        String lastName = keyboard.nextLine();
-        System.out.print("Enter new first name: ");
-        String newFirstName = keyboard.nextLine();
-        System.out.println(updateCustomerFirstName_DB(firstName, lastName, newFirstName));
+    public void updateCustomerFirstName_User(String firstName, String lastName, String newFirstName){
+        updateCustomerFirstName_DB(firstName, lastName, newFirstName);
     }
     
     //update customer last name_User
-    public void updateCustomerLastName_User(){
-        header("Update Customer Last Name");
-        System.out.print("Enter first name: ");
-        String firstName = keyboard.nextLine();
-        System.out.print("Enter old last name: ");
-        String lastName = keyboard.nextLine();
-        System.out.print("Enter new last name: ");
-        String newLastName = keyboard.nextLine();
-        System.out.println(updateCustomerLastName_DB(firstName, lastName, newLastName));
+    public void updateCustomerLastName_User(String firstName, String lastName, String newLastName ){
+        updateCustomerLastName_DB(firstName, lastName, newLastName);
     }
     
     //update customer email_User
-    public void updateCustomerEmail_User(){
-        header("Update Customer Email");
-        System.out.print("Enter first name: ");
-        String firstName = keyboard.nextLine();
-        System.out.print("Enter last name: ");
-        String lastName = keyboard.nextLine();
-        System.out.print("Enter new email: ");
-        String newEmail = keyboard.nextLine();
-        System.out.println(updateCustomerEmail_DB(firstName, lastName, newEmail));
+    public void updateCustomerEmail_User(String firstName, String lastName, String newEmail){
+        updateCustomerEmail_DB(firstName, lastName, newEmail);
     }
     
     //update customer phone_User
-    public void updateCustomerPhoneNumber_User(){
-        header("Update Customer Phone Number");
-        System.out.print("Enter first name: ");
-        String firstName = keyboard.nextLine();
-        System.out.print("Enter last name: ");
-        String lastName = keyboard.nextLine();
-        System.out.print("Enter new phone number: ");
-        String newPhoneNumber = keyboard.nextLine();
-        System.out.println(updateCustomerPhoneNumber_DB(firstName, lastName, newPhoneNumber));
+    public void updateCustomerPhoneNumber_User(String firstName, String lastName, String newPhoneNumber){
+        updateCustomerPhoneNumber_DB(firstName, lastName, newPhoneNumber);
     }
     
     //delete customer (admin_delete by id)

@@ -18,28 +18,28 @@ public class CustomerMainMenu {
 
             switch (userResponse){
                 case 1:
-                    customersService.createdCustomer_User();
+                    //customersService.createdCustomer_User();
                     break;
                 case 2:
-                    customersService.findCustomerByFirstAndLastName_User();
+                    //customersService.findCustomerByFirstAndLastName_User();
                     break;
                 case 3:
-                    customersService.findCustomerByEmail_User();
+                    //customersService.findCustomerByEmail_User();
                     break;
                 case 4:
-                    customersService.findCustomerByPhoneNumber_User();
+                    //customersService.findCustomerByPhoneNumber_User();
                     break;
                 case 5:
-                    customersService.updateCustomerFirstName_User();
+                    //customersService.updateCustomerFirstName_User();
                     break;
                 case 6:
-                    customersService.updateCustomerLastName_User();
+                    //customersService.updateCustomerLastName_User();
                     break;
                 case 7:
-                    customersService.updateCustomerEmail_User();
+                    //customersService.updateCustomerEmail_User();
                     break;
                 case 8:
-                    customersService.updateCustomerPhoneNumber_User();
+                    //customersService.updateCustomerPhoneNumber_User();
                     break;
                 case 9:
                     MainMenu.menu();
