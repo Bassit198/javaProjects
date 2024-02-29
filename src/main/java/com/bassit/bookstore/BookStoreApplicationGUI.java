@@ -234,6 +234,34 @@ public class BookStoreApplicationGUI {
     private static final JFrame frame = new JFrame("Virtual Bookstore");
 
     public BookStoreApplicationGUI() {
+
+        paintUI();
+
+
+        //action listeners for all buttons
+        //quit button
+        quitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+            }
+        });
+
+        //---------------------------------------------------------------------------------------MANAGE CUSTOMER ACTIONS---------------------------------------------------------------------------------------
+        manageCustomerActions();
+
+        //---------------------------------------------------------------------------------------MANAGE MEMBERSHIP ACTIONS---------------------------------------------------------------------------------------
+
+
+
+        //---------------------------------------------------------------------------------------MANAGE TRANSACTIONS ACTIONS---------------------------------------------------------------------------------------
+
+
+
+
+    }
+
+    private void paintUI() {
         //panels lists
         List<JPanel> sideBarPanelList = new ArrayList<>();
         Collections.addAll(sideBarPanelList, listCard, customerCard, memberCard, transactionCard);
@@ -299,17 +327,17 @@ public class BookStoreApplicationGUI {
         setButtonSelected(transactionCardPanelList, 4, transactionCardButtonList, buttonStyle, transactionCardButtonList.get(4), 4, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
 
         //manage customer additional buttons
-         paintButtonDefaultSize(quitButton, buttonStyle.get("Blue"));
+        paintButtonDefaultSize(quitButton, buttonStyle.get("Blue"));
 
         //manage customer additional buttons
-         paintButtonGreenWithHoverEffect(submitButton_customer);
-         paintButtonGreenWithHoverEffect(searchButton_customerName);
-         paintButtonGreenWithHoverEffect(searchButton_customerEmail);
-         paintButtonGreenWithHoverEffect(searchButton_customerPhone);
-         paintButtonGreenWithHoverEffect(updateButton_customerFName);
-         paintButtonGreenWithHoverEffect(updateButton_customerLName);
-         paintButtonGreenWithHoverEffect(updateButton_customerEmail);
-         paintButtonGreenWithHoverEffect(updateButton_customerPhone);
+        paintButtonGreenWithHoverEffect(submitButton_customer);
+        paintButtonGreenWithHoverEffect(searchButton_customerName);
+        paintButtonGreenWithHoverEffect(searchButton_customerEmail);
+        paintButtonGreenWithHoverEffect(searchButton_customerPhone);
+        paintButtonGreenWithHoverEffect(updateButton_customerFName);
+        paintButtonGreenWithHoverEffect(updateButton_customerLName);
+        paintButtonGreenWithHoverEffect(updateButton_customerEmail);
+        paintButtonGreenWithHoverEffect(updateButton_customerPhone);
 
         //manage members additional buttons painting
         paintButtonGreenWithHoverEffect(submitButton_createMembership);
@@ -331,17 +359,9 @@ public class BookStoreApplicationGUI {
         paintButtonGreenWithHoverEffect(searchButtonSearchWithinDateRange);
         paintButtonGreenWithHoverEffect(refundButtonRefundTransaction);
         paintButtonGreenWithHoverEffect(cancelButtonCancelTransaction);
+    }
 
-
-        //action listeners for all buttons
-        //quit button
-        quitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-            }
-        });
-
+    private void manageCustomerActions() {
         //button actions for manage customers page
         CustomersService customersService = new CustomersService();
         resultPanel.setVisible(false);
@@ -350,14 +370,19 @@ public class BookStoreApplicationGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 log.info("Submit button pressed for creating customer.");
-                resultPanel.setVisible(false);
-                String firstName = createCustomerFname.getText();
-                String lastName = createCustomerLname.getText();
-                String email = createCustomerEmail.getText();
-                String phoneNumber = createCustomerPhone.getText();
-                customersService.createdCustomer_User(firstName, lastName, email, phoneNumber);
-                log.info("Request sent to API successfully");
-                resultPopUp("Success", "Successfully Created Customer");
+                if(createCustomerFname.getText().isEmpty() || createCustomerLname.getText().isEmpty() || createCustomerEmail.getText().isEmpty() || createCustomerPhone.getText().isEmpty()){
+                    failResultPopUp("Fail", "Please Fill in all Fields");
+                }else{
+                    resultPanel.setVisible(false);
+                    String firstName = createCustomerFname.getText();
+                    String lastName = createCustomerLname.getText();
+                    String email = createCustomerEmail.getText();
+                    String phoneNumber = createCustomerPhone.getText();
+                    customersService.createdCustomer_User(firstName, lastName, email, phoneNumber);
+                    log.info("Request sent to API successfully");
+                    successResultPopUp("Success", "Successfully Created Customer");
+                }
+
             }
         });
 
@@ -409,7 +434,7 @@ public class BookStoreApplicationGUI {
                 String newFirstName = updateFname_newFname.getText();
                 customersService.updateCustomerFirstName_User(oldFirstName, lastName, newFirstName);
                 log.info("Request sent to API successfully");
-                resultPopUp("Success", "Successfully Updated Customer First Name");
+                successResultPopUp("Success", "Successfully Updated Customer First Name");
             }
         });
 
@@ -423,7 +448,7 @@ public class BookStoreApplicationGUI {
                 String newLastName = updateLname_newLname.getText();
                 customersService.updateCustomerLastName_User(firstName, oldLastName, newLastName);
                 log.info("Request sent to API successfully");
-                resultPopUp("Success", "Successfully Updated Customer Last Name");
+                successResultPopUp("Success", "Successfully Updated Customer Last Name");
             }
         });
 
@@ -437,7 +462,7 @@ public class BookStoreApplicationGUI {
                 String newEmail = updateEmail_newEmail.getText();
                 customersService.updateCustomerEmail_User(firstName, lastName, newEmail);
                 log.info("Request sent to API successfully");
-                resultPopUp("Success", "Successfully Updated Customer Email");
+                successResultPopUp("Success", "Successfully Updated Customer Email");
             }
         });
 
@@ -451,12 +476,10 @@ public class BookStoreApplicationGUI {
                 String newPhone = updatePhone_newPhone.getText();
                 customersService.updateCustomerPhoneNumber_User(firstName, lastName, newPhone);
                 log.info("Request sent to API successfully");
-                resultPopUp("Success", "Successfully Updated Customer Phone");
+                successResultPopUp("Success", "Successfully Updated Customer Phone");
             }
         });
     }
-
-
 
 
     //------------------------------------------------------------------------------------------------HELPERS------------------------------------------------------------------------------------------------
@@ -471,10 +494,16 @@ public class BookStoreApplicationGUI {
         log.info("Result displayed to user successfully");
     }
 
-    public static void resultPopUp(String title, String message){
+    public static void successResultPopUp(String title, String message){
         ImageIcon icon = new ImageIcon("src/main/resources/greenCheck.png");
         JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE, icon);
         log.info("Result displayed to user successfully");
+    }
+
+    public static void failResultPopUp(String title, String message){
+        ImageIcon icon = new ImageIcon("src/main/resources/greenCheck.png");
+        JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE, icon);
+        log.info("Failed to retrieve results");
     }
 
     public void setButtonSelected(List<JPanel> panelList, int panelToShow, List<JToggleButton> buttonList, HashMap<String, String> buttonStyle, JToggleButton buttonToClick, int buttonToToggle, String hoverEnterPath, String hoverExitPath) {
