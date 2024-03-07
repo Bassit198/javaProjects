@@ -18,40 +18,40 @@ public class MembersMainMenu {
 
             switch (userResponse){
                 case 1:
-                    membersService.createMember_User();
+                    //membersService.createMember_User();
                     break;
                 case 2:
-                    membersService.getMemberByUsername_User();
+                    //membersService.getMemberByUsername_User();
                     break;
                 case 3:
-                    membersService.updateMemberFirstName_User();
+                    //membersService.updateMemberFirstName_User();
                     break;
                 case 4:
-                    membersService.updateMemberLastName_User();
+                    //membersService.updateMemberLastName_User();
                     break;
                 case 5:
-                    membersService.updateMemberPhoneNumber_User();
+                    //membersService.updateMemberPhoneNumber_User();
                     break;
                 case 6:
-                    membersService.updateMemberEmail_User();
+                    //membersService.updateMemberEmail_User();
                     break;
                 case 7:
-                    membersService.updateMemberUsername_User();
+                    //membersService.updateMemberUsername_User();
                     break;
                 case 8:
-                    membersService.updateMemberPassword_User();
+                    //membersService.updateMemberPassword_User();
                     break;
                 case 9:
-                    membersService.updateMemberPlan_User();
+                    //membersService.updateMemberPlan_User();
                     break;
                 case 10:
-                    membersService.updateMemberStatus_User();
+                    //membersService.updateMemberStatus_User();
                     break;
                 case 11:
-                    membersService.updateMemberPrice_User();
+                    //membersService.updateMemberPrice_User();
                     break;
                 case 12:
-                    membersService.updateMemberExp_User();
+                    //membersService.updateMemberExp_User();
                     break;
                 case 13:
                     MainMenu.menu();

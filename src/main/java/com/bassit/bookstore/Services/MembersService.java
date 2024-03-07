@@ -18,133 +18,65 @@ public class MembersService {
 
     //user end
     //create member
-    public void createMember_User(){
-        header("Create Membership");
-        System.out.print("Enter member first name: ");
-        String firstName = keyboard.nextLine();
-        System.out.print("Enter member last name: ");
-        String lastName = keyboard.nextLine();
-        System.out.print("Enter member email: ");
-        String email = keyboard.nextLine();
-        System.out.print("Enter member phone number: ");
-        String phoneNumber = keyboard.nextLine();
-        System.out.print("Enter member username: ");
-        String username = keyboard.nextLine();
-        System.out.print("Enter member password: ");
-        String password = keyboard.nextLine();
-        System.out.print("Enter member plan: ");
-        String plan = keyboard.nextLine();
-        System.out.println(createMembers_DB(firstName, lastName, email, phoneNumber, username, password, plan));
+    public void createMember_User(String firstName, String lastName, String email, String phoneNumber, String username, String password, String plan){
+        createMembers_DB(firstName, lastName, email, phoneNumber, username, password, plan);
     }
 
     //read member by username
-    public void getMemberByUsername_User(){
-        header("Find Member By Username");
-        System.out.print("Enter member username: ");
-        String username = keyboard.nextLine();
-        printMembers(getMemberByUsername_DB(username));
+    public List<Members> getMemberByUsername_User(String username){
+        return getMemberByUsername_DB(username);
     }
 
     //update memberFirstName
-    public void updateMemberFirstName_User(){
-        header("Update Member First Name");
-        System.out.print("Enter member username: ");
-        String username = keyboard.nextLine();
-        System.out.print("Enter member updated first name: ");
-        String newFirstName = keyboard.nextLine();
-        System.out.println(updateMemberFirstName_DB(username, newFirstName));
+    public void updateMemberFirstName_User(String username, String newFirstName){
+        updateMemberFirstName_DB(username, newFirstName);
 
 
     }
 
     //update memberLastName
-    public void updateMemberLastName_User(){
-        header("Update Member Last Name");
-        System.out.print("Enter member username: ");
-        String username = keyboard.nextLine();
-        System.out.print("Enter member updated last name: ");
-        String newLastName = keyboard.nextLine();
-        System.out.println(updateMemberLastName_DB(username, newLastName));
+    public void updateMemberLastName_User(String username, String newLastName){
+        updateMemberLastName_DB(username, newLastName);
     }
 
     //update memberPhoneNumber
-    public void updateMemberPhoneNumber_User(){
-        header("Update Member Phone Number");
-        System.out.print("Enter member username: ");
-        String username = keyboard.nextLine();
-        System.out.print("Enter member updated phone Number (xxx-xxx-xxxx): ");
-        String newPhoneNumber = keyboard.nextLine();
-        System.out.println(updateMemberPhoneNumber_DB(username, newPhoneNumber));
+    public void updateMemberPhoneNumber_User(String username, String newPhoneNumber){
+        updateMemberPhoneNumber_DB(username, newPhoneNumber);
     }
 
     //update memberEmail
-    public void updateMemberEmail_User(){
-        header("Update Member Email");
-        System.out.print("Enter member username: ");
-        String username = keyboard.nextLine();
-        System.out.print("Enter member updated email: ");
-        String newEmail = keyboard.nextLine();
-        System.out.println(updateMemberEmail_DB(username, newEmail));
+    public void updateMemberEmail_User(String username, String newEmail){
+        updateMemberEmail_DB(username, newEmail);
     }
 
     //update username
-    public void updateMemberUsername_User(){
-        header("Update Member Username");
-        System.out.print("Enter member old username: ");
-        String username = keyboard.nextLine();
-        System.out.print("Enter member new username: ");
-        String newUsername = keyboard.nextLine();
-        System.out.println(updateMemberUsername_DB(username, newUsername));
+    public void updateMemberUsername_User(String username, String newUsername){
+        updateMemberUsername_DB(username, newUsername);
     }
 
     //update member password
-    public void updateMemberPassword_User(){
-        header("Update Member Password");
-        System.out.print("Enter member username: ");
-        String username = keyboard.nextLine();
-        System.out.print("Enter member new password: ");
-        String newPassword = keyboard.nextLine();
-        System.out.println(updateMemberPassword_DB(username, newPassword));
+    public void updateMemberPassword_User(String username, String newPassword){
+        updateMemberPassword_DB(username, newPassword);
     }
 
     //update membershipPlan
-    public void updateMemberPlan_User(){
-        header("Update Member Plan");
-        System.out.print("Enter member username: ");
-        String username = keyboard.nextLine();
-        System.out.print("Enter member new plan: ");
-        String newPlan = keyboard.nextLine();
-        System.out.println(updateMemberPlan_DB(username, newPlan));
+    public void updateMemberPlan_User(String username, String newPlan){
+        updateMemberPlan_DB(username, newPlan);
     }
 
     //update membershipStatus
-    public void updateMemberStatus_User(){
-        header("Update Member Status");
-        System.out.print("Enter member username: ");
-        String username = keyboard.nextLine();
-        System.out.print("Enter member new status: ");
-        String newStatus = keyboard.nextLine();
-        System.out.println(updateMemberStatus_DB(username, newStatus));
+    public void updateMemberStatus_User(String username, String newStatus){
+        updateMemberStatus_DB(username, newStatus);
     }
 
     //update membershipPrice
-    public void updateMemberPrice_User(){
-        header("Update Member Price");
-        System.out.print("Enter member username: ");
-        String username = keyboard.nextLine();
-        System.out.print("Enter member new price: ");
-        String newPrice = keyboard.nextLine();
-        System.out.println(updateMemberPrice_DB(username, newPrice));
+    public void updateMemberPrice_User(String username, String newPrice){
+        updateMemberPrice_DB(username, newPrice);
     }
 
     //update membershipExpiration
-    public void updateMemberExp_User(){
-        header("Update Member Expiration Date");
-        System.out.print("Enter member username: ");
-        String username = keyboard.nextLine();
-        System.out.print("Enter member new expiration date: ");
-        String newExpDate = keyboard.nextLine();
-        System.out.println(updateMemberExpiration_DB(username, LocalDate.parse(newExpDate)));
+    public void updateMemberExp_User(String username, String newExpDate){
+        updateMemberExpiration_DB(username, LocalDate.parse(newExpDate));
     }
 
     //delete member

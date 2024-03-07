@@ -1,7 +1,9 @@
 package com.bassit.bookstore;
 
 import com.bassit.bookstore.Models.Customers;
+import com.bassit.bookstore.Models.Members;
 import com.bassit.bookstore.Services.CustomersService;
+import com.bassit.bookstore.Services.MembersService;
 import lombok.extern.java.Log;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -123,7 +125,7 @@ public class BookStoreApplicationGUI {
     private JTextField createMemberEmail;
     private JTextField createMemberPhone;
     private JTextField createMemberUsername;
-    private JPasswordField createMemberPassword;
+    private JTextField createMemberPassword;
     private JTextField createMemberPlan;
     private JButton submitButton_createMembership;
 
@@ -224,6 +226,13 @@ public class BookStoreApplicationGUI {
     private JLabel lastNameResult;
     private JLabel emailResult;
     private JLabel phoneResult;
+    private JPanel resultUsernamePanel;
+    private JLabel usernameResult_firstname;
+    private JLabel usernameResult_lastname;
+    private JLabel usernameResult_email;
+    private JLabel usernameResult_phone;
+    private JLabel usernameResult_plan;
+    private JLabel usernameResult_status;
 
 
     private JPanel card1;
@@ -251,11 +260,195 @@ public class BookStoreApplicationGUI {
         manageCustomerActions();
 
         //---------------------------------------------------------------------------------------MANAGE MEMBERSHIP ACTIONS---------------------------------------------------------------------------------------
+        //initialize memberService
+        MembersService membersService = new MembersService();
+        resultUsernamePanel.setVisible(false);
+
+        //create member button
+        submitButton_createMembership.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                log.info("Submit button pressed to create membership");
+                String firstname = createMemberFname.getText();
+                String lastname = createMemberLname.getText();
+                String email = createMemberEmail.getText();
+                String phone = createMemberPhone.getText();
+                String username = createMemberUsername.getText();
+                String password = createMemberPassword.getText();
+                String plan = createMemberPlan.getText();
+                membersService.createMember_User(firstname, lastname, email, phone, username, password, plan);
+                log.info("Request sent to API successfully");
+                successResultPopUp("Success", "Member created successfully");
+            }
+        });
+
+        //search username button action
+        searchButton_usernameMembership.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                log.info("Search button pressed to find member by username");
+                resultUsernamePanel.setVisible(false);
+                String username = searchMemberUsername.getText();
+                List<Members> membersList = membersService.getMemberByUsername_User(username);
+                log.info("Request sent to API successfully");
+                for (Members members : membersList){
+                    usernameResult_firstname.setText(members.getMemberFirstName());
+                    usernameResult_lastname.setText(members.getMemberLastName());
+                    usernameResult_email.setText(members.getMemberEmail());
+                    usernameResult_phone.setText(members.getMemberPhoneNumber());
+                    usernameResult_plan.setText(members.getMembershipPlan());
+                    usernameResult_status.setText(members.getMembershipStatus());
+                }
+                resultUsernamePanel.setVisible(true);
+                log.info("Results successfully displayed to user");
+            }
+        });
+
+        //update first name button
+        updateButton_firstNameMembership.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                log.info("Update button pressed to update member first name");
+                resultUsernamePanel.setVisible(false);
+                String username = updateMemberFirstName_username.getText();
+                String firstname = updateMemberFirstName_newFname.getText();
+                membersService.updateMemberFirstName_User(username, firstname);
+                log.info("Request sent to API successfully");
+                successResultPopUp("Success", "Member first name successfully updated");
+            }
+        });
+
+        //update last name button
+        updateButton_lastNameMembership.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                log.info("Update button pressed to update member last name");
+                resultUsernamePanel.setVisible(false);
+                String lastname = updateMemberLastName_username.getText();
+                String username = updateMemberLastName_newLname.getText();
+                membersService.updateMemberLastName_User(username, lastname);
+                log.info("Request sent to API successfully");
+                successResultPopUp("Success", "Member last name successfully updated");
+            }
+        });
+
+        //update phone button action
+        updateButton_phoneMember.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                log.info("Update button pressed to update member phone");
+                resultUsernamePanel.setVisible(false);
+                String username = updateMemberPhone_username.getText();
+                String phone = updateMemberPhone_newPhone.getText();
+                membersService.updateMemberPhoneNumber_User(username, phone);
+                log.info("Request sent to API successfully");
+                successResultPopUp("Success", "Member phone number successfully updated");
+            }
+        });
+
+        //update email button action
+        updateButton_emailMembership.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                log.info("Update button pressed to update member email");
+                resultUsernamePanel.setVisible(false);
+                String username = updateMemberEmail_username.getText();
+                String email = updateMemberEmail_newEmail.getText();
+                membersService.updateMemberEmail_User(username, email);
+                log.info("Request sent to API successfully");
+                successResultPopUp("Success", "Member email successfully updated");
+            }
+        });
+
+        //update member username button action
+        updateButton_usernameMembership.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                log.info("Update button pressed to update member username");
+                resultUsernamePanel.setVisible(false);
+                String oldUsername = updateMemberUsername_oldUsername.getText();
+                String newUserName = updateMemberUsername_newUsername.getText();
+                membersService.updateMemberUsername_User(oldUsername, newUserName);
+                log.info("Request sent to API successfully");
+                successResultPopUp("Success", "Member username successfully updated");
+            }
+        });
+
+        //update member password button action
+        updateButton_passwordMembership.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                log.info("Update button pressed to update member password");
+                resultUsernamePanel.setVisible(false);
+                String username = updateMemberPassword_username.getText();
+                String newPassword = updateMemberPassword_newPassword.getText();
+                membersService.updateMemberPassword_User(username, newPassword);
+                log.info("Request sent to API successfully");
+                successResultPopUp("Success", "Member password successfully updated");
+            }
+        });
+
+        //update member plan button action
+        updateButton_planMembership.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                log.info("Update button pressed to update member plan");
+                resultUsernamePanel.setVisible(false);
+                String username = updateMemberPlan_username.getText();
+                String plan = updateMemberPlan_newPlan.getText();
+                membersService.updateMemberPlan_User(username, plan);
+                log.info("Request sent to API successfully");
+                successResultPopUp("Success", "Member plan successfully updated");
+            }
+        });
+
+        //update member status button action
+        updateButton_statusMembership.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                log.info("Update button pressed to update member status");
+                resultUsernamePanel.setVisible(false);
+                String username = updateMemberStatus_username.getText();
+                String status = updateMemberStatus_newStatus.getText();
+                membersService.updateMemberStatus_User(username, status);
+                log.info("Request sent to API successfully");
+                successResultPopUp("Success", "Member plan successfully updated");
+            }
+        });
+
+        updateButton_priceMembership.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                log.info("Update button pressed to update member price");
+                resultUsernamePanel.setVisible(false);
+                String username = updateMemberPrice_username.getText();
+                String newPrice =updateMemberPrice_newPrice.getText();
+                membersService.updateMemberPrice_User(username, newPrice);
+                log.info("Request sent to API successfully");
+                successResultPopUp("Success", "Member price successfully updated");
+            }
+        });
+
+        updateButton_expirationMembership.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                log.info("Update button pressed to update member expiration");
+                resultUsernamePanel.setVisible(false);
+                String username = updateMemberExpiration_username.getText();
+                String newExpDate = updateMemberExpiration_newExpiration.getText();
+                membersService.updateMemberExp_User(username, newExpDate);
+                log.info("Request sent to API successfully");
+                successResultPopUp("Success", "Member expiration successfully updated");
+            }
+        });
+
+
+
+
 
 
 
         //---------------------------------------------------------------------------------------MANAGE TRANSACTIONS ACTIONS---------------------------------------------------------------------------------------
-
 
 
 
@@ -318,6 +511,10 @@ public class BookStoreApplicationGUI {
         setButtonSelected(membershipCardPanelList, 5, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(5), 5, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
         setButtonSelected(membershipCardPanelList, 6, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(6), 6, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
         setButtonSelected(membershipCardPanelList, 7, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(7), 7, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
+        setButtonSelected(membershipCardPanelList, 8, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(8), 8, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
+        setButtonSelected(membershipCardPanelList, 9, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(9), 9, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
+        setButtonSelected(membershipCardPanelList, 10, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(10), 10, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
+        setButtonSelected(membershipCardPanelList, 11, membershipCardButtonList, buttonStyle, membershipCardButtonList.get(11), 11, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
 
         //set toggle action for manage transaction - paint all buttons default blue, paint selected button dark blue and also switch cards as necessary
         setButtonSelected(transactionCardPanelList, 0, transactionCardButtonList, buttonStyle, transactionCardButtonList.get(0), 0, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
@@ -396,7 +593,7 @@ public class BookStoreApplicationGUI {
                 String lastName = searchNameLname.getText();
                 List<Customers> resultsList = customersService.findCustomerByFirstAndLastName_User(firstName, lastName);
                 log.info("Request sent to API successfully");
-                showResults(resultsList);
+                showResultsCustomer(resultsList);
             }
         });
 
@@ -408,7 +605,7 @@ public class BookStoreApplicationGUI {
                 String email = searchEmail_Email.getText();
                 List<Customers> resultsList = customersService.findCustomerByEmail_User(email);
                 log.info("Request sent to API successfully");
-                showResults(resultsList);
+                showResultsCustomer(resultsList);
             }
         });
 
@@ -420,7 +617,7 @@ public class BookStoreApplicationGUI {
                 String phone = searchNumber_number.getText();
                 List<Customers> resultsList = customersService.findCustomerByPhoneNumber_User(phone);
                 log.info("Request sent to API successfully");
-                showResults(resultsList);
+                showResultsCustomer(resultsList);
             }
         });
 
@@ -483,7 +680,7 @@ public class BookStoreApplicationGUI {
 
 
     //------------------------------------------------------------------------------------------------HELPERS------------------------------------------------------------------------------------------------
-    private void showResults(List<Customers> resultsList){
+    private void showResultsCustomer(List<Customers> resultsList){
         for(Customers customers : resultsList){
             firstNameResult.setText(customers.getFirstName());
             lastNameResult.setText(customers.getLastName());
