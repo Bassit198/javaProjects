@@ -2,8 +2,10 @@ package com.bassit.bookstore;
 
 import com.bassit.bookstore.Models.Customers;
 import com.bassit.bookstore.Models.Members;
+import com.bassit.bookstore.Models.Transactions;
 import com.bassit.bookstore.Services.CustomersService;
 import com.bassit.bookstore.Services.MembersService;
+import com.bassit.bookstore.Services.TransactionsService;
 import lombok.extern.java.Log;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -233,12 +235,20 @@ public class BookStoreApplicationGUI {
     private JLabel usernameResult_phone;
     private JLabel usernameResult_plan;
     private JLabel usernameResult_status;
-
-
-    private JPanel card1;
-    private JPanel card2;
-    private JButton card1Button;
-    private JButton card2Button;
+    private JPanel resultTransactionPanel;
+    private JLabel transactionNumberResult;
+    private JLabel maskedCCResult;
+    private JLabel modDateResult;
+    private JLabel purchaseDateResult;
+    private JLabel purchaseISBNResult;
+    private JLabel statusResult;
+    private JLabel transactionNumberResult_Date;
+    private JLabel maskedCCResult_Date;
+    private JLabel modDateResult_Date;
+    private JLabel purchaseDateResult_Date;
+    private JLabel purchaseISBNResult_Date;
+    private JLabel transactionStatusResult_Date;
+    private JPanel dateResultPanel;
 
     private static final JFrame frame = new JFrame("Virtual Bookstore");
 
@@ -247,23 +257,14 @@ public class BookStoreApplicationGUI {
         paintUI();
 
         //action listeners for all buttons
-        //quit button
-        quitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-            }
-        });
-
+        //---------------------------------------------------------------------------------------QUIT BUTTON ACTIONS---------------------------------------------------------------------------------------
+        quitButtonAction();
         //---------------------------------------------------------------------------------------MANAGE CUSTOMER ACTIONS---------------------------------------------------------------------------------------
         manageCustomerActions();
         //---------------------------------------------------------------------------------------MANAGE MEMBERSHIP ACTIONS---------------------------------------------------------------------------------------
         manageMembershipActions();
         //---------------------------------------------------------------------------------------MANAGE TRANSACTIONS ACTIONS---------------------------------------------------------------------------------------
-
-
-
-
+        manageTransactionActions();
     }
 
 
@@ -369,6 +370,18 @@ public class BookStoreApplicationGUI {
         paintButtonGreenWithHoverEffect(searchButtonSearchWithinDateRange);
         paintButtonGreenWithHoverEffect(refundButtonRefundTransaction);
         paintButtonGreenWithHoverEffect(cancelButtonCancelTransaction);
+
+
+    }
+
+    private void quitButtonAction() {
+        quitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                System.exit(0);
+            }
+        });
     }
 
     private void manageCustomerActions() {
@@ -675,6 +688,94 @@ public class BookStoreApplicationGUI {
         });
     }
 
+    private void manageTransactionActions() {
+        //initialize transactionService
+        TransactionsService transactionsService = new TransactionsService();
+        resultTransactionPanel.setVisible(false);
+        dateResultPanel.setVisible(false);
+
+        //start transaction button
+        purchaseButtonStartTransaction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                log.info("Purchase button pressed to start transaction");
+                resultTransactionPanel.setVisible(false);
+                String isbn = isbnStartTransaction.getText();
+                String creditCard = ccNumberStartTransaction.getText();
+                transactionsService.createTransaction_User(isbn, creditCard);
+                log.info("Request sent to API successfully");
+                successResultPopUp("Success", "Transaction Completed successfully");
+            }
+        });
+
+        //find transaction by number button
+        searchButtonSearchByNumber.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                log.info("Search button pressed to find transaction by number");
+                resultTransactionPanel.setVisible(false);
+                long transactionNumber = Long.parseLong(transactionNumberSearchByNumber.getText());
+                List<Transactions> transactionsList = transactionsService.getTransactionUsingTransactionNumber_User(transactionNumber);
+                for(Transactions transactions : transactionsList){
+                    transactionNumberResult.setText(String.valueOf(transactions.getTransactionNumber()));
+                    maskedCCResult.setText(transactions.getMaskedCC());
+                    modDateResult.setText(String.valueOf(transactions.getModifiedDate()));
+                    purchaseDateResult.setText(String.valueOf(transactions.getPurchaseDate()));
+                    purchaseISBNResult.setText(transactions.getPurchasedIsbn());
+                    statusResult.setText(transactions.getTransactionStatus());
+                }
+                resultTransactionPanel.setVisible(true);
+                log.info("Result Transaction successfully displayed to user");
+            }
+        });
+
+        //find transaction by date button
+        searchButtonSearchWithinDateRange.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                log.info("Search button pressed to find transaction by date");
+                dateResultPanel.setVisible(false);
+                String startDateString = startDateTextFieldSearchByDate.getText();
+                String endDateString = endDateTextFieldSearchByDate.getText();
+                List<Transactions> transactionsList = transactionsService.getTransactionUsingDateRange_User(startDateString, endDateString);
+                for(Transactions transactions : transactionsList){
+                    transactionNumberResult_Date.setText(String.valueOf(transactions.getTransactionNumber()));
+                    maskedCCResult_Date.setText(transactions.getMaskedCC());
+                    modDateResult_Date.setText(String.valueOf(transactions.getModifiedDate()));
+                    purchaseDateResult_Date.setText(String.valueOf(transactions.getPurchaseDate()));
+                    purchaseISBNResult_Date.setText(transactions.getPurchasedIsbn());
+                    transactionStatusResult_Date.setText(transactions.getTransactionStatus());
+                }
+                dateResultPanel.setVisible(true);
+                log.info("Result Transaction successfully displayed to user");
+            }
+        });
+
+        //refund transaction button
+        refundButtonRefundTransaction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                log.info("Refund button pressed to refund transaction");
+                long transactionNumber = Long.parseLong(transactionNumberRefundTransaction.getText());
+                transactionsService.refundTransaction_User(transactionNumber);
+                log.info("Request sent to API successfully");
+                successResultPopUp("Success", "Transaction refunded successfully");
+            }
+        });
+
+        //cancel Transaction button
+        cancelButtonCancelTransaction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                log.info("Cancel button pressed to cancel transaction");
+                long transactionNumber = Long.parseLong(transactionNumberCancelTransaction.getText());
+                transactionsService.cancelTransaction_User(transactionNumber);
+                log.info("Request sent to API successfully");
+                successResultPopUp("Success", "Transaction cancelled successfully");
+            }
+        });
+    }
+
 
 
 
@@ -799,10 +900,6 @@ public class BookStoreApplicationGUI {
     }
 
 
-
-
-
-
     //main method
     public static void main(String[] args) {
         SpringApplication.run(BookStoreApplicationGUI.class, args);
@@ -813,8 +910,6 @@ public class BookStoreApplicationGUI {
         frame.pack();
         frame.setVisible(true);
         frame.setLayout(null);
-    }
+    }//end main
 
-
-
-}
+}//end class

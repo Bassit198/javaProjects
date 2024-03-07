@@ -92,13 +92,13 @@ public class HelperFunctions {
 
 
     //general functions
-    public static String apiUpdate(String uriBase, String uriParam, String firstParameter, String value, String endpointName, RestTemplate restTemplate){
+    public static void apiUpdate(String uriBase, String uriParam, String firstParameter, String value, String endpointName, RestTemplate restTemplate){
         final String uri = uriBase + uriParam;
         Map<String, String> map = new HashMap<>();
         map.put(firstParameter, value);
         restTemplate.postForEntity(uri, map, Void.class);
         log.info(endpointName + " successfully updated by User");
-        return endpointName + " successfully updated by User";
+
     }
 
     public static void header(String header){

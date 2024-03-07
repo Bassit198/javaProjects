@@ -76,7 +76,7 @@ public class CustomersService {
 
     //methods for sending requests to API
     //create customer_DB
-    private String createCustomer_DB(String firstName, String lastName, String email, String phoneNumber){
+    private void createCustomer_DB(String firstName, String lastName, String email, String phoneNumber){
         final String uri = "http://localhost:8080/addCustomer";
         Map<String, String> map = new HashMap<>();
         map.put("firstName", firstName);
@@ -85,7 +85,6 @@ public class CustomersService {
         map.put("phoneNumber", phoneNumber);
         restTemplate.postForEntity(uri,map, Void.class);
         log.info("Customer successfully created from service layer");
-        return "Customer successfully created.";
 
     }
 
@@ -110,23 +109,23 @@ public class CustomersService {
     }
 
     //update customer first name_DB
-    private String updateCustomerFirstName_DB(String firstName, String lastName, String newFirst){
-        return apiUpdate("http://localhost:8080/updateCustomerFirstName/", (firstName +"/"+ lastName), "firstName", newFirst, "Customer First Name", restTemplate);
+    private void updateCustomerFirstName_DB(String firstName, String lastName, String newFirst){
+        apiUpdate("http://localhost:8080/updateCustomerFirstName/", (firstName + "/" + lastName), "firstName", newFirst, "Customer First Name", restTemplate);
     }
 
     //update customer last name_DB
-    private String updateCustomerLastName_DB(String firstName, String lastName, String newLast){
-        return apiUpdate("http://localhost:8080/updateCustomerLastName/", (firstName +"/"+ lastName), "lastName", newLast, "Customer Last Name", restTemplate);
+    private void updateCustomerLastName_DB(String firstName, String lastName, String newLast){
+        apiUpdate("http://localhost:8080/updateCustomerLastName/", (firstName + "/" + lastName), "lastName", newLast, "Customer Last Name", restTemplate);
     }
 
     //update customer email_DB
-    private String updateCustomerEmail_DB(String firstName, String lastName, String newEmail){
-        return apiUpdate("http://localhost:8080/updateCustomerEmail/", (firstName +"/"+ lastName), "email", newEmail, "Customer Email", restTemplate);
+    private void updateCustomerEmail_DB(String firstName, String lastName, String newEmail){
+        apiUpdate("http://localhost:8080/updateCustomerEmail/", (firstName + "/" + lastName), "email", newEmail, "Customer Email", restTemplate);
     }
 
     //update customer phone_DB
-    private String updateCustomerPhoneNumber_DB(String firstName, String lastName, String newPhone){
-        return apiUpdate("http://localhost:8080/updateCustomerPhone/", (firstName +"/"+ lastName), "phoneNumber", newPhone, "Customer Phone Number", restTemplate);
+    private void updateCustomerPhoneNumber_DB(String firstName, String lastName, String newPhone){
+        apiUpdate("http://localhost:8080/updateCustomerPhone/", (firstName + "/" + lastName), "phoneNumber", newPhone, "Customer Phone Number", restTemplate);
     }
 
     //delete customer (admin_delete by id)

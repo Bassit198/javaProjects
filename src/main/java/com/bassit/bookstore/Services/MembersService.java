@@ -5,7 +5,6 @@ import lombok.extern.java.Log;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
 import static com.bassit.bookstore.Services.HelperFunctions.*;
@@ -90,7 +89,7 @@ public class MembersService {
 
     //db end
     //create member
-    private String createMembers_DB(String firstName, String lastName, String email, String phoneNumber, String username, String password, String plan){
+    private void createMembers_DB(String firstName, String lastName, String email, String phoneNumber, String username, String password, String plan){
         final String uri = "http://localhost:8080/addMember";
         Map<String, String> map = new HashMap<>();
         map.put("memberFirstName", firstName);
@@ -102,7 +101,6 @@ public class MembersService {
         map.put("membershipPlan", plan);
         restTemplate.postForEntity(uri,map, Void.class);
         log.info("Member successfully created from service layer");
-        return "Member successfully created.";
     }
 
     //read member by username
@@ -114,55 +112,54 @@ public class MembersService {
     }
 
     //update memberFirstName
-    private String updateMemberFirstName_DB(String username, String firstName){
-        return apiUpdate("http://localhost:8080/updateMember/firstName/", username, "memberFirstName", firstName, "Member First Name", restTemplate);
+    private void updateMemberFirstName_DB(String username, String firstName){
+        apiUpdate("http://localhost:8080/updateMember/firstName/", username, "memberFirstName", firstName, "Member First Name", restTemplate);
     }
 
     //update memberLastName
-    private String updateMemberLastName_DB(String username, String lastName){
-        return apiUpdate("http://localhost:8080/updateMember/lastName/", username, "memberLastName", lastName, "Member Last Name", restTemplate);
+    private void updateMemberLastName_DB(String username, String lastName){
+        apiUpdate("http://localhost:8080/updateMember/lastName/", username, "memberLastName", lastName, "Member Last Name", restTemplate);
     }
 
     //update memberPhoneNumber
-    private String updateMemberPhoneNumber_DB(String username, String phoneNumber){
-        return apiUpdate("http://localhost:8080/updateMember/phoneNumber/", username, "memberPhoneNumber", phoneNumber, "Member Phone Number", restTemplate);
+    private void updateMemberPhoneNumber_DB(String username, String phoneNumber){
+        apiUpdate("http://localhost:8080/updateMember/phoneNumber/", username, "memberPhoneNumber", phoneNumber, "Member Phone Number", restTemplate);
     }
 
     //update memberEmail
-    private String updateMemberEmail_DB(String username, String email){
-        return apiUpdate("http://localhost:8080/updateMember/email/", username, "memberEmail", email, "Member Email", restTemplate);
+    private void updateMemberEmail_DB(String username, String email){
+        apiUpdate("http://localhost:8080/updateMember/email/", username, "memberEmail", email, "Member Email", restTemplate);
     }
 
     //update username
-    private String updateMemberUsername_DB(String username, String newUsername){
-        return apiUpdate("http://localhost:8080/updateMember/username/", username, "username", newUsername, "Member Username", restTemplate);
+    private void updateMemberUsername_DB(String username, String newUsername){
+        apiUpdate("http://localhost:8080/updateMember/username/", username, "username", newUsername, "Member Username", restTemplate);
     }
 
     //update member password
-    private String updateMemberPassword_DB(String username, String password){
-        return apiUpdate("http://localhost:8080/updateMember/password/", username, "password", password, "Member Password", restTemplate);
+    private void updateMemberPassword_DB(String username, String password){
+        apiUpdate("http://localhost:8080/updateMember/password/", username, "password", password, "Member Password", restTemplate);
     }
 
     //update membershipPlan
-    private String updateMemberPlan_DB(String username, String plan){
-        return apiUpdate("http://localhost:8080/updateMember/membership/", username, "membershipPlan", plan, "Member Plan", restTemplate);
+    private void updateMemberPlan_DB(String username, String plan){
+        apiUpdate("http://localhost:8080/updateMember/membership/", username, "membershipPlan", plan, "Member Plan", restTemplate);
     }
 
     //update membershipStatus
-    private String updateMemberStatus_DB(String username, String status){
-        return apiUpdate("http://localhost:8080/updateMember/memberStatus/", username, "membershipStatus", status, "Member Status", restTemplate);
+    private void updateMemberStatus_DB(String username, String status){
+        apiUpdate("http://localhost:8080/updateMember/memberStatus/", username, "membershipStatus", status, "Member Status", restTemplate);
     }
 
     //update membershipPrice
-    private String updateMemberPrice_DB(String username, String price){
-        return apiUpdate("http://localhost:8080/updateMember/memberPrice/", username, "membershipPrice", price, "Member Price", restTemplate);
+    private void updateMemberPrice_DB(String username, String price){
+        apiUpdate("http://localhost:8080/updateMember/memberPrice/", username, "membershipPrice", price, "Member Price", restTemplate);
     }
 
     //update membershipExpiration
-    private String updateMemberExpiration_DB(String username, LocalDate expiration){
+    private void updateMemberExpiration_DB(String username, LocalDate expiration){
         final String uri = "http://localhost:8080/updateMember/memberExp/" + username +"/" + expiration;
         restTemplate.postForEntity(uri, null, Void.class);
-        return "Expiration successfully updated";
     }
 
     //delete member
