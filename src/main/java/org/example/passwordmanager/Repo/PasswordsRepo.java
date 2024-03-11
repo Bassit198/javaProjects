@@ -10,5 +10,6 @@ public interface PasswordsRepo extends JpaRepository<Passwords, Long> {
 
     List<Passwords> findAllByUsername(String username);
 
-    List<Passwords> findAllByUsernameAndAccountName(String username, String accountName);
+    Passwords findAllByUsernameAndAccountName(String username, String accountName);
+
 }

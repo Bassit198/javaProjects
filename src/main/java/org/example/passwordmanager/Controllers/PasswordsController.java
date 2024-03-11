@@ -46,11 +46,9 @@ public class PasswordsController {
     //update accountName
     @PostMapping("/passwords/updateAccountName/{username}/{accountName}")
     public String updateAccountName(@PathVariable String username, @PathVariable String accountName, @RequestBody Passwords passwords){
-        List<Passwords> passwordsList = passwordsRepo.findAllByUsernameAndAccountName(username, accountName);
-        for(Passwords password : passwordsList){
-            password.setAccountName(passwords.getAccountName());
-            passwordsRepo.save(password);
-        }
+        Passwords password = passwordsRepo.findAllByUsernameAndAccountName(username, accountName);
+        password.setAccountName(passwords.getAccountName());
+        passwordsRepo.save(password);
         log.info("Account name successfully updated via API endpoint");
         return "Account Name successfully updated";
     }
@@ -58,11 +56,9 @@ public class PasswordsController {
     //update accountUsername
     @PostMapping("/passwords/updateAccountUsername/{username}/{accountName}")
     public String updateAccountUsername(@PathVariable String username, @PathVariable String accountName, @RequestBody Passwords passwords){
-        List<Passwords> passwordsList = passwordsRepo.findAllByUsernameAndAccountName(username, accountName);
-        for(Passwords password : passwordsList){
-            password.setAccountUsername(passwords.getAccountUsername());
-            passwordsRepo.save(password);
-        }
+        Passwords password = passwordsRepo.findAllByUsernameAndAccountName(username, accountName);
+        password.setAccountUsername(passwords.getAccountUsername());
+        passwordsRepo.save(password);
         log.info("Account username successfully updated via API endpoint");
         return "Account username successfully updated";
     }
@@ -70,12 +66,10 @@ public class PasswordsController {
     //update accountPassword
     @PostMapping("/passwords/updateAccountPassword/{username}/{accountName}")
     public String updateAccountPassword(@PathVariable String username, @PathVariable String accountName, @RequestBody Passwords passwords){
-        List<Passwords> passwordsList = passwordsRepo.findAllByUsernameAndAccountName(username, accountName);
         String encryptPassword = Encryptor.encrypt(passwords.getAccountPassword());
-        for(Passwords password : passwordsList){
-            password.setAccountPassword(encryptPassword);
-            passwordsRepo.save(password);
-        }
+        Passwords password = passwordsRepo.findAllByUsernameAndAccountName(username, accountName);
+        password.setAccountPassword(encryptPassword);
+        passwordsRepo.save(password);
         log.info("Account password successfully updated via API endpoint");
         return "Account password successfully updated";
     }
@@ -83,12 +77,18 @@ public class PasswordsController {
 
     //delete accounts
     @DeleteMapping("/passwords/delete/{username}/{accountName}")
-    public String delelteAccounts(@PathVariable String username, @PathVariable String accountName){
-        List<Passwords> passwordsList = passwordsRepo.findAllByUsernameAndAccountName(username, accountName);
-        passwordsRepo.deleteAll(passwordsList);
+    public String deleteAccounts(@PathVariable String username, @PathVariable String accountName){
+        Passwords password= passwordsRepo.findAllByUsernameAndAccountName(username, accountName);
+        passwordsRepo.delete(password);
         log.info("Account successfully removed using API endpoint");
         return "Account successfully removed.";
     }
+
+    //get saved password
+//    @GetMapping("/passwords/get/{username}/{accountName}")
+//    public String getPasswordForAccount(@PathVariable String username, @PathVariable String accountName){
+//        List<Passwords> password = passwordsRepo.findAllByUsernameAndAccountName(username, accountName);
+//    }
 
 
 }
