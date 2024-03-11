@@ -17,9 +17,6 @@ public class Users {
     private long id;
 
     @Column
-    private String firstname, lastname, email;
+    private String firstname, lastname, email, username, password;
 
-    @Column
-    @JsonIgnore
-    private String username, password;
 }
