@@ -8,7 +8,7 @@ public class PasswordManagerApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(PasswordManagerApplication.class, args);
-
+        System.out.println("commit test");
     }
 
 }
