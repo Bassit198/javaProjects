@@ -1,15 +1,12 @@
 package org.example.passwordmanager.Controllers;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.extern.java.Log;
-import org.apache.catalina.User;
 import org.example.passwordmanager.Models.Users;
 import org.example.passwordmanager.Repo.UsersRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Log
@@ -114,7 +111,6 @@ public class UsersController {
             return "Invalid Information provided.";
         }
     }
-
 
     //delete user
     @DeleteMapping("/users/delete/{username}")
