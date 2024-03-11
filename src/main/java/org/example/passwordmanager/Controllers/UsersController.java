@@ -121,4 +121,16 @@ public class UsersController {
         return "User successfully removed.";
     }
 
+    //check if password matches
+    @GetMapping("/users/checkPassword/{username}/{password}")
+    public int checkPasswordUser(@PathVariable String username, @PathVariable String password){
+        Users userInDB = usersRepo.findByUsername(username);
+        int temp = 0;
+        if(bcrypt.matches(password, userInDB.getPassword())){
+            return temp = 1;
+        }else{
+            return temp = -1;
+        }
+    }
+
 }
