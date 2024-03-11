@@ -16,6 +16,8 @@ public class Passwords {
     private long id;
 
     @Column
-    @JsonIgnore
-    private String accountName, username, password;
+    private String accountName, accountPassword, accountUsername;
+
+    @Column(unique = true)
+    private String username;
 }

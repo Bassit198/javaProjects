@@ -3,34 +3,30 @@ package org.example.passwordmanager.Services;
 public class Encryptor {
 
     public static String encrypt(String text) {
-        int key = 6;
         char[] chars = text.toCharArray();
         for(int i=0; i<chars.length; i++) {
             if(i%2==0) {
-                chars[i]+=key;
+                chars[i]+=6;
             }else {
-                chars[i]-=key;
+                chars[i]-=9;
             }
 
         }
-        String encrypt = String.copyValueOf(chars);
-        return encrypt;
+        return String.copyValueOf(chars);
 
     }
 
     public static String decrypt(String text) {
-        int key = 6;
         char[] chars = text.toCharArray();
         for(int i=0; i<chars.length; i++) {
             if(i%2==0) {
-                chars[i]-=key;
+                chars[i]-=6;
             }else {
-                chars[i]+=key;
+                chars[i]+=9;
             }
 
         }
-        String decrypt = String.copyValueOf(chars);
-        return decrypt;
+        return String.copyValueOf(chars);
 
     }
 
