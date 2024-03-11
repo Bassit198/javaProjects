@@ -86,8 +86,13 @@ public class PasswordsController {
     @GetMapping("/passwords/get/{username}/{accountName}")
     public String getPasswordForAccount(@PathVariable String username, @PathVariable String accountName){
         Passwords password = passwordsRepo.findAllByUsernameAndAccountName(username, accountName);
-        String encryptPassword = password.getAccountPassword();
-        return Encryptor.decrypt(encryptPassword);
+        if (password==null){
+            return "Invalid information provided";
+        }else{
+            String encryptPassword = password.getAccountPassword();
+            return Encryptor.decrypt(encryptPassword);
+        }
+
     }
 
 }
