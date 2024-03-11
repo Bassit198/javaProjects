@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Log
@@ -74,7 +73,6 @@ public class PasswordsController {
         return "Account password successfully updated";
     }
 
-
     //delete accounts
     @DeleteMapping("/passwords/delete/{username}/{accountName}")
     public String deleteAccounts(@PathVariable String username, @PathVariable String accountName){
@@ -85,10 +83,11 @@ public class PasswordsController {
     }
 
     //get saved password
-//    @GetMapping("/passwords/get/{username}/{accountName}")
-//    public String getPasswordForAccount(@PathVariable String username, @PathVariable String accountName){
-//        List<Passwords> password = passwordsRepo.findAllByUsernameAndAccountName(username, accountName);
-//    }
-
+    @GetMapping("/passwords/get/{username}/{accountName}")
+    public String getPasswordForAccount(@PathVariable String username, @PathVariable String accountName){
+        Passwords password = passwordsRepo.findAllByUsernameAndAccountName(username, accountName);
+        String encryptPassword = password.getAccountPassword();
+        return Encryptor.decrypt(encryptPassword);
+    }
 
 }
