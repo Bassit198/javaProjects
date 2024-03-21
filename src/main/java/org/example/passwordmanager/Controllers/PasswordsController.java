@@ -18,8 +18,6 @@ public class PasswordsController {
     private PasswordsRepo passwordsRepo;
 
     private final BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
-
-    //add accounts
     @PostMapping("/passwords/add")
     public String addNewPassword(@RequestBody Passwords passwords){
         Passwords newPassword = new Passwords();
@@ -27,6 +25,21 @@ public class PasswordsController {
 //        String hashPassword = bcrypt.encode(encryptPassword);
         newPassword.setAccountName(passwords.getAccountName());
         newPassword.setUsername(passwords.getUsername());
+        newPassword.setAccountPassword(encryptPassword);
+        newPassword.setAccountUsername(passwords.getAccountUsername());
+        passwordsRepo.save(newPassword);
+        log.info("Password added successfully via API endpoint");
+        return "Passwords saved successfully";
+    }
+
+    //add accounts
+    @PostMapping("/passwords/{username}/add")
+    public String addNewPassword(@RequestBody Passwords passwords, @PathVariable String username){
+        Passwords newPassword = new Passwords();
+        String encryptPassword = Encryptor.encrypt(passwords.getAccountPassword());
+//        String hashPassword = bcrypt.encode(encryptPassword);
+        newPassword.setAccountName(passwords.getAccountName());
+        newPassword.setUsername(username);
         newPassword.setAccountPassword(encryptPassword);
         newPassword.setAccountUsername(passwords.getAccountUsername());
         passwordsRepo.save(newPassword);

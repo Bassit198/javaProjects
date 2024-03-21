@@ -18,6 +18,6 @@ public class Passwords {
     @Column
     private String accountName, accountPassword, accountUsername;
 
-    @Column(unique = true)
+    @Column
     private String username;
 }
