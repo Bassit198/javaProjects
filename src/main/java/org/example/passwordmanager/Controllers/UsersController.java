@@ -125,11 +125,13 @@ public class UsersController {
     @GetMapping("/users/checkPassword/{username}/{password}")
     public int checkPasswordUser(@PathVariable String username, @PathVariable String password){
         Users userInDB = usersRepo.findByUsername(username);
-        int temp = 0;
+        if(userInDB==null){
+            return 2;
+        }
         if(bcrypt.matches(password, userInDB.getPassword())){
-            return temp = 1;
+            return 1;
         }else{
-            return temp = -1;
+            return -1;
         }
     }
 
