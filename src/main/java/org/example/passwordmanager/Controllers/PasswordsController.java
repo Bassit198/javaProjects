@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Log
@@ -106,6 +107,16 @@ public class PasswordsController {
             return Encryptor.decrypt(encryptPassword);
         }
 
+    }
+
+    @GetMapping("/passwordsList/get/{accountName}/{username}")
+    public List<Passwords> getPasswordListForAccount(@PathVariable String accountName, @PathVariable String username){
+        List<Passwords> password = passwordsRepo.findAllByAccountNameAndUsername(accountName, username);
+        for (Passwords passwords : password) {
+            String encryptPassword = passwords.getAccountPassword();
+            passwords.setAccountPassword(Encryptor.decrypt(encryptPassword));
+        }
+        return password;
     }
 
 }

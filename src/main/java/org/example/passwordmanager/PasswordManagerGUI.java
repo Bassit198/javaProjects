@@ -64,16 +64,28 @@ public class PasswordManagerGUI {
     private JScrollPane scrollPane_getAccount;
     private JList listOfAccounts;
 
+    private JToggleButton findPasswordButton;
+    private JPanel findPasswordPanel;
+    private JTextField accountName_findAccount;
+    private JButton searchButton_findAccount;
+    private JButton clearButton_findAccount;
+    private JList passwordList_findAccount;
+    private JScrollPane scrollPane_findAccount;
+
+    DefaultListModel<String> listOfAccountsModel = new DefaultListModel<>();
+    DefaultListModel<String> passwordListModel = new DefaultListModel<>();
+
 
     public PasswordManagerGUI() {
 
         loggedInUserLabel.setVisible(false);
 
+
         List<JPanel> sideBarPanelList = new ArrayList<>();
-        Collections.addAll(sideBarPanelList, addAccountPanel, getAccountPanel, deleteAccountPanel, updateAccountPanel);
+        Collections.addAll(sideBarPanelList, addAccountPanel, getAccountPanel, findPasswordPanel, deleteAccountPanel, updateAccountPanel);
 
         List<JToggleButton> sideBarButtonList = new ArrayList<>();
-        Collections.addAll(sideBarButtonList, addAccountButton, getAccountListButton, deleteAccountButton, updateAccountButton);
+        Collections.addAll(sideBarButtonList, addAccountButton, getAccountListButton, findPasswordButton,deleteAccountButton, updateAccountButton);
 
         HashMap<String, String> buttonStyle = getButtonStyleHashMap();
 
@@ -81,6 +93,7 @@ public class PasswordManagerGUI {
         setButtonSelected(sideBarPanelList, 1, sideBarButtonList, buttonStyle, sideBarButtonList.get(1), 1, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
         setButtonSelected(sideBarPanelList, 2, sideBarButtonList, buttonStyle, sideBarButtonList.get(2), 2, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
         setButtonSelected(sideBarPanelList, 3, sideBarButtonList, buttonStyle, sideBarButtonList.get(3), 3, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
+        setButtonSelected(sideBarPanelList, 4, sideBarButtonList, buttonStyle, sideBarButtonList.get(4), 4, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
 
         paintButtonWithHoverEffect(clearButton_loginPage, buttonStyle.get("Blue"), buttonStyle.get("Red"), 90, 26);
         paintButtonWithHoverEffect(loginButton_loginPage, buttonStyle.get("Blue"), buttonStyle.get("Green"), 90, 26);
@@ -114,7 +127,6 @@ public class PasswordManagerGUI {
             }
         });
 
-
         //add account buttons
         clearButton_addAccountPage.addActionListener(new ActionListener() {
             @Override
@@ -138,14 +150,13 @@ public class PasswordManagerGUI {
                     map.put("accountPassword", accountPassword_addAccount.getText());
                     restTemplate.postForEntity(url, map, Void.class);
                     JOptionPane.showMessageDialog(null, "Account Added Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    accountUsername_addAccount.setText("");
+                    accountPassword_addAccount.setText("");
                 }
             }
         });
 
         //get account buttons
-//        String[] data = {"Item 1", "Item 2", "Item 3"};
-//        JList<String> list = new JList<>(data);
-//        JScrollPane scrollPane = new JScrollPane(list);
         showAccounts_getAccountPage.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -154,39 +165,106 @@ public class PasswordManagerGUI {
                 Passwords[] passwordsArray = restTemplate.getForObject(uri, Passwords[].class);
                 assert passwordsArray != null;
                 List<Passwords> passwordsList = Arrays.asList(passwordsArray);
-                DefaultListModel<String> model = new DefaultListModel<>();
-                listOfAccounts.setModel(model);
-                for (Passwords passwords : passwordsList) {
-                    model.addElement("Account Name: " + passwords.getAccountName());
+
+                if(passwordsList.isEmpty()){
+                    JOptionPane.showMessageDialog(null, "No accounts Found", "Failed", JOptionPane.ERROR_MESSAGE);
+                }else{
+                    listOfAccounts.setModel(listOfAccountsModel);
+                    for (Passwords passwords : passwordsList) {
+                        listOfAccountsModel.addElement("Account Name: " + passwords.getAccountName());
+                        listOfAccountsModel.addElement(" ");
+                    }
+                    //scroll bar background
+                    scrollPane_getAccount.getVerticalScrollBar().setBackground(Color.WHITE);
+                    scrollPane_getAccount.getHorizontalScrollBar().setBackground(Color.WHITE);
+                    //scroll bar
+                    scrollPane_getAccount.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+                        @Override
+                        protected void configureScrollBarColors() {
+                            this.thumbColor = new Color(200, 200, 200);
+                            this.scrollBarWidth = 5;
+                        }
+                        //the 3 below override replaces the scroll bar buttons with regular buttons of 0x0 size
+                        @Override
+                        protected JButton createDecreaseButton(int orientation) {
+                            return createZeroButton();
+                        }
+                        @Override
+                        protected JButton createIncreaseButton(int orientation) {
+                            return createZeroButton();
+                        }
+                        private JButton createZeroButton() {
+                            JButton jbutton = new JButton();
+                            jbutton.setPreferredSize(new Dimension(0, 0));
+                            jbutton.setMinimumSize(new Dimension(0, 0));
+                            jbutton.setMaximumSize(new Dimension(0, 0));
+                            return jbutton;
+                        }
+                    });
                 }
 
-                //scroll bar background
-                scrollPane_getAccount.getVerticalScrollBar().setBackground(Color.WHITE);
-                scrollPane_getAccount.getHorizontalScrollBar().setBackground(Color.WHITE);
-                //scroll bar
-                scrollPane_getAccount.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
-                    @Override
-                    protected void configureScrollBarColors() {
-                        this.thumbColor = new Color(200, 200, 200);
-                        this.scrollBarWidth = 5;
+            }
+        });
+
+        //find password buttons
+        clearButton_findAccount.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                accountName_findAccount.setText("");
+                scrollPane_findAccount.setVisible(false);
+            }
+        });
+        searchButton_findAccount.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String accountName = accountName_findAccount.getText();
+                String username = loggedInUserLabel.getText();
+                final String uri = "http://localhost:8080/passwordsList/get/" + accountName + "/" + username;
+                Passwords[] passwordsArray = restTemplate.getForObject(uri, Passwords[].class);
+                assert passwordsArray != null;
+                List<Passwords> passwordsList = Arrays.asList(passwordsArray);
+                if (passwordsList.isEmpty()){
+                    JOptionPane.showMessageDialog(null, "No accounts Found", "Failed", JOptionPane.ERROR_MESSAGE);
+                }else{
+
+                    passwordList_findAccount.setModel(passwordListModel);
+                    for (Passwords passwords : passwordsList) {
+                        passwordListModel.addElement("Account Name: " + passwords.getAccountName());
+                        passwordListModel.addElement(passwords.getAccountPassword());
+                        passwordListModel.addElement(" ");
                     }
-                    //the 3 below override replaces the scroll bar buttons with regular buttons of 0x0 size
-                    @Override
-                    protected JButton createDecreaseButton(int orientation) {
-                        return createZeroButton();
-                    }
-                    @Override
-                    protected JButton createIncreaseButton(int orientation) {
-                        return createZeroButton();
-                    }
-                    private JButton createZeroButton() {
-                        JButton jbutton = new JButton();
-                        jbutton.setPreferredSize(new Dimension(0, 0));
-                        jbutton.setMinimumSize(new Dimension(0, 0));
-                        jbutton.setMaximumSize(new Dimension(0, 0));
-                        return jbutton;
-                    }
-                });
+                    scrollPane_findAccount.setVisible(true);
+
+                    //scroll bar background
+                    scrollPane_findAccount.getVerticalScrollBar().setBackground(Color.WHITE);
+                    scrollPane_findAccount.getHorizontalScrollBar().setBackground(Color.WHITE);
+                    //scroll bar
+                    scrollPane_findAccount.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+                        @Override
+                        protected void configureScrollBarColors() {
+                            this.thumbColor = new Color(200, 200, 200);
+                            this.scrollBarWidth = 5;
+                        }
+                        //the 3 below override replaces the scroll bar buttons with regular buttons of 0x0 size
+                        @Override
+                        protected JButton createDecreaseButton(int orientation) {
+                            return createZeroButton();
+                        }
+                        @Override
+                        protected JButton createIncreaseButton(int orientation) {
+                            return createZeroButton();
+                        }
+                        private JButton createZeroButton() {
+                            JButton jbutton = new JButton();
+                            jbutton.setPreferredSize(new Dimension(0, 0));
+                            jbutton.setMinimumSize(new Dimension(0, 0));
+                            jbutton.setMaximumSize(new Dimension(0, 0));
+                            return jbutton;
+                        }
+
+                    });
+                }
+
             }
         });
 
@@ -214,6 +292,17 @@ public class PasswordManagerGUI {
         final String uri = "http://localhost:8080/session/logout/" + username;
         restTemplate.postForEntity(uri, null, Void.class);
         JOptionPane.showMessageDialog(null, "Logged out Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+        //clear all input upon log out
+        listOfAccountsModel.removeAllElements();
+        passwordListModel.removeAllElements();
+        username_loginPage.setText("");
+        password_loginPage.setText("");
+        accountName_addAccount.setText("");
+        accountUsername_addAccount.setText("");
+        accountPassword_addAccount.setText("");
+        accountName_findAccount.setText("");
+
         switchPanel(panelList, 0);
     }
 
@@ -346,7 +435,7 @@ public class PasswordManagerGUI {
     public static void main(String[] args) {
         SpringApplication.run(PasswordManagerGUI.class, args);
         frame.setContentPane(new PasswordManagerGUI().basePanel);
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.pack();
         frame.setVisible(true);
