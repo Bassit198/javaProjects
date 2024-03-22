@@ -1,6 +1,5 @@
 package org.example.passwordmanager;
 
-import com.sun.jdi.event.MonitorContendedEnteredEvent;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.client.RestTemplate;
@@ -9,19 +8,24 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.*;
 import java.util.List;
 
 @SpringBootApplication
 public class PasswordManagerGUI {
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    private static final RestTemplate restTemplate = new RestTemplate();
 
 
     private static JFrame frame = new JFrame("Password Manager");
     private JPanel basePanel;
     private JPanel mainPanel;
     private JPanel contentPane;
+    private JPanel sideBarPanel;
+    private JPanel mainViewPanel;
+    private JLabel usernameLabel;
 
     //login page
     private JPanel loginPagePanel;
@@ -29,25 +33,33 @@ public class PasswordManagerGUI {
     private JTextField password_loginPage;
     private JButton loginButton_loginPage;
     private JButton clearButton_loginPage;
-    private JLabel usernameLabel;
+
+    //side bar components
     private JPanel homePagePanel;
     private JToggleButton addAccountButton;
     private JToggleButton getAccountButton;
     private JToggleButton deleteAccountButton;
-    private JPanel sideBarPanel;
-    private JPanel mainViewPanel;
     private JToggleButton updateAccountButton;
     private JButton logoutButton;
+
+    //add account page components
     private JPanel addAccountPanel;
     private JTextField accountName_addAccount;
     private JTextField accountUsername_addAccount;
     private JTextField accountPassword_addAccount;
-    private JButton addButton;
-    private JButton clearButton;
+    private JButton addButton_addAccountPage;
+    private JButton clearButton_addAccountPage;
     private JLabel loggedInUserLabel;
+
+    //get account page components
     private JPanel getAccountPanel;
+
+    //delete account page components
     private JPanel deleteAccountPanel;
+
+    //update account page components
     private JPanel updateAccountPanel;
+    private JLabel pageLabel;
 
 
     public PasswordManagerGUI() {
@@ -67,6 +79,13 @@ public class PasswordManagerGUI {
         setButtonSelected(sideBarPanelList, 2, sideBarButtonList, buttonStyle, sideBarButtonList.get(2), 2, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
         setButtonSelected(sideBarPanelList, 3, sideBarButtonList, buttonStyle, sideBarButtonList.get(3), 3, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
 
+        paintButtonWithHoverEffect(clearButton_loginPage, buttonStyle.get("Blue"), buttonStyle.get("Red"), 90, 26);
+        paintButtonWithHoverEffect(loginButton_loginPage, buttonStyle.get("Blue"), buttonStyle.get("Green"), 90, 26);
+        paintButtonWithHoverEffect(logoutButton, buttonStyle.get("Blue"), buttonStyle.get("Red"), 150, 26);
+
+        paintButtonWithHoverEffect(clearButton_addAccountPage, buttonStyle.get("Blue"), buttonStyle.get("Red"), 90, 26);
+        paintButtonWithHoverEffect(addButton_addAccountPage, buttonStyle.get("Blue"), buttonStyle.get("Green"), 90, 26);
+
 
 
         //login page buttons
@@ -77,19 +96,26 @@ public class PasswordManagerGUI {
                 password_loginPage.setText("");
             }
         });
-
         loginButton_loginPage.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String username = username_loginPage.getText();
-                String password = password_loginPage.getText();
-                checkUserCredentials(username, password);
+                if(username_loginPage.getText().isEmpty() || password_loginPage.getText().isEmpty()){
+                    JOptionPane.showMessageDialog(null, "Please enter all fields", "Failed", JOptionPane.ERROR_MESSAGE);
+                }else{
+                    String username = username_loginPage.getText();
+                    String password = password_loginPage.getText();
+                    checkUserCredentials(username, password);
+                    username_loginPage.setText("");
+                    password_loginPage.setText("");
+                }
+
 
             }
         });
 
+
         //add account buttons
-        clearButton.addActionListener(new ActionListener() {
+        clearButton_addAccountPage.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 accountName_addAccount.setText("");
@@ -97,19 +123,52 @@ public class PasswordManagerGUI {
                 accountPassword_addAccount.setText("");
             }
         });
-        addButton.addActionListener(new ActionListener() {
+        addButton_addAccountPage.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String username = loggedInUserLabel.getText();
-                final String url = "http://localhost:8080/passwords/" + username + "/add";
-                Map<String, String> map = new HashMap<>();
-                map.put("accountName", accountName_addAccount.getText());
-                map.put("accountUsername", accountUsername_addAccount.getText());
-                map.put("accountPassword", accountPassword_addAccount.getText());
-                restTemplate.postForEntity(url, map, Void.class);
-                JOptionPane.showMessageDialog(null, "Account Added Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                if(accountName_addAccount.getText().isEmpty() || accountUsername_addAccount.getText().isEmpty() || accountPassword_addAccount.getText().isEmpty()){
+                    JOptionPane.showMessageDialog(null, "Please enter all fields", "Failed", JOptionPane.ERROR_MESSAGE);
+                }else{
+                    String username = loggedInUserLabel.getText();
+                    final String url = "http://localhost:8080/passwords/" + username + "/add";
+                    Map<String, String> map = new HashMap<>();
+                    map.put("accountName", accountName_addAccount.getText());
+                    map.put("accountUsername", accountUsername_addAccount.getText());
+                    map.put("accountPassword", accountPassword_addAccount.getText());
+                    restTemplate.postForEntity(url, map, Void.class);
+                    JOptionPane.showMessageDialog(null, "Account Added Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
         });
+
+        //get account buttons
+
+        //delete account buttons
+
+        //update account buttons
+
+        //logout button action
+        logoutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                logOutUser();
+            }
+        });
+
+
+
+
+    }//end class
+
+    public void logOutUser() {
+        List<JPanel> panelList = new ArrayList<>();
+        Collections.addAll(panelList, loginPagePanel, homePagePanel);
+
+        String username = loggedInUserLabel.getText();
+        final String uri = "http://localhost:8080/session/logout/" + username;
+        restTemplate.postForEntity(uri, null, Void.class);
+        JOptionPane.showMessageDialog(null, "Logged out Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+        switchPanel(panelList, 0);
     }
 
     public void checkUserCredentials(String username, String password){
@@ -118,7 +177,7 @@ public class PasswordManagerGUI {
 
         assert result != null;
         if(result == 1){
-            final String url = "http://localhost:8080/session/create";
+            final String url = "http://localhost:8080/session/create/" + username;
             Map<String, String> map = new HashMap<>();
             map.put("username", username);
             restTemplate.postForEntity(url, map, Void.class);
@@ -128,15 +187,13 @@ public class PasswordManagerGUI {
             List<JPanel> panelList = new ArrayList<>();
             Collections.addAll(panelList, loginPagePanel, homePagePanel);
             switchPanel(panelList, 1);
-
-
         }else{
             JOptionPane.showMessageDialog(null, "Invalid Credentials. Try Again.", "Denied", JOptionPane.ERROR_MESSAGE);
         }
 
     }
 
-    public void switchPanel(List<JPanel> panelList, int panelToShow){
+    public static void switchPanel(List<JPanel> panelList, int panelToShow){
         for (int i = 0; i < panelList.size(); i++) {
             if (i == panelToShow) {
                 panelList.get(i).setVisible(true);
@@ -145,8 +202,6 @@ public class PasswordManagerGUI {
             }
         }
     }
-
-
 
     public void setButtonSelected(List<JPanel> panelList, int panelToShow, List<JToggleButton> buttonList, HashMap<String, String> buttonStyle, JToggleButton buttonToClick, int buttonToToggle, String hoverEnterPath, String hoverExitPath) {
         //paint all buttons to default blue
@@ -159,6 +214,7 @@ public class PasswordManagerGUI {
                 for (int i = 0; i < buttonList.size(); i++) {
                     if (i == buttonToToggle) {
                         paintButtonToggle(buttonList.get(i), buttonStyle.get("DarkBlue"));
+                        pageLabel.setText(buttonList.get(buttonToToggle).getText());
                     } else {
                         buttonList.get(i).setSelected(false);
                         paintButtonToggle(buttonList.get(i), buttonStyle.get("Blue"));
@@ -175,7 +231,6 @@ public class PasswordManagerGUI {
             }
         });
     }
-
 
     public void paintButtonDefaultSize(JToggleButton button, String imagePath){
         ImageIcon icon = new ImageIcon(imagePath);
@@ -203,30 +258,53 @@ public class PasswordManagerGUI {
         button.setForeground(Color.WHITE);
     }
 
-
     public static HashMap<String, String> getButtonStyleHashMap() {
         HashMap<String, String> buttonStyle = new HashMap<>();
         buttonStyle.put("Blue", "src/main/resources/buttonImages/blueButton.png");
         buttonStyle.put("DarkBlue", "src/main/resources/buttonImages/darkBlueButton.png");
         buttonStyle.put("Green", "src/main/resources/buttonImages/greenButton.png");
         buttonStyle.put("DarkGreen", "src/main/resources/buttonImages/darkGreenButton.png");
+        buttonStyle.put("Red", "src/main/resources/buttonImages/redButton.png");
         return buttonStyle;
     }
 
+    public void paintButton(JButton button, String imagePath, int width, int height){
+        ImageIcon icon = new ImageIcon(imagePath);
+        Image img = icon.getImage();
+        Image newimg = img.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
+        ImageIcon newIcon = new ImageIcon(newimg);
 
+        button.setIcon(newIcon);
+        button.setHorizontalTextPosition(SwingConstants.CENTER);
+        button.setContentAreaFilled(false);
+        button.setBorder(null);
+        button.setForeground(Color.WHITE);
+    }
+
+    public void paintButtonWithHoverEffect(JButton button, String imagePath, String hoverImagePath, int width, int height){
+        HashMap<String, String> buttonStyle = getButtonStyleHashMap();
+        paintButton(button, imagePath, width, height);
+        //hoverEffectButtonDefaultSize(button, hoverImagePath, imagePath);
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                paintButton(button, hoverImagePath, width, height);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                paintButton(button, imagePath, width, height);
+            }
+        });
+    }
 
 
     //main method
     public static void main(String[] args) {
         SpringApplication.run(PasswordManagerGUI.class, args);
         frame.setContentPane(new PasswordManagerGUI().basePanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.pack();
         frame.setVisible(true);
         frame.setLayout(null);
-
-        //JOptionPane.showMessageDialog(null, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
     }//end main
 }
 

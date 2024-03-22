@@ -13,12 +13,22 @@ public class SessionController {
     private SessionRepo sessionRepo;
 
 
-    @PostMapping("/session/create")
-    public void createSession(@RequestBody Session session){
-        Session newSession = new Session();
-        newSession.setUsername(session.getUsername());
-        newSession.setStatus(1);
-        sessionRepo.save(newSession);
+    @PostMapping("/session/create/{username}")
+    public void createSession(@RequestBody Session session, @PathVariable String username){
+        Session checkSession = sessionRepo.findByUsername(username);
+        if(checkSession==null){
+            Session newSession = new Session();
+            newSession.setUsername(session.getUsername());
+            newSession.setStatus(1);
+            sessionRepo.save(newSession);
+        }else{
+            checkSession.setStatus(1);
+            sessionRepo.save(checkSession);
+        }
+//        Session newSession = new Session();
+//        newSession.setUsername(session.getUsername());
+//        newSession.setStatus(1);
+//        sessionRepo.save(newSession);
     }
 
     @DeleteMapping("/session/destroy")
@@ -35,6 +45,13 @@ public class SessionController {
         }else{
             return -1;
         }
+    }
+
+    @PostMapping("/session/logout/{username}")
+    public void logout(@PathVariable String username){
+        Session session = sessionRepo.findByUsername(username);
+        session.setStatus(0);
+        sessionRepo.save(session);
     }
 
 }

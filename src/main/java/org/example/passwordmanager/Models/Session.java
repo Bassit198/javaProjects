@@ -14,10 +14,12 @@ public class Session {
     @JsonIgnore
     private long id;
 
-    @Column
+    @Column(unique = true)
     String username;
 
     @Column
     int status;
+    //status = 1 - logged in
+    //status = 2 - logged out
 
 }
