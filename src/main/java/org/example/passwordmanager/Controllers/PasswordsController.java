@@ -2,9 +2,12 @@ package org.example.passwordmanager.Controllers;
 
 import lombok.extern.java.Log;
 import org.example.passwordmanager.Models.Passwords;
+import org.example.passwordmanager.Models.Users;
 import org.example.passwordmanager.Repo.PasswordsRepo;
+import org.example.passwordmanager.Repo.UsersRepo;
 import org.example.passwordmanager.Services.Encryptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +20,9 @@ public class PasswordsController {
 
     @Autowired
     private PasswordsRepo passwordsRepo;
+
+    @Autowired
+    private UsersRepo usersRepo;
 
     private final BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
     @PostMapping("/passwords/add")
@@ -88,12 +94,19 @@ public class PasswordsController {
     }
 
     //delete accounts
-    @DeleteMapping("/passwords/delete/{username}/{accountName}")
-    public String deleteAccounts(@PathVariable String username, @PathVariable String accountName){
-        Passwords password= passwordsRepo.findAllByUsernameAndAccountName(username, accountName);
-        passwordsRepo.delete(password);
-        log.info("Account successfully removed using API endpoint");
-        return "Account successfully removed.";
+    @GetMapping("/passwords/delete/{username}/{accountName}/{userPassword}")
+    public int deleteAccounts(@PathVariable String username, @PathVariable String accountName, @PathVariable String userPassword){
+        List<Passwords> password= passwordsRepo.findAllByAccountNameAndUsername(accountName, username);
+        Users users = usersRepo.findByUsername(username);
+        if(bcrypt.matches(userPassword, users.getPassword())){
+            passwordsRepo.deleteAll(password);
+            //passwordsRepo.delete(password);
+            log.info("Account successfully removed using API endpoint");
+            return 1;
+        }else{
+            return 0;
+        }
+
     }
 
     //get saved password

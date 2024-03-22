@@ -3,6 +3,7 @@ package org.example.passwordmanager;
 import org.example.passwordmanager.Models.Passwords;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import javax.swing.*;
@@ -74,6 +75,10 @@ public class PasswordManagerGUI {
     private JButton clearButton_findAccount;
     private JList passwordList_findAccount;
     private JScrollPane scrollPane_findAccount;
+    private JTextField accountName_deleteAccount;
+    private JTextField userPassword_deleteAccount;
+    private JButton deleteButton_deleteAccount;
+    private JButton clearButton_deleteAccount;
 
     //models for lists
     private final DefaultListModel<String> listOfAccountsModel = new DefaultListModel<>();
@@ -273,6 +278,36 @@ public class PasswordManagerGUI {
         });
 
         //delete account buttons
+        clearButton_deleteAccount.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                accountName_deleteAccount.setText("");
+                userPassword_deleteAccount.setText("");
+            }
+        });
+        deleteButton_deleteAccount.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String username = loggedInUserLabel.getText();
+                String accountName = accountName_deleteAccount.getText();
+                String userPassword = userPassword_deleteAccount.getText();
+                final String uri = "http://localhost:8080/passwords/delete/" + username + "/" + accountName + "/" + userPassword;
+                //restTemplate.postForEntity(uri, null, String.class);
+                Integer result = restTemplate.getForObject(uri, Integer.class);
+                assert result!=null;
+                if(result == 1){
+                    JOptionPane.showMessageDialog(null, "Account Deleted Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    accountName_deleteAccount.setText("");
+                    userPassword_deleteAccount.setText("");
+                }else{
+                    JOptionPane.showMessageDialog(null, "Unable to remove account. Invalid information entered or account not found", "Failed", JOptionPane.ERROR_MESSAGE);
+                }
+
+
+
+
+            }
+        });
 
         //update account buttons
 
