@@ -1,15 +1,15 @@
 package org.example.passwordmanager;
 
+import org.example.passwordmanager.Models.Passwords;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.client.RestTemplate;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.*;
 import java.util.List;
 
@@ -37,7 +37,7 @@ public class PasswordManagerGUI {
     //side bar components
     private JPanel homePagePanel;
     private JToggleButton addAccountButton;
-    private JToggleButton getAccountButton;
+    private JToggleButton getAccountListButton;
     private JToggleButton deleteAccountButton;
     private JToggleButton updateAccountButton;
     private JButton logoutButton;
@@ -60,6 +60,9 @@ public class PasswordManagerGUI {
     //update account page components
     private JPanel updateAccountPanel;
     private JLabel pageLabel;
+    private JButton showAccounts_getAccountPage;
+    private JScrollPane scrollPane_getAccount;
+    private JList listOfAccounts;
 
 
     public PasswordManagerGUI() {
@@ -70,7 +73,7 @@ public class PasswordManagerGUI {
         Collections.addAll(sideBarPanelList, addAccountPanel, getAccountPanel, deleteAccountPanel, updateAccountPanel);
 
         List<JToggleButton> sideBarButtonList = new ArrayList<>();
-        Collections.addAll(sideBarButtonList, addAccountButton, getAccountButton, deleteAccountButton, updateAccountButton);
+        Collections.addAll(sideBarButtonList, addAccountButton, getAccountListButton, deleteAccountButton, updateAccountButton);
 
         HashMap<String, String> buttonStyle = getButtonStyleHashMap();
 
@@ -85,8 +88,6 @@ public class PasswordManagerGUI {
 
         paintButtonWithHoverEffect(clearButton_addAccountPage, buttonStyle.get("Blue"), buttonStyle.get("Red"), 90, 26);
         paintButtonWithHoverEffect(addButton_addAccountPage, buttonStyle.get("Blue"), buttonStyle.get("Green"), 90, 26);
-
-
 
         //login page buttons
         clearButton_loginPage.addActionListener(new ActionListener() {
@@ -142,6 +143,52 @@ public class PasswordManagerGUI {
         });
 
         //get account buttons
+//        String[] data = {"Item 1", "Item 2", "Item 3"};
+//        JList<String> list = new JList<>(data);
+//        JScrollPane scrollPane = new JScrollPane(list);
+        showAccounts_getAccountPage.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String username = loggedInUserLabel.getText();
+                final String uri = "http://localhost:8080/passwords/showAccounts/" + username;
+                Passwords[] passwordsArray = restTemplate.getForObject(uri, Passwords[].class);
+                assert passwordsArray != null;
+                List<Passwords> passwordsList = Arrays.asList(passwordsArray);
+                DefaultListModel<String> model = new DefaultListModel<>();
+                listOfAccounts.setModel(model);
+                for (Passwords passwords : passwordsList) {
+                    model.addElement("Account Name: " + passwords.getAccountName());
+                }
+
+                //scroll bar background
+                scrollPane_getAccount.getVerticalScrollBar().setBackground(Color.WHITE);
+                scrollPane_getAccount.getHorizontalScrollBar().setBackground(Color.WHITE);
+                //scroll bar
+                scrollPane_getAccount.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+                    @Override
+                    protected void configureScrollBarColors() {
+                        this.thumbColor = new Color(200, 200, 200);
+                        this.scrollBarWidth = 5;
+                    }
+                    //the 3 below override replaces the scroll bar buttons with regular buttons of 0x0 size
+                    @Override
+                    protected JButton createDecreaseButton(int orientation) {
+                        return createZeroButton();
+                    }
+                    @Override
+                    protected JButton createIncreaseButton(int orientation) {
+                        return createZeroButton();
+                    }
+                    private JButton createZeroButton() {
+                        JButton jbutton = new JButton();
+                        jbutton.setPreferredSize(new Dimension(0, 0));
+                        jbutton.setMinimumSize(new Dimension(0, 0));
+                        jbutton.setMaximumSize(new Dimension(0, 0));
+                        return jbutton;
+                    }
+                });
+            }
+        });
 
         //delete account buttons
 
@@ -154,7 +201,6 @@ public class PasswordManagerGUI {
                 logOutUser();
             }
         });
-
 
 
 
