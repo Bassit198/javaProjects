@@ -26,6 +26,7 @@ public class PasswordManagerGUI {
     private JPanel sideBarPanel;
     private JPanel mainViewPanel;
     private JLabel usernameLabel;
+    private JLabel pageLabel;
 
     //login page
     private JPanel loginPagePanel;
@@ -59,11 +60,13 @@ public class PasswordManagerGUI {
 
     //update account page components
     private JPanel updateAccountPanel;
-    private JLabel pageLabel;
+
+    //find account list components
     private JButton showAccounts_getAccountPage;
     private JScrollPane scrollPane_getAccount;
     private JList listOfAccounts;
 
+    //find account password components
     private JToggleButton findPasswordButton;
     private JPanel findPasswordPanel;
     private JTextField accountName_findAccount;
@@ -72,8 +75,9 @@ public class PasswordManagerGUI {
     private JList passwordList_findAccount;
     private JScrollPane scrollPane_findAccount;
 
-    DefaultListModel<String> listOfAccountsModel = new DefaultListModel<>();
-    DefaultListModel<String> passwordListModel = new DefaultListModel<>();
+    //models for lists
+    private final DefaultListModel<String> listOfAccountsModel = new DefaultListModel<>();
+    private final DefaultListModel<String> passwordListModel = new DefaultListModel<>();
 
 
     public PasswordManagerGUI() {
