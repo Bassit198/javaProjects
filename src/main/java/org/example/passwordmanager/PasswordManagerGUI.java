@@ -3,7 +3,6 @@ package org.example.passwordmanager;
 import org.example.passwordmanager.Models.Passwords;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import javax.swing.*;
@@ -75,10 +74,24 @@ public class PasswordManagerGUI {
     private JButton clearButton_findAccount;
     private JList passwordList_findAccount;
     private JScrollPane scrollPane_findAccount;
+
+    //delete account components
     private JTextField accountName_deleteAccount;
     private JTextField userPassword_deleteAccount;
     private JButton deleteButton_deleteAccount;
     private JButton clearButton_deleteAccount;
+
+    //update account components
+    private JPanel contentPanel_updateAccount;
+    private JPanel updateAccountNamePanel_updateAccount;
+    private JPanel updateAccountPasswordPanel_updateAccount;
+    private JPanel updateAccountUserNamePanel_udpateAccount;
+
+    private JToggleButton updateAccountName_updateAccount;
+    private JToggleButton updateAccountUsername_updateAccount;
+    private JToggleButton updateAccountPassword_updateAccount;
+
+
 
     //models for lists
     private final DefaultListModel<String> listOfAccountsModel = new DefaultListModel<>();
@@ -96,6 +109,12 @@ public class PasswordManagerGUI {
         List<JToggleButton> sideBarButtonList = new ArrayList<>();
         Collections.addAll(sideBarButtonList, addAccountButton, getAccountListButton, findPasswordButton,deleteAccountButton, updateAccountButton);
 
+        List<JToggleButton> updateAccountButtonList = new ArrayList<>();
+        Collections.addAll(updateAccountButtonList, updateAccountName_updateAccount, updateAccountUsername_updateAccount, updateAccountPassword_updateAccount);
+
+        List<JPanel> updateAccountPanelList = new ArrayList<>();
+        Collections.addAll(updateAccountPanelList, updateAccountNamePanel_updateAccount, updateAccountPasswordPanel_updateAccount, updateAccountUserNamePanel_udpateAccount);
+
         HashMap<String, String> buttonStyle = getButtonStyleHashMap();
 
         setButtonSelected(sideBarPanelList, 0, sideBarButtonList, buttonStyle, sideBarButtonList.get(0), 0, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
@@ -103,6 +122,8 @@ public class PasswordManagerGUI {
         setButtonSelected(sideBarPanelList, 2, sideBarButtonList, buttonStyle, sideBarButtonList.get(2), 2, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
         setButtonSelected(sideBarPanelList, 3, sideBarButtonList, buttonStyle, sideBarButtonList.get(3), 3, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
         setButtonSelected(sideBarPanelList, 4, sideBarButtonList, buttonStyle, sideBarButtonList.get(4), 4, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
+
+        setButtonSelected(updateAccountPanelList, 0, updateAccountButtonList, );
 
         paintButtonWithHoverEffect(clearButton_loginPage, buttonStyle.get("Blue"), buttonStyle.get("Red"), 90, 26);
         paintButtonWithHoverEffect(loginButton_loginPage, buttonStyle.get("Blue"), buttonStyle.get("Green"), 90, 26);
