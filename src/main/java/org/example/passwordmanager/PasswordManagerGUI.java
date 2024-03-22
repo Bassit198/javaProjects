@@ -111,6 +111,18 @@ public class PasswordManagerGUI {
         paintButtonWithHoverEffect(clearButton_addAccountPage, buttonStyle.get("Blue"), buttonStyle.get("Red"), 90, 26);
         paintButtonWithHoverEffect(addButton_addAccountPage, buttonStyle.get("Blue"), buttonStyle.get("Green"), 90, 26);
 
+        paintButtonWithHoverEffect(showAccounts_getAccountPage, buttonStyle.get("Blue"), buttonStyle.get("Green"), 90, 26);
+
+        paintButtonWithHoverEffect(clearButton_findAccount, buttonStyle.get("Blue"), buttonStyle.get("Red"), 90, 26);
+        paintButtonWithHoverEffect(searchButton_findAccount, buttonStyle.get("Blue"), buttonStyle.get("Green"), 90, 26);
+
+        paintButtonWithHoverEffect(clearButton_deleteAccount, buttonStyle.get("Blue"), buttonStyle.get("Red"), 90, 26);
+        paintButtonWithHoverEffect(deleteButton_deleteAccount, buttonStyle.get("Blue"), buttonStyle.get("Red"), 90, 26);
+
+
+
+
+
         //login page buttons
         clearButton_loginPage.addActionListener(new ActionListener() {
             @Override
