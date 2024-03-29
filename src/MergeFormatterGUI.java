@@ -112,9 +112,9 @@ public class MergeFormatterGUI {
                             results.add(columnList[20][i]);
                             results.add(columnList[1][j]); //token1
                             results.add(columnList[19][i]);//token2
-                            results.add(columnList[19][i]);//credit_card_type_id
-                            //results.add(columnList[7][i]); //cc_exp_date
-                            results.add(ccTypeId[i]);
+                            //results.add(columnList[19][i]);//credit_card_type_id
+                            results.add(ccTypeId[i]);//credit_card_type_id
+                            results.add(columnList[7][i]); //cc_exp_date
                             results.add(columnList[6][i]); //cc_masked_number
                             results.add(columnList[17][i]); //last_bill_date
                             results.add(columnList[19][i]);//original_amount
@@ -167,7 +167,7 @@ public class MergeFormatterGUI {
             while ((line = br.readLine()) != null) {
                 content.add(line.split(",", -1)); //using -1 to accommodate for empty cells in csv file
             }
-            String newWord = "";
+            String newWord = "[null]";
             for (int i = 0; i < content.size(); i++) {
                 for (int j = 0; j < content.get(i).length; j++) {
                     if (content.get(i)[j].equals("") || content.get(10)[10] == null) {
@@ -258,6 +258,7 @@ public class MergeFormatterGUI {
         String[] nextBillDateColumn = createColumnArray(content, 19);
         String[] blankColumn = new String[content.size()];
         String[] licensePlateColumn = createColumnArray(content, 21);
+
 
         for (int i = 0; i < content.size(); i++) {
             blankColumn[i] = "";
