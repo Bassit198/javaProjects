@@ -38,7 +38,7 @@ public class MergeFormatterGUI {
                     }
                     //System.out.println(path);
                 } catch (Exception ex) {
-                    resultLabel.setText("Error: " + ex.getMessage());
+                    resultLabel.setText("Invalid file or MergeOutput is open in Excel");
                     resultLabel.setVisible(true);
                 }
             }
@@ -77,6 +77,9 @@ public class MergeFormatterGUI {
                 //creates a list of all the column in the form of arrays
                 String[][] columnList = columns(content);
 
+                //array for ccTypeID
+                String[] ccTypeId = ccTypeIDFormat(columnList);
+
                 //value used to assign 1 auth code for searching purposes
                 String dataCapAuthString = "";
 
@@ -105,11 +108,13 @@ public class MergeFormatterGUI {
                             results.add(columnList[11][i]); //city
                             results.add(columnList[12][i]); //state
                             results.add(columnList[13][i]); //zip_code
-                            results.add(columnList[19][i]);//license_plate
+                            //results.add(columnList[19][i]);//license_plate
+                            results.add(columnList[20][i]);
                             results.add(columnList[1][j]); //token1
                             results.add(columnList[19][i]);//token2
                             results.add(columnList[19][i]);//credit_card_type_id
-                            results.add(columnList[7][i]); //cc_exp_date
+                            //results.add(columnList[7][i]); //cc_exp_date
+                            results.add(ccTypeId[i]);
                             results.add(columnList[6][i]); //cc_masked_number
                             results.add(columnList[17][i]); //last_bill_date
                             results.add(columnList[19][i]);//original_amount
@@ -138,6 +143,8 @@ public class MergeFormatterGUI {
                     resultLabel.setVisible(true);
                 }
             }
+
+
         });
     }
 
@@ -160,7 +167,7 @@ public class MergeFormatterGUI {
             while ((line = br.readLine()) != null) {
                 content.add(line.split(",", -1)); //using -1 to accommodate for empty cells in csv file
             }
-            String newWord = "[null]";
+            String newWord = "";
             for (int i = 0; i < content.size(); i++) {
                 for (int j = 0; j < content.get(i).length; j++) {
                     if (content.get(i)[j].equals("") || content.get(10)[10] == null) {
@@ -250,6 +257,7 @@ public class MergeFormatterGUI {
         String[] lastBillDateColumn = createColumnArray(content, 17);
         String[] nextBillDateColumn = createColumnArray(content, 19);
         String[] blankColumn = new String[content.size()];
+        String[] licensePlateColumn = createColumnArray(content, 21);
 
         for (int i = 0; i < content.size(); i++) {
             blankColumn[i] = "";
@@ -259,7 +267,29 @@ public class MergeFormatterGUI {
         String[] formattedLBDDate = formatDate(lastBillDateColumn, "last_Bill_Date");
         String[] formattedNBDDate = formatDate(nextBillDateColumn, "next_Bill_Date");
 
-        return new String[][]{dataCapAuth, dataCapToken, dataCapCCExp, dataCapCC, membersAuth, membersPlan, membersCC, membersCCExp, membersFirstName, membersLastName, membersAddress, membersCity, membersState, membersZip, membersPhone, membersEmail, membersRFID, formattedLBDDate, formattedNBDDate, blankColumn};
+        return new String[][]{dataCapAuth, dataCapToken, dataCapCCExp, dataCapCC, membersAuth, membersPlan, membersCC, membersCCExp, membersFirstName, membersLastName, membersAddress, membersCity, membersState, membersZip, membersPhone, membersEmail, membersRFID, formattedLBDDate, formattedNBDDate, blankColumn, licensePlateColumn};
+    }
+
+    //method used to format cc type required
+    public static String[] ccTypeIDFormat(String[][] columnList) {
+        String[] ccExpDate = new String[columnList[6].length];
+        for (int i = 0; i < columnList[6].length; i++) {
+            if (columnList[6][i].charAt(0) == '2') {
+                ccExpDate[i] = String.valueOf(2);
+            } else if (columnList[6][i].charAt(0) == '3') {
+                ccExpDate[i] = String.valueOf(4);
+            } else if (columnList[6][i].charAt(0) == '4') {
+                ccExpDate[i] = String.valueOf(1);
+            } else if (columnList[6][i].charAt(0) == '5') {
+                ccExpDate[i] = String.valueOf(2);
+            } else if (columnList[6][i].charAt(0) == '6') {
+                ccExpDate[i] = String.valueOf(3);
+            } else {
+                ccExpDate[i] = String.valueOf(5);
+            }
+
+        }
+        return ccExpDate;
     }
 
     //creates an output .csv file to specified path
