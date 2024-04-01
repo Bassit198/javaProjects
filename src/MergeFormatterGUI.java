@@ -20,11 +20,17 @@ public class MergeFormatterGUI {
     private JLabel resultLabel;
     private JButton generateButton;
     private JLabel selectedLabel;
+    private JRadioButton dayRadioButton;
+    private JRadioButton monthRadioButton;
     private String path;
 
     public MergeFormatterGUI() {
         resultLabel.setVisible(false);
         selectedLabel.setVisible(false);
+
+        ButtonGroup group = new ButtonGroup();
+        group.add(dayRadioButton);
+        group.add(monthRadioButton);
 
         //button styles
         HashMap<String, String> buttonStyle = getButtonStyleHashMap();
@@ -147,7 +153,7 @@ public class MergeFormatterGUI {
                     resultLabel.setText(outputPath);
                     resultLabel.setVisible(true);
                 } catch (IOException ex) {
-                    resultLabel.setText("Invalid Input");
+                    resultLabel.setText("Invalid file or MergeOutput is open in Excel");
                     resultLabel.setVisible(true);
                 } catch (RuntimeException rt) {
                     resultLabel.setText("Unable To Parse File 102");
@@ -233,6 +239,27 @@ public class MergeFormatterGUI {
         return formatDates;
     }
 
+    private static String[] formatDateReplaceSlash(String[] content, String header) {
+        String[] formatDates = new String[content.length];
+        for (int i = 0; i < content.length; i++) {
+            //renames the first value so this will be the header in the .csv file
+            if (i == 0) {
+                formatDates[i] = header;
+            } else {
+                String cont = content[i];
+                if (!cont.equals("[null]")) {
+                    cont = cont.replace("\"", "");
+                    String result = cont;
+                    result = result.replace('.', '/');
+                    formatDates[i] = result;
+                } else {
+                    break;
+                }
+            }
+        }
+        return formatDates;
+    }
+
     //swaps two characters based on position
     private static String swap(String str, int i, int j) {
         StringBuilder sb = new StringBuilder(str);
@@ -276,10 +303,16 @@ public class MergeFormatterGUI {
         }
 
         //format the dates
-        String[] formattedLBDDate = formatDate(lastBillDateColumn, "last_Bill_Date");
-        String[] formattedNBDDate = formatDate(nextBillDateColumn, "next_Bill_Date");
+        if (dayRadioButton.isSelected()) {
+            String[] formattedLBDDate = formatDate(lastBillDateColumn, "last_Bill_Date");
+            String[] formattedNBDDate = formatDate(nextBillDateColumn, "next_Bill_Date");
+            return new String[][]{dataCapAuth, dataCapToken, dataCapCCExp, dataCapCC, membersAuth, membersPlan, membersCC, membersCCExp, membersFirstName, membersLastName, membersAddress, membersCity, membersState, membersZip, membersPhone, membersEmail, membersRFID, formattedLBDDate, formattedNBDDate, blankColumn, licensePlateColumn};
+        } else {
+            String[] replaceSlashLBD = formatDateReplaceSlash(lastBillDateColumn, "last_Bill_Date");
+            String[] replaceSlashNBD = formatDateReplaceSlash(nextBillDateColumn, "next_Bill_Date");
+            return new String[][]{dataCapAuth, dataCapToken, dataCapCCExp, dataCapCC, membersAuth, membersPlan, membersCC, membersCCExp, membersFirstName, membersLastName, membersAddress, membersCity, membersState, membersZip, membersPhone, membersEmail, membersRFID, replaceSlashLBD, replaceSlashNBD, blankColumn, licensePlateColumn};
+        }
 
-        return new String[][]{dataCapAuth, dataCapToken, dataCapCCExp, dataCapCC, membersAuth, membersPlan, membersCC, membersCCExp, membersFirstName, membersLastName, membersAddress, membersCity, membersState, membersZip, membersPhone, membersEmail, membersRFID, formattedLBDDate, formattedNBDDate, blankColumn, licensePlateColumn};
     }
 
     //method used to format cc type required
@@ -377,39 +410,47 @@ public class MergeFormatterGUI {
         mainPanel = new JPanel();
         mainPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         basePanel = new JPanel();
-        basePanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(10, 3, new Insets(2, 10, 10, 10), -1, -1));
+        basePanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(10, 4, new Insets(2, 10, 10, 10), -1, -1));
         mainPanel.add(basePanel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(500, 300), null, 0, false));
         TitleLabel = new JLabel();
         Font TitleLabelFont = this.$$$getFont$$$("Courier New", Font.PLAIN, 28, TitleLabel.getFont());
         if (TitleLabelFont != null) TitleLabel.setFont(TitleLabelFont);
         TitleLabel.setText("Token Formatter");
-        basePanel.add(TitleLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 3, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(255, 66), null, 0, false));
+        basePanel.add(TitleLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 4, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(255, 66), null, 0, false));
         final com.intellij.uiDesigner.core.Spacer spacer1 = new com.intellij.uiDesigner.core.Spacer();
-        basePanel.add(spacer1, new com.intellij.uiDesigner.core.GridConstraints(1, 2, 6, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        basePanel.add(spacer1, new com.intellij.uiDesigner.core.GridConstraints(1, 3, 6, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final JLabel label1 = new JLabel();
         Font label1Font = this.$$$getFont$$$("Calibri", Font.PLAIN, 18, label1.getFont());
         if (label1Font != null) label1.setFont(label1Font);
         label1.setText("Choose .csv File");
-        basePanel.add(label1, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 1, false));
+        basePanel.add(label1, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 1, false));
         final com.intellij.uiDesigner.core.Spacer spacer2 = new com.intellij.uiDesigner.core.Spacer();
-        basePanel.add(spacer2, new com.intellij.uiDesigner.core.GridConstraints(7, 1, 2, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        basePanel.add(spacer2, new com.intellij.uiDesigner.core.GridConstraints(7, 2, 2, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         browseButton = new JButton();
         browseButton.setText("Browse");
-        basePanel.add(browseButton, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(81, 28), null, 0, false));
+        basePanel.add(browseButton, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(81, 28), null, 0, false));
         generateButton = new JButton();
         generateButton.setText("Generate");
-        basePanel.add(generateButton, new com.intellij.uiDesigner.core.GridConstraints(7, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(90, 30), null, 0, false));
+        basePanel.add(generateButton, new com.intellij.uiDesigner.core.GridConstraints(7, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(90, 30), null, 0, false));
         selectedLabel = new JLabel();
         Font selectedLabelFont = this.$$$getFont$$$("Calibri", Font.PLAIN, 16, selectedLabel.getFont());
         if (selectedLabelFont != null) selectedLabel.setFont(selectedLabelFont);
         selectedLabel.setText("File Selected");
-        basePanel.add(selectedLabel, new com.intellij.uiDesigner.core.GridConstraints(3, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        basePanel.add(selectedLabel, new com.intellij.uiDesigner.core.GridConstraints(3, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         resultLabel = new JLabel();
         Font resultLabelFont = this.$$$getFont$$$("Calibri", Font.PLAIN, 16, resultLabel.getFont());
         if (resultLabelFont != null) resultLabel.setFont(resultLabelFont);
         resultLabel.setHorizontalTextPosition(11);
         resultLabel.setText("Label");
-        basePanel.add(resultLabel, new com.intellij.uiDesigner.core.GridConstraints(9, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        basePanel.add(resultLabel, new com.intellij.uiDesigner.core.GridConstraints(9, 0, 1, 3, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        dayRadioButton = new JRadioButton();
+        dayRadioButton.setFocusable(false);
+        dayRadioButton.setText("DD-MM-YYYY");
+        basePanel.add(dayRadioButton, new com.intellij.uiDesigner.core.GridConstraints(5, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        monthRadioButton = new JRadioButton();
+        monthRadioButton.setFocusable(false);
+        monthRadioButton.setText("MM-DD-YYYY");
+        basePanel.add(monthRadioButton, new com.intellij.uiDesigner.core.GridConstraints(5, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
