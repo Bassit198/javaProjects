@@ -5,11 +5,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MergeFormatter {
 
     public static void main(String[] args) throws IOException {
+
+
 
         String input = "C:\\Users\\Bassit\\IdeaProjects\\MergeFormatter\\src\\testFileForMerge.csv";
         String outputPath = System.getProperty("user.home") + File.separator + "Downloads\\MergeOutput.csv";
