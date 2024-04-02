@@ -4,7 +4,9 @@ import bassit.dependencyinjectioncolors.services.BluePrinter;
 import bassit.dependencyinjectioncolors.services.ColorPrinter;
 import bassit.dependencyinjectioncolors.services.GreenPrinter;
 import bassit.dependencyinjectioncolors.services.RedPrinter;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ColorPrinterImpl implements ColorPrinter {
     private RedPrinter redPrinter;
     private BluePrinter bluePrinter;

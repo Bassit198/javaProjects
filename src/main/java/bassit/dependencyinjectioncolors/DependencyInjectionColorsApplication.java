@@ -1,8 +1,6 @@
 package bassit.dependencyinjectioncolors;
 
-//in this implementation, the beans are defined within the config file.
-//firstly, the interface is created, then the interface is implemented in Impl, then within the colorprinterimpl, the interfaces are initialized and assigned values by the constructor
-//then finally, the print method is called for each printers
+//in this implementation, the beans are defined with @Component annotation
 
 import bassit.dependencyinjectioncolors.services.ColorPrinter;
 import lombok.extern.java.Log;
