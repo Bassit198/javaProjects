@@ -1,6 +1,6 @@
 package bassit.dependencyinjectioncolors;
 
-//in this implementation, the beans are defined with @Component annotation
+//in this implementation, the beans are defined with @Component annotation on top of the implementing class
 
 import bassit.dependencyinjectioncolors.services.ColorPrinter;
 import lombok.extern.java.Log;
