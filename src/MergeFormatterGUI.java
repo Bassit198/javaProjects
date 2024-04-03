@@ -260,6 +260,44 @@ public class MergeFormatterGUI {
         return formatDates;
     }
 
+    //format expFates
+    private static String[] formatExpDate(String[] content, String header) {
+        String[] formatDates = new String[content.length];
+        for (int i = 0; i < content.length; i++) {
+            //renames the first value so this will be the header in the .csv file
+            if (i == 0) {
+                formatDates[i] = header;
+            } else {
+                String cont = content[i];
+                if (!cont.equals("[null]")) {
+                    if (cont.length() == 3) {
+                        StringBuilder builder = new StringBuilder();
+                        builder.append(content[i].charAt(0));
+                        builder.append("/01/20");
+                        builder.append(content[i].charAt(content[i].length() - 2));
+                        builder.append(content[i].charAt(content[i].length() - 1));
+                        String result = builder.toString();
+                        formatDates[i] = result;
+                    }
+
+                    if (cont.length() == 4) {
+                        StringBuilder builder = new StringBuilder();
+                        builder.append(content[i].charAt(0));
+                        builder.append(content[i].charAt(1));
+                        builder.append("/01/20");
+                        builder.append(content[i].charAt(content[i].length() - 2));
+                        builder.append(content[i].charAt(content[i].length() - 1));
+                        String result = builder.toString();
+                        formatDates[i] = result;
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+        return formatDates;
+    }
+
     //swaps two characters based on position
     private static String swap(String str, int i, int j) {
         StringBuilder sb = new StringBuilder(str);
@@ -302,15 +340,17 @@ public class MergeFormatterGUI {
             blankColumn[i] = "";
         }
 
+        String[] formattedExpDate = formatExpDate(membersCCExp, "cc_exp_date");
+
         //format the dates
         if (dayRadioButton.isSelected()) {
             String[] formattedLBDDate = formatDate(lastBillDateColumn, "last_Bill_Date");
             String[] formattedNBDDate = formatDate(nextBillDateColumn, "next_Bill_Date");
-            return new String[][]{dataCapAuth, dataCapToken, dataCapCCExp, dataCapCC, membersAuth, membersPlan, membersCC, membersCCExp, membersFirstName, membersLastName, membersAddress, membersCity, membersState, membersZip, membersPhone, membersEmail, membersRFID, formattedLBDDate, formattedNBDDate, blankColumn, licensePlateColumn};
+            return new String[][]{dataCapAuth, dataCapToken, dataCapCCExp, dataCapCC, membersAuth, membersPlan, membersCC, formattedExpDate, membersFirstName, membersLastName, membersAddress, membersCity, membersState, membersZip, membersPhone, membersEmail, membersRFID, formattedLBDDate, formattedNBDDate, blankColumn, licensePlateColumn};
         } else {
             String[] replaceSlashLBD = formatDateReplaceSlash(lastBillDateColumn, "last_Bill_Date");
             String[] replaceSlashNBD = formatDateReplaceSlash(nextBillDateColumn, "next_Bill_Date");
-            return new String[][]{dataCapAuth, dataCapToken, dataCapCCExp, dataCapCC, membersAuth, membersPlan, membersCC, membersCCExp, membersFirstName, membersLastName, membersAddress, membersCity, membersState, membersZip, membersPhone, membersEmail, membersRFID, replaceSlashLBD, replaceSlashNBD, blankColumn, licensePlateColumn};
+            return new String[][]{dataCapAuth, dataCapToken, dataCapCCExp, dataCapCC, membersAuth, membersPlan, membersCC, formattedExpDate, membersFirstName, membersLastName, membersAddress, membersCity, membersState, membersZip, membersPhone, membersEmail, membersRFID, replaceSlashLBD, replaceSlashNBD, blankColumn, licensePlateColumn};
         }
 
     }
