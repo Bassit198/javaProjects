@@ -113,17 +113,19 @@ public class PasswordManagerGUI {
         Collections.addAll(updateAccountButtonList, updateAccountName_updateAccount, updateAccountUsername_updateAccount, updateAccountPassword_updateAccount);
 
         List<JPanel> updateAccountPanelList = new ArrayList<>();
-        Collections.addAll(updateAccountPanelList, updateAccountNamePanel_updateAccount, updateAccountPasswordPanel_updateAccount, updateAccountUserNamePanel_udpateAccount);
+        Collections.addAll(updateAccountPanelList, updateAccountNamePanel_updateAccount, updateAccountUserNamePanel_udpateAccount, updateAccountPasswordPanel_updateAccount);
 
         HashMap<String, String> buttonStyle = getButtonStyleHashMap();
 
-        setButtonSelected(sideBarPanelList, 0, sideBarButtonList, buttonStyle, sideBarButtonList.get(0), 0, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
-        setButtonSelected(sideBarPanelList, 1, sideBarButtonList, buttonStyle, sideBarButtonList.get(1), 1, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
-        setButtonSelected(sideBarPanelList, 2, sideBarButtonList, buttonStyle, sideBarButtonList.get(2), 2, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
-        setButtonSelected(sideBarPanelList, 3, sideBarButtonList, buttonStyle, sideBarButtonList.get(3), 3, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
-        setButtonSelected(sideBarPanelList, 4, sideBarButtonList, buttonStyle, sideBarButtonList.get(4), 4, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
+        setButtonSelectedDefaultSize(sideBarPanelList, 0, sideBarButtonList, buttonStyle, sideBarButtonList.get(0), 0, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
+        setButtonSelectedDefaultSize(sideBarPanelList, 1, sideBarButtonList, buttonStyle, sideBarButtonList.get(1), 1, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
+        setButtonSelectedDefaultSize(sideBarPanelList, 2, sideBarButtonList, buttonStyle, sideBarButtonList.get(2), 2, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
+        setButtonSelectedDefaultSize(sideBarPanelList, 3, sideBarButtonList, buttonStyle, sideBarButtonList.get(3), 3, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
+        setButtonSelectedDefaultSize(sideBarPanelList, 4, sideBarButtonList, buttonStyle, sideBarButtonList.get(4), 4, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
 
-        //setButtonSelected(updateAccountPanelList, 0, updateAccountButtonList, );
+        setButtonSelectedVariousSize(updateAccountPanelList, 0, updateAccountButtonList, buttonStyle, updateAccountButtonList.get(0), 0, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
+        setButtonSelectedVariousSize(updateAccountPanelList, 1, updateAccountButtonList, buttonStyle, updateAccountButtonList.get(1), 1, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
+        setButtonSelectedVariousSize(updateAccountPanelList, 2, updateAccountButtonList, buttonStyle, updateAccountButtonList.get(2), 2, buttonStyle.get("DarkBlue"), buttonStyle.get("Blue"));
 
         paintButtonWithHoverEffect(clearButton_loginPage, buttonStyle.get("Blue"), buttonStyle.get("Red"), 90, 26);
         paintButtonWithHoverEffect(loginButton_loginPage, buttonStyle.get("Blue"), buttonStyle.get("Green"), 90, 26);
@@ -410,21 +412,21 @@ public class PasswordManagerGUI {
         }
     }
 
-    public void setButtonSelected(List<JPanel> panelList, int panelToShow, List<JToggleButton> buttonList, HashMap<String, String> buttonStyle, JToggleButton buttonToClick, int buttonToToggle, String hoverEnterPath, String hoverExitPath) {
+    public void setButtonSelectedDefaultSize(List<JPanel> panelList, int panelToShow, List<JToggleButton> buttonList, HashMap<String, String> buttonStyle, JToggleButton buttonToClick, int buttonToToggle, String hoverEnterPath, String hoverExitPath) {
         //paint all buttons to default blue
         for (JToggleButton button : buttonList) {
-            paintButtonDefaultSize(button, buttonStyle.get("Blue"));
+            paintToggleButtonDefaultSize(button, buttonStyle.get("Blue"));
         }
         buttonToClick.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for (int i = 0; i < buttonList.size(); i++) {
                     if (i == buttonToToggle) {
-                        paintButtonToggle(buttonList.get(i), buttonStyle.get("DarkBlue"));
+                        paintToggleButtonDefaultSize(buttonList.get(i), buttonStyle.get("DarkBlue"));
                         pageLabel.setText(buttonList.get(buttonToToggle).getText());
                     } else {
                         buttonList.get(i).setSelected(false);
-                        paintButtonToggle(buttonList.get(i), buttonStyle.get("Blue"));
+                        paintToggleButtonDefaultSize(buttonList.get(i), buttonStyle.get("Blue"));
                     }
                 }
 
@@ -439,7 +441,37 @@ public class PasswordManagerGUI {
         });
     }
 
-    public void paintButtonDefaultSize(JToggleButton button, String imagePath){
+    public void setButtonSelectedVariousSize(List<JPanel> panelList, int panelToShow, List<JToggleButton> buttonList, HashMap<String, String> buttonStyle, JToggleButton buttonToClick, int buttonToToggle, String hoverEnterPath, String hoverExitPath) {
+        //paint all buttons to default blue
+        for (JToggleButton button : buttonList) {
+            paintButtonVariousSize(button, buttonStyle.get("Blue"), 90, 26);
+        }
+        buttonToClick.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (int i = 0; i < buttonList.size(); i++) {
+                    if (i == buttonToToggle) {
+
+                        paintButtonVariousSize(buttonList.get(i), buttonStyle.get("DarkBlue"), 90, 26);
+                        pageLabel.setText(buttonList.get(buttonToToggle).getText());
+                    } else {
+                        buttonList.get(i).setSelected(false);
+                        paintButtonVariousSize(buttonList.get(i), buttonStyle.get("Blue"), 90, 26);
+                    }
+                }
+
+                for (int i = 0; i < panelList.size(); i++) {
+                    if (i == panelToShow) {
+                        panelList.get(i).setVisible(true);
+                    } else {
+                        panelList.get(i).setVisible(false);
+                    }
+                }
+            }
+        });
+    }
+
+    public void paintToggleButtonDefaultSize(JToggleButton button, String imagePath){
         ImageIcon icon = new ImageIcon(imagePath);
         Image img = icon.getImage();
         Image newimg = img.getScaledInstance(150, 26, java.awt.Image.SCALE_SMOOTH);
@@ -452,11 +484,11 @@ public class PasswordManagerGUI {
         button.setForeground(Color.WHITE);
     }
 
-    public void paintButtonToggle(JToggleButton button, String imagePath){
+    public void paintButtonVariousSize(JToggleButton button, String imagePath, int width, int height){
         ImageIcon icon = new ImageIcon(imagePath);
         Image img = icon.getImage();
-        Image newimage = img.getScaledInstance(150, 26, java.awt.Image.SCALE_SMOOTH);
-        ImageIcon newIcon = new ImageIcon(newimage);
+        Image newimg = img.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
+        ImageIcon newIcon = new ImageIcon(newimg);
 
         button.setIcon(newIcon);
         button.setHorizontalTextPosition(SwingConstants.CENTER);
