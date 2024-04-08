@@ -8,6 +8,7 @@ import org.example.passwordmanager.Repo.UsersRepo;
 import org.example.passwordmanager.Services.Encryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -64,12 +65,17 @@ public class PasswordsController {
     //update accounts
     //update accountName
     @PostMapping("/passwords/updateAccountName/{username}/{accountName}")
-    public String updateAccountName(@PathVariable String username, @PathVariable String accountName, @RequestBody Passwords passwords){
+    public int updateAccountName(@PathVariable String username, @PathVariable String accountName, @RequestBody Passwords passwords){
         Passwords password = passwordsRepo.findAllByUsernameAndAccountName(username, accountName);
-        password.setAccountName(passwords.getAccountName());
-        passwordsRepo.save(password);
-        log.info("Account name successfully updated via API endpoint");
-        return "Account Name successfully updated";
+        if(password == null){
+            return 404;
+        }else{
+            password.setAccountName(passwords.getAccountName());
+            passwordsRepo.save(password);
+            log.info("Account name successfully updated via API endpoint");
+            return 200;
+        }
+
     }
 
     //update accountUsername

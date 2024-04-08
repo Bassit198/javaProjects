@@ -3,6 +3,9 @@ package org.example.passwordmanager;
 import org.example.passwordmanager.Models.Passwords;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import javax.swing.*;
@@ -90,7 +93,9 @@ public class PasswordManagerGUI {
     private JToggleButton updateAccountName_updateAccount;
     private JToggleButton updateAccountUsername_updateAccount;
     private JToggleButton updateAccountPassword_updateAccount;
-
+    private JTextField oldAccountName_updateAccount;
+    private JTextField newAccountName_updateAccount;
+    private JButton updateButton_updateAccountName;
 
 
     //models for lists
@@ -345,6 +350,35 @@ public class PasswordManagerGUI {
         });
 
         //update account buttons
+        updateButton_updateAccountName.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String username = loggedInUserLabel.getText();
+                String accountName = oldAccountName_updateAccount.getText();
+
+                if(username.isEmpty() || accountName.isEmpty()){
+                    JOptionPane.showMessageDialog(null, "Please fill in all fields", "Invalid", JOptionPane.ERROR_MESSAGE);
+                }else{
+                    final String uri = "http://localhost:8080/passwords/updateAccountName/ " + username + "/" + accountName;
+                    Map<String, String> map = new HashMap<>();
+                    map.put("accountName", newAccountName_updateAccount.getText());
+                    Integer request = restTemplate.postForObject(uri, map, Integer.class);
+                    if(request == null){
+                        JOptionPane.showMessageDialog(null, "Error processing your request", "Try Again", JOptionPane.ERROR_MESSAGE);
+                    }else{
+                        if(request == 200){
+                            JOptionPane.showMessageDialog(null, "Account name updated successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        }else{
+                            JOptionPane.showMessageDialog(null, "No account found with that name", "Invalid", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                }
+            }
+        });
+
+
+
+
 
         //logout button action
         logoutButton.addActionListener(new ActionListener() {
