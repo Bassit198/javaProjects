@@ -1,6 +1,7 @@
 package org.example.passwordmanager;
 
 import org.example.passwordmanager.Models.Passwords;
+import org.example.passwordmanager.Services.Encryptor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.client.RestTemplate;
@@ -90,13 +91,20 @@ public class PasswordManagerGUI {
     private JToggleButton updateAccountName_updateAccount;
     private JToggleButton updateAccountUsername_updateAccount;
     private JToggleButton updateAccountPassword_updateAccount;
-    private JTextField oldAccountName_updateAccount;
-    private JTextField newAccountName_updateAccount;
+
+    private JTextField oldAccountName_updateAccountName;
+    private JTextField newAccountName_updateAccountName;
     private JButton updateButton_updateAccountName;
+
     private JTextField accountName_updateAccountUsername;
     private JTextField oldUsername_updateAccountUsername;
     private JTextField newUsername_updateAccountUsername;
     private JButton updateButton_updateAccountUsername;
+
+    private JTextField accountName_updateAccountPassword;
+    private JTextField oldPassword_updateAccountPassword;
+    private JTextField newPassword_updateAccountPassword;
+    private JButton updateButton_updateAccountPassword;
 
 
     //models for lists
@@ -104,8 +112,10 @@ public class PasswordManagerGUI {
     private final DefaultListModel<String> passwordListModel = new DefaultListModel<>();
 
 
+
     public PasswordManagerGUI() {
 
+        passwordList_findAccount.setModel(passwordListModel);
         loggedInUserLabel.setVisible(false);
 
 
@@ -148,9 +158,9 @@ public class PasswordManagerGUI {
         paintButtonWithHoverEffect(clearButton_deleteAccount, buttonStyle.get("Blue"), buttonStyle.get("Red"), 90, 26);
         paintButtonWithHoverEffect(deleteButton_deleteAccount, buttonStyle.get("Blue"), buttonStyle.get("Red"), 90, 26);
 
-
-
-
+        paintButtonWithHoverEffect(updateButton_updateAccountName, buttonStyle.get("Blue"), buttonStyle.get("Green"), 90, 26);
+        paintButtonWithHoverEffect(updateButton_updateAccountUsername, buttonStyle.get("Blue"), buttonStyle.get("Green"), 90, 26);
+        paintButtonWithHoverEffect(updateButton_updateAccountPassword, buttonStyle.get("Blue"), buttonStyle.get("Green"), 90, 26);
 
         //login page buttons
         clearButton_loginPage.addActionListener(new ActionListener() {
@@ -261,7 +271,7 @@ public class PasswordManagerGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 accountName_findAccount.setText("");
-                scrollPane_findAccount.setVisible(false);
+                passwordListModel.removeAllElements();
             }
         });
         searchButton_findAccount.addActionListener(new ActionListener() {
@@ -269,51 +279,55 @@ public class PasswordManagerGUI {
             public void actionPerformed(ActionEvent e) {
                 String accountName = accountName_findAccount.getText();
                 String username = loggedInUserLabel.getText();
-                final String uri = "http://localhost:8080/passwordsList/get/" + accountName + "/" + username;
-                Passwords[] passwordsArray = restTemplate.getForObject(uri, Passwords[].class);
-                assert passwordsArray != null;
-                List<Passwords> passwordsList = Arrays.asList(passwordsArray);
-                if (passwordsList.isEmpty()){
-                    JOptionPane.showMessageDialog(null, "No accounts Found", "Failed", JOptionPane.ERROR_MESSAGE);
+
+                if(accountName.isEmpty()){
+                    JOptionPane.showMessageDialog(null, "Please fill in all fields", "Failed", JOptionPane.ERROR_MESSAGE);
                 }else{
+                    final String uri = "http://localhost:8080/passwordsList/get/" + accountName + "/" + username;
+                    Passwords[] passwordsArray = restTemplate.getForObject(uri, Passwords[].class);
+                    assert passwordsArray != null;
+                    List<Passwords> passwordsList = Arrays.asList(passwordsArray);
+                    if (passwordsList.isEmpty()){
+                        JOptionPane.showMessageDialog(null, "No accounts Found", "Failed", JOptionPane.ERROR_MESSAGE);
+                    }else{
+                        for (Passwords passwords : passwordsList) {
+                            passwordListModel.addElement("Account Name: " + passwords.getAccountName());
+                            passwordListModel.addElement(Encryptor.decrypt(passwords.getAccountPassword()));
+                            passwordListModel.addElement(" ");
+                        }
+                        scrollPane_findAccount.setVisible(true);
 
-                    passwordList_findAccount.setModel(passwordListModel);
-                    for (Passwords passwords : passwordsList) {
-                        passwordListModel.addElement("Account Name: " + passwords.getAccountName());
-                        passwordListModel.addElement(passwords.getAccountPassword());
-                        passwordListModel.addElement(" ");
+                        //scroll bar background
+                        scrollPane_findAccount.getVerticalScrollBar().setBackground(Color.WHITE);
+                        scrollPane_findAccount.getHorizontalScrollBar().setBackground(Color.WHITE);
+                        //scroll bar
+                        scrollPane_findAccount.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+                            @Override
+                            protected void configureScrollBarColors() {
+                                this.thumbColor = new Color(200, 200, 200);
+                                this.scrollBarWidth = 5;
+                            }
+                            //the 3 below override replaces the scroll bar buttons with regular buttons of 0x0 size
+                            @Override
+                            protected JButton createDecreaseButton(int orientation) {
+                                return createZeroButton();
+                            }
+                            @Override
+                            protected JButton createIncreaseButton(int orientation) {
+                                return createZeroButton();
+                            }
+                            private JButton createZeroButton() {
+                                JButton jbutton = new JButton();
+                                jbutton.setPreferredSize(new Dimension(0, 0));
+                                jbutton.setMinimumSize(new Dimension(0, 0));
+                                jbutton.setMaximumSize(new Dimension(0, 0));
+                                return jbutton;
+                            }
+
+                        });
                     }
-                    scrollPane_findAccount.setVisible(true);
-
-                    //scroll bar background
-                    scrollPane_findAccount.getVerticalScrollBar().setBackground(Color.WHITE);
-                    scrollPane_findAccount.getHorizontalScrollBar().setBackground(Color.WHITE);
-                    //scroll bar
-                    scrollPane_findAccount.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
-                        @Override
-                        protected void configureScrollBarColors() {
-                            this.thumbColor = new Color(200, 200, 200);
-                            this.scrollBarWidth = 5;
-                        }
-                        //the 3 below override replaces the scroll bar buttons with regular buttons of 0x0 size
-                        @Override
-                        protected JButton createDecreaseButton(int orientation) {
-                            return createZeroButton();
-                        }
-                        @Override
-                        protected JButton createIncreaseButton(int orientation) {
-                            return createZeroButton();
-                        }
-                        private JButton createZeroButton() {
-                            JButton jbutton = new JButton();
-                            jbutton.setPreferredSize(new Dimension(0, 0));
-                            jbutton.setMinimumSize(new Dimension(0, 0));
-                            jbutton.setMaximumSize(new Dimension(0, 0));
-                            return jbutton;
-                        }
-
-                    });
                 }
+
 
             }
         });
@@ -332,21 +346,20 @@ public class PasswordManagerGUI {
                 String username = loggedInUserLabel.getText();
                 String accountName = accountName_deleteAccount.getText();
                 String userPassword = userPassword_deleteAccount.getText();
-                final String uri = "http://localhost:8080/passwords/delete/" + username + "/" + accountName + "/" + userPassword;
-                //restTemplate.postForEntity(uri, null, String.class);
-                Integer result = restTemplate.getForObject(uri, Integer.class);
-                assert result!=null;
-                if(result == 1){
-                    JOptionPane.showMessageDialog(null, "Account Deleted Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    accountName_deleteAccount.setText("");
-                    userPassword_deleteAccount.setText("");
+                if(username.isEmpty() || accountName.isEmpty() || userPassword.isEmpty()){
+                    JOptionPane.showMessageDialog(null, "Please fill in all fields", "Failed", JOptionPane.ERROR_MESSAGE);
                 }else{
-                    JOptionPane.showMessageDialog(null, "Unable to remove account. Invalid information entered or account not found", "Failed", JOptionPane.ERROR_MESSAGE);
+                    final String uri = "http://localhost:8080/passwords/delete/" + username + "/" + accountName + "/" + userPassword;
+                    Integer result = restTemplate.getForObject(uri, Integer.class);
+                    assert result!=null;
+                    if(result == 1){
+                        JOptionPane.showMessageDialog(null, "Account Deleted Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        accountName_deleteAccount.setText("");
+                        userPassword_deleteAccount.setText("");
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Unable to remove account. Invalid information entered or account not found", "Failed", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
-
-
-
-
             }
         });
 
@@ -355,62 +368,108 @@ public class PasswordManagerGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String username = loggedInUserLabel.getText();
-                String accountName = oldAccountName_updateAccount.getText();
+                String accountName = oldAccountName_updateAccountName.getText();
 
                 if(username.isEmpty() || accountName.isEmpty()){
                     JOptionPane.showMessageDialog(null, "Please fill in all fields", "Invalid", JOptionPane.ERROR_MESSAGE);
                 }else{
                     final String uri = "http://localhost:8080/passwords/updateAccountName/" + username + "/" + accountName;
                     Map<String, String> map = new HashMap<>();
-                    map.put("accountName", newAccountName_updateAccount.getText());
+                    map.put("accountName", newAccountName_updateAccountName.getText());
                     Integer request = restTemplate.postForObject(uri, map, Integer.class);
                     if(request == null){
                         JOptionPane.showMessageDialog(null, "Error processing your request", "Try Again", JOptionPane.ERROR_MESSAGE);
                     }else{
                         if(request == 200){
                             JOptionPane.showMessageDialog(null, "Account name updated successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-                            oldAccountName_updateAccount.setText("");
-                            newAccountName_updateAccount.setText("");
+                            oldAccountName_updateAccountName.setText("");
+                            newAccountName_updateAccountName.setText("");
                         }else{
                             JOptionPane.showMessageDialog(null, "No account found with that name", "Invalid", JOptionPane.ERROR_MESSAGE);
-                            oldAccountName_updateAccount.setText("");
-                            newAccountName_updateAccount.setText("");
+                            oldAccountName_updateAccountName.setText("");
+                            newAccountName_updateAccountName.setText("");
                         }
                     }
                 }
             }
         });
-
         updateButton_updateAccountUsername.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String username = loggedInUserLabel.getText();
                 String accountName = accountName_updateAccountUsername.getText();
-                final String uri = "http://localhost:8080/passwords/updateAccountUsername/" + username + "/" + accountName;
-                Map<String, String> map = new HashMap<>();
-                map.put("accountUsername", newUsername_updateAccountUsername.getText());
-                Integer request = restTemplate.postForObject(uri, map, Integer.class);
-                if(request == null){
-                    JOptionPane.showMessageDialog(null, "Error processing your request", "Try Again", JOptionPane.ERROR_MESSAGE);
+                String newUsername = newUsername_updateAccountUsername.getText();
+
+                if(accountName.isEmpty() || newUsername.isEmpty()){
+                    JOptionPane.showMessageDialog(null, "Please fill in all fields", "Failed", JOptionPane.ERROR_MESSAGE);
                 }else{
-                    if(request == 200){
-                        JOptionPane.showMessageDialog(null, "Account username updated successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-                        accountName_updateAccountUsername.setText("");
-                        oldUsername_updateAccountUsername.setText("");
-                        newUsername_updateAccountUsername.setText("");
+                    final String uri = "http://localhost:8080/passwords/updateAccountUsername/" + username + "/" + accountName;
+                    Map<String, String> map = new HashMap<>();
+                    map.put("accountUsername", newUsername);
+                    Integer request = restTemplate.postForObject(uri, map, Integer.class);
+                    if(request == null){
+                        JOptionPane.showMessageDialog(null, "Error processing your request", "Try Again", JOptionPane.ERROR_MESSAGE);
                     }else{
-                        JOptionPane.showMessageDialog(null, "No account found with that username", "Invalid", JOptionPane.ERROR_MESSAGE);
-                        accountName_updateAccountUsername.setText("");
-                        oldUsername_updateAccountUsername.setText("");
-                        newUsername_updateAccountUsername.setText("");
+                        if(request == 200){
+                            JOptionPane.showMessageDialog(null, "Account username updated successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                            accountName_updateAccountUsername.setText("");
+                            oldUsername_updateAccountUsername.setText("");
+                            newUsername_updateAccountUsername.setText("");
+                        }else{
+                            JOptionPane.showMessageDialog(null, "No account found with that username", "Invalid", JOptionPane.ERROR_MESSAGE);
+                            accountName_updateAccountUsername.setText("");
+                            oldUsername_updateAccountUsername.setText("");
+                            newUsername_updateAccountUsername.setText("");
+                        }
                     }
                 }
             }
         });
+        updateButton_updateAccountPassword.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String accountName = accountName_updateAccountPassword.getText();
+                String oldPassword = oldPassword_updateAccountPassword.getText();
+                String newPassword = newPassword_updateAccountPassword.getText();
+                String username = loggedInUserLabel.getText();
 
+                if(accountName.isEmpty() || oldPassword.isEmpty() || newPassword.isEmpty()){
+                    JOptionPane.showMessageDialog(null, "Please fill in all fields", "Failed", JOptionPane.ERROR_MESSAGE);
+                }else{
+                    //add check if old password matches then update password to new
+                    final String url = "http://localhost:8080/passwordsList/get/" + accountName + "/" + username;
+                    Passwords[] passwordsArray = restTemplate.getForObject(url, Passwords[].class);
+                    assert passwordsArray != null;
+                    List<Passwords> passwordsList = Arrays.asList(passwordsArray);
 
-
-
+                    for (Passwords passwords : passwordsList) {
+                        if(oldPassword.equals(Encryptor.decrypt(passwords.getAccountPassword()))){
+                            final String uri = "http://localhost:8080/passwords/updateAccountPassword/" + username + "/" + accountName;
+                            Map<String, String> map = new HashMap<>();
+                            map.put("accountPassword", Encryptor.encrypt(newPassword));
+                            Integer request = restTemplate.postForObject(uri, map, Integer.class);
+                            if(request == null){
+                                JOptionPane.showMessageDialog(null, "Error processing your request", "Try Again", JOptionPane.ERROR_MESSAGE);
+                            }else{
+                                if(request == 200){
+                                    JOptionPane.showMessageDialog(null, "Account password updated successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                                    accountName_updateAccountPassword.setText("");
+                                    oldPassword_updateAccountPassword.setText("");
+                                    newPassword_updateAccountPassword.setText("");
+                                }else{
+                                    JOptionPane.showMessageDialog(null, "No account found with that username", "Invalid", JOptionPane.ERROR_MESSAGE);
+                                    accountName_updateAccountPassword.setText("");
+                                    oldPassword_updateAccountPassword.setText("");
+                                    newPassword_updateAccountPassword.setText("");
+                                }
+                            }
+                        }else{
+                            JOptionPane.showMessageDialog(null, "Old password does not match", "Invalid", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                }
+            }
+        });
 
         //logout button action
         logoutButton.addActionListener(new ActionListener() {
@@ -419,8 +478,6 @@ public class PasswordManagerGUI {
                 logOutUser();
             }
         });
-
-
 
     }//end class
 
@@ -599,7 +656,6 @@ public class PasswordManagerGUI {
             }
         });
     }
-
 
     //main method
     public static void main(String[] args) {

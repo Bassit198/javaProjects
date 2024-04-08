@@ -95,13 +95,17 @@ public class PasswordsController {
 
     //update accountPassword
     @PostMapping("/passwords/updateAccountPassword/{username}/{accountName}")
-    public String updateAccountPassword(@PathVariable String username, @PathVariable String accountName, @RequestBody Passwords passwords){
+    public int updateAccountPassword(@PathVariable String username, @PathVariable String accountName, @RequestBody Passwords passwords){
         String encryptPassword = Encryptor.encrypt(passwords.getAccountPassword());
         Passwords password = passwordsRepo.findAllByUsernameAndAccountName(username, accountName);
-        password.setAccountPassword(encryptPassword);
-        passwordsRepo.save(password);
-        log.info("Account password successfully updated via API endpoint");
-        return "Account password successfully updated";
+        if(password == null){
+            return 404;
+        }else{
+            password.setAccountPassword(encryptPassword);
+            passwordsRepo.save(password);
+            log.info("Account password successfully updated via API endpoint");
+            return 200;
+        }
     }
 
     //delete accounts
