@@ -80,12 +80,17 @@ public class PasswordsController {
 
     //update accountUsername
     @PostMapping("/passwords/updateAccountUsername/{username}/{accountName}")
-    public String updateAccountUsername(@PathVariable String username, @PathVariable String accountName, @RequestBody Passwords passwords){
+    public int updateAccountUsername(@PathVariable String username, @PathVariable String accountName, @RequestBody Passwords passwords){
         Passwords password = passwordsRepo.findAllByUsernameAndAccountName(username, accountName);
-        password.setAccountUsername(passwords.getAccountUsername());
-        passwordsRepo.save(password);
-        log.info("Account username successfully updated via API endpoint");
-        return "Account username successfully updated";
+        if(password == null){
+            return 404;
+        }else{
+            password.setAccountUsername(passwords.getAccountUsername());
+            passwordsRepo.save(password);
+            log.info("Account username successfully updated via API endpoint");
+            return 200;
+        }
+
     }
 
     //update accountPassword
