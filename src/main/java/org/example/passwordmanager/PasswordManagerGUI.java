@@ -32,7 +32,7 @@ public class PasswordManagerGUI {
     //login page
     private JPanel loginPagePanel;
     private JTextField username_loginPage;
-    private JTextField password_loginPage;
+    private JPasswordField password_loginPage;
     private JButton loginButton_loginPage;
     private JButton clearButton_loginPage;
 
@@ -48,7 +48,7 @@ public class PasswordManagerGUI {
     private JPanel addAccountPanel;
     private JTextField accountName_addAccount;
     private JTextField accountUsername_addAccount;
-    private JTextField accountPassword_addAccount;
+    private JPasswordField accountPassword_addAccount;
     private JButton addButton_addAccountPage;
     private JButton clearButton_addAccountPage;
     private JLabel loggedInUserLabel;
@@ -78,7 +78,7 @@ public class PasswordManagerGUI {
 
     //delete account components
     private JTextField accountName_deleteAccount;
-    private JTextField userPassword_deleteAccount;
+    private JPasswordField userPassword_deleteAccount;
     private JButton deleteButton_deleteAccount;
     private JButton clearButton_deleteAccount;
 
@@ -102,8 +102,8 @@ public class PasswordManagerGUI {
     private JButton updateButton_updateAccountUsername;
 
     private JTextField accountName_updateAccountPassword;
-    private JTextField oldPassword_updateAccountPassword;
-    private JTextField newPassword_updateAccountPassword;
+    private JPasswordField oldPassword_updateAccountPassword;
+    private JPasswordField newPassword_updateAccountPassword;
     private JButton updateButton_updateAccountPassword;
 
 
@@ -117,7 +117,6 @@ public class PasswordManagerGUI {
 
         passwordList_findAccount.setModel(passwordListModel);
         loggedInUserLabel.setVisible(false);
-
 
         List<JPanel> sideBarPanelList = new ArrayList<>();
         Collections.addAll(sideBarPanelList, addAccountPanel, getAccountPanel, findPasswordPanel, deleteAccountPanel, updateAccountPanel);
@@ -292,7 +291,7 @@ public class PasswordManagerGUI {
                     }else{
                         for (Passwords passwords : passwordsList) {
                             passwordListModel.addElement("Account Name: " + passwords.getAccountName());
-                            passwordListModel.addElement(Encryptor.decrypt(passwords.getAccountPassword()));
+                            passwordListModel.addElement(passwords.getAccountPassword());
                             passwordListModel.addElement(" ");
                         }
                         scrollPane_findAccount.setVisible(true);
@@ -443,10 +442,10 @@ public class PasswordManagerGUI {
                     List<Passwords> passwordsList = Arrays.asList(passwordsArray);
 
                     for (Passwords passwords : passwordsList) {
-                        if(oldPassword.equals(Encryptor.decrypt(passwords.getAccountPassword()))){
+                        if(oldPassword.equals(passwords.getAccountPassword())){
                             final String uri = "http://localhost:8080/passwords/updateAccountPassword/" + username + "/" + accountName;
                             Map<String, String> map = new HashMap<>();
-                            map.put("accountPassword", Encryptor.encrypt(newPassword));
+                            map.put("accountPassword", newPassword);
                             Integer request = restTemplate.postForObject(uri, map, Integer.class);
                             if(request == null){
                                 JOptionPane.showMessageDialog(null, "Error processing your request", "Try Again", JOptionPane.ERROR_MESSAGE);
