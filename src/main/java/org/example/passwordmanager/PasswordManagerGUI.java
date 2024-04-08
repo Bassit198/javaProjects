@@ -1,7 +1,6 @@
 package org.example.passwordmanager;
 
 import org.example.passwordmanager.Models.Passwords;
-import org.example.passwordmanager.Services.Encryptor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.client.RestTemplate;
@@ -18,7 +17,6 @@ import java.util.List;
 public class PasswordManagerGUI {
 
     private static final RestTemplate restTemplate = new RestTemplate();
-
 
     private static JFrame frame = new JFrame("Password Manager");
     private JPanel basePanel;
@@ -231,7 +229,7 @@ public class PasswordManagerGUI {
                     listOfAccounts.setModel(listOfAccountsModel);
                     for (Passwords passwords : passwordsList) {
                         listOfAccountsModel.addElement("Account Name: " + passwords.getAccountName());
-                        listOfAccountsModel.addElement(" ");
+                        listOfAccountsModel.addElement("==============================");
                     }
                     //scroll bar background
                     scrollPane_getAccount.getVerticalScrollBar().setBackground(Color.WHITE);
@@ -292,7 +290,7 @@ public class PasswordManagerGUI {
                         for (Passwords passwords : passwordsList) {
                             passwordListModel.addElement("Account Name: " + passwords.getAccountName());
                             passwordListModel.addElement(passwords.getAccountPassword());
-                            passwordListModel.addElement(" ");
+                            passwordListModel.addElement("==============================");
                         }
                         scrollPane_findAccount.setVisible(true);
 
