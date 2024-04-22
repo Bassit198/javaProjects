@@ -42,7 +42,6 @@ public class Admin {
     private String firstname, lastname, username, email, position;
 
     @Column
-    @JsonIgnore
     private String password;
 
     @Column
