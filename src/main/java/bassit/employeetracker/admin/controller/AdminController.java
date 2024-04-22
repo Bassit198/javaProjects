@@ -2,7 +2,6 @@ package bassit.employeetracker.admin.controller;
 
 import bassit.employeetracker.admin.model.Admin;
 import bassit.employeetracker.admin.service.AdminService;
-import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
