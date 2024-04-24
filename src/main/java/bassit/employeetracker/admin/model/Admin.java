@@ -34,12 +34,15 @@ import lombok.Setter;
 public class Admin {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private Long employeeID;
 
     @Column
-    private String firstname, lastname, username, email, position;
+    private String firstname, lastname, position;
+
+    @Column(unique = true)
+    private String email, username;
 
     @Column
     private String password;
