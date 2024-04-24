@@ -39,7 +39,6 @@ public class EmployeeService {
                     Employee employee1 = employeeRepository.findByEmail(employee.getEmail());
                     Admin admin = new Admin(employee1.getEmployeeID(), employee1.getFirstname(), employee1.getLastname(), employee1.getUsername(), employee1.getEmail(), employee1.getPassword(), employee1.getPosition(), employee1.getStatus());
                     adminRepository.save(admin);
-
                 } else {
                     employeeRepository.save(employee);
                 }
