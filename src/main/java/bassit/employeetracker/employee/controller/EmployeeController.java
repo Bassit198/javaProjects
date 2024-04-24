@@ -37,6 +37,7 @@ public class EmployeeController {
     }
 
     //get list of all employee with admin permissions
+    @GetMapping("/allAdmin")
     public List<Employee> listAllAdminEmployee(){
         return employeeService.listAllAdminEmployee();
     }
@@ -109,5 +110,9 @@ public class EmployeeController {
     }
 
     //inactive employee by changing status to 0 and adminAccess to 0
+    @PostMapping("/inactivate")
+    public void inactivateEmployee(@RequestBody Employee employee){
+        employeeService.inactivateEmployee(employee);
+    }
 
 }
