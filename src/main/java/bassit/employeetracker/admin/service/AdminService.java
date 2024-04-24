@@ -42,8 +42,14 @@ public class AdminService {
             if(adminOptionalUsername.isPresent()){
                 throw new IllegalStateException("Admin profile already exists");
             }else{
-                log.info("Email and username not existing so admin created with: " + admin.getEmail());
-                adminRepository.save(admin);
+                Optional<Admin> adminOptionalEmployeeID = adminRepository.findAdminByEmployeeID(admin.getEmployeeID());
+                if(adminOptionalEmployeeID.isPresent()){
+                    throw new IllegalStateException("Admin profile already exists");
+                }else{
+                    log.info("Email, username and employeeID not existing so admin created with: " + admin.getEmail());
+                    adminRepository.save(admin);
+                }
+
             }
 
         }

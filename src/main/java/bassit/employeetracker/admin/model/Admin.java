@@ -34,8 +34,11 @@ import lombok.Setter;
 public class Admin {
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
+    private Long id;
+
+    @Column
     private Long employeeID;
 
     @Column
@@ -60,5 +63,14 @@ public class Admin {
         this.status = status;
     }
 
-
+    public Admin(Long employeeID, String firstname, String lastname, String position, String email, String username, String password, Integer status) {
+        this.employeeID = employeeID;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.position = position;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.status = status;
+    }
 }

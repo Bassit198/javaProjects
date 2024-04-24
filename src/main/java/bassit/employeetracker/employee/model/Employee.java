@@ -57,13 +57,12 @@ public class Employee {
     private String password;
 
     @Column
-    @JsonIgnore
     private double payRate;
 
     @Column
-    private int status, adminAccess;
+    private Integer status, adminAccess;
 
-    public Employee(String firstname, String lastname, String position, LocalDate dob, LocalDate hireDate, String username, String email, String password, double payRate, int status, int adminAccess) {
+    public Employee(String firstname, String lastname, String position, LocalDate dob, LocalDate hireDate, String username, String email, String password, double payRate, Integer status, Integer adminAccess) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.position = position;
