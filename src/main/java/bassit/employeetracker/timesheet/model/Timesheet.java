@@ -33,13 +33,12 @@ public class Timesheet {
     private LocalTime timeIn, timeOut;
 
     @Column
-    private double totalHours;
+    private double totalHours, regularHours, overtimeHours;
 
     @Column
-    private double regularHours;
+    private double payRate;
 
     @Column
-    private double overtimeHours;
-
+    private double amountEarned;
 
 }
