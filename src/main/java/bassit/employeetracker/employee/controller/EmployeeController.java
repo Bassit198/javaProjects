@@ -115,4 +115,10 @@ public class EmployeeController {
         employeeService.inactivateEmployee(employee);
     }
 
+    //activate employee
+    @PostMapping("/activate")
+    public void activateEmployee(@RequestBody Employee employee){
+        employeeService.activateEmployee(employee);
+    }
+
 }

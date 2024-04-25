@@ -6,13 +6,18 @@ import bassit.employeetracker.employee.model.Employee;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Log
 @Service
 public class EmployeeService {
+
+    private final RestTemplate restTemplate = new RestTemplate();
 
     private final EmployeeRepository employeeRepository;
 
@@ -69,6 +74,7 @@ public class EmployeeService {
             employeeToUpdate.setFirstname(employee.getFirstname());
             log.info("Employee firstname updated from: " + oldName + " to " + employeeToUpdate.getFirstname());
             employeeRepository.save(employeeToUpdate);
+            apiUpdate("http://localhost:8080/api/v1/admin/updateFirstname", employee.getEmail(), "firstname", employee.getFirstname(), restTemplate);
         }
     }
 
@@ -83,6 +89,7 @@ public class EmployeeService {
             employeeToUpdate.setLastname(employee.getLastname());
             log.info("Employee lastname updated from: " + oldName + " to " + employeeToUpdate.getLastname());
             employeeRepository.save(employeeToUpdate);
+            apiUpdate("http://localhost:8080/api/v1/admin/updateLastname", employee.getEmail(), "lastname", employee.getLastname(), restTemplate);
         }
     }
 
@@ -97,6 +104,7 @@ public class EmployeeService {
             employeeToUpdate.setPosition(employee.getPosition());
             log.info("Employee position updated from: " + oldPosition + " to " + employeeToUpdate.getPosition());
             employeeRepository.save(employeeToUpdate);
+            apiUpdate("http://localhost:8080/api/v1/admin/updatePosition", employee.getEmail(), "position", employee.getPosition(), restTemplate);
         }
     }
 
@@ -139,6 +147,7 @@ public class EmployeeService {
             employeeToUpdate.setUsername(employee.getUsername());
             log.info("Employee username updated from: " + oldUsername + " to " + employeeToUpdate.getUsername());
             employeeRepository.save(employeeToUpdate);
+            apiUpdate("http://localhost:8080/api/v1/admin/updateUsername", employee.getEmail(), "username", employee.getUsername(), restTemplate);
         }
     }
 
@@ -153,6 +162,7 @@ public class EmployeeService {
             employeeToUpdate.setEmail(employee.getEmail());
             log.info("Employee email updated from: " + oldEmail + " to " + employeeToUpdate.getEmail());
             employeeRepository.save(employeeToUpdate);
+            apiUpdate("http://localhost:8080/api/v1/admin/updateEmail", employee.getUsername(), "email", employee.getEmail(), restTemplate);
         }
     }
 
@@ -166,6 +176,7 @@ public class EmployeeService {
             employeeToUpdate.setPassword(employee.getPassword());
             log.info("Employee password updated successfully");
             employeeRepository.save(employeeToUpdate);
+            apiUpdate("http://localhost:8080/api/v1/admin/updatePassword", employee.getEmail(), "password", employee.getPassword(), restTemplate);
         }
     }
 
@@ -193,8 +204,11 @@ public class EmployeeService {
             int oldStatus = employeeToUpdate.getStatus();
             employeeToUpdate.setStatus(employee.getStatus());
             if(oldStatus == 1 && employee.getStatus() == 0){
+                employeeToUpdate.setAdminAccess(0);
+                apiUpdate("http://localhost:8080/api/v1/admin/updateStatus", employee.getEmail(), "status", String.valueOf(employee.getStatus()), restTemplate);
                 log.info("Employee status updated from active to inactive");
             }else if(oldStatus == 0 && employee.getStatus() == 1){
+                apiUpdate("http://localhost:8080/api/v1/admin/updateStatus", employee.getEmail(), "status", String.valueOf(employee.getStatus()), restTemplate);
                 log.info("Employee status updated from inactive to active");
             }else{
                 log.info("Employee status updated");
@@ -210,7 +224,7 @@ public class EmployeeService {
             log.info("No account found to be updated");
             throw new IllegalStateException("No employee found with that email");
         }else{
-            int oldAdminAccess = employeeToUpdate.getStatus();
+            int oldAdminAccess = employeeToUpdate.getAdminAccess();
             employeeToUpdate.setAdminAccess(employee.getAdminAccess());
             employeeRepository.save(employeeToUpdate);
             if(oldAdminAccess == 1 && employee.getAdminAccess() == 0){
@@ -220,13 +234,11 @@ public class EmployeeService {
             }else if(oldAdminAccess == 0 && employee.getAdminAccess() == 1){
                 log.info("Employee admin access updated to active");
                 Employee employee1 = employeeRepository.findByEmail(employee.getEmail());
-                Admin admin = new Admin(employee1.getEmployeeID(), employee1.getFirstname(), employee1.getLastname(), employee1.getUsername(), employee1.getEmail(), employee1.getPassword(), employee1.getPosition(), employee1.getStatus());
+                Admin admin = new Admin(employee1.getEmployeeID(), employee1.getFirstname(), employee1.getLastname(), employee1.getPosition(), employee1.getEmail(), employee1.getUsername(), employee1.getPassword(), employee1.getStatus());
                 adminRepository.save(admin);
             }else{
                 log.info("Employee admin access updated");
             }
-
-
         }
     }
 
@@ -234,16 +246,69 @@ public class EmployeeService {
     public void inactivateEmployee(Employee employee) {
         Employee employeeToUpdate = employeeRepository.findByEmail(employee.getEmail());
         if(employeeToUpdate == null){
-            log.info("No account found to be updated");
+            log.info("No employee found to be updated");
             throw new IllegalStateException("No employee found with that email");
         }else{
             String email = employeeToUpdate.getEmail();
             employeeToUpdate.setStatus(0);
+            employeeToUpdate.setPosition("Inactive");
             log.info("Employee status updated to inactive. Email: " + email);
             employeeToUpdate.setAdminAccess(0);
-            log.info("Employee admin access update to inactive. Email: " + email);
+            Admin admin = adminRepository.findByEmail(employee.getEmail());
+            if(admin == null){
+                log.info("No admin found to be updated");
+                throw new IllegalStateException("No admin found with that email");
+            }else{
+                adminRepository.delete(admin);
+                log.info("Employee admin access updated to inactive. Email: " + email);
+            }
             employeeRepository.save(employeeToUpdate);
         }
     }
+
+    //activate employee
+    public void activateEmployee(Employee employee) {
+        Employee employeeToUpdate = employeeRepository.findByEmail(employee.getEmail());
+        if(employeeToUpdate == null){
+            log.info("No account found to be updated");
+            throw new IllegalStateException("No employee found with that email");
+        }else{
+            String email = employeeToUpdate.getEmail();
+            employeeToUpdate.setStatus(1);
+            employeeToUpdate.setPosition(employee.getPosition());
+            employeeToUpdate.setAdminAccess(0);
+            log.info("Employee status updated to active. Email: " + email + " with position of: " + employee.getPosition());
+            employeeRepository.save(employeeToUpdate);
+        }
+    }
+
+
+    public void apiUpdate(String uri, String searchParameter, String firstKey, String firstValue, RestTemplate restTemplate){
+        if(searchParameter.contains("@")){
+            Admin adminToUpdate = adminRepository.findByEmail(searchParameter);
+            if(adminToUpdate != null) {
+                Map<String, String> map = new HashMap<>();
+                map.put(firstKey, firstValue);
+                map.put("email", searchParameter);
+                restTemplate.postForEntity(uri, map, Void.class);
+            }else {
+                throw new IllegalStateException("No admin found with that email");
+            }
+        }else{
+            Admin adminToUpdate = adminRepository.findByUsername(searchParameter);
+            if(adminToUpdate != null) {
+                Map<String, String> map = new HashMap<>();
+                map.put(firstKey, firstValue);
+                map.put("username", searchParameter);
+                restTemplate.postForEntity(uri, map, Void.class);
+            }else {
+                throw new IllegalStateException("No admin found with that username");
+            }
+            log.info(uri + "used successfully");
+        }
+    }
+
+
+
 }
 
