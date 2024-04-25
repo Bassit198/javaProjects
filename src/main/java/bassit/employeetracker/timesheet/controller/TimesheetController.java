@@ -15,4 +15,16 @@ public class TimesheetController {
     public TimesheetController(TimesheetService timesheetService) {
         this.timesheetService = timesheetService;
     }
+
+    //add clock in
+    //add clock out
+    //get list of time in and time out for specific employee
+
+    //admin
+    //edit time in
+    //edit time out
+    //add time in
+    //add time out
+    //remove time in
+    //remove time out
 }
