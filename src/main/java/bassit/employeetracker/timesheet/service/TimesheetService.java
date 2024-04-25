@@ -2,6 +2,7 @@ package bassit.employeetracker.timesheet.service;
 
 import bassit.employeetracker.admin.service.AdminRepository;
 import bassit.employeetracker.employee.service.EmployeeRepository;
+import bassit.employeetracker.timesheet.model.Timesheet;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
