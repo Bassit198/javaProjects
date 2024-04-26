@@ -65,11 +65,18 @@ public class TimesheetService {
 
                     toEdit.setTotalHours(elapsedHoursRounded);
                     toEdit.setAmountEarned(amountEarnedRounded);
+
+                    if(elapsedHoursRounded >= 40){
+                        toEdit.setRegularHours(40);
+                        toEdit.setOvertimeHours(elapsedHoursRounded - 40);
+                    }else{
+                        toEdit.setRegularHours(elapsedHoursRounded);
+                    }
                     timesheetRepository.save(toEdit);
                 }
             }
             if (exist == 0) {
-                throw new IllegalStateException("Employee is not clocked in");
+                throw new IllegalStateException("Employee is not clocked in today");
             }
         }
     }
