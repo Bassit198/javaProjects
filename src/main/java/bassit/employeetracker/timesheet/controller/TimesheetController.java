@@ -5,7 +5,9 @@ import bassit.employeetracker.timesheet.service.TimesheetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Time;
 import java.util.LinkedList;
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/timesheet")
@@ -29,12 +31,12 @@ public class TimesheetController {
     public void addClockOut(@RequestBody Timesheet timesheet){
         timesheetService.addClockOut(timesheet);
     }
-//
-//    //get list of time in and time out for specific employee
-//    @GetMapping("/list")
-//    public List<Timesheet> listTime(){
-//        return timesheetService.listTimes();
-//    }
+
+    //get list of time in and time out for specific employee
+    @PostMapping("/list")
+    public List<Timesheet> listTime(@RequestBody Timesheet timesheet){
+        return timesheetService.listTimes(timesheet);
+    }
 //
 //    //admin
 //    //edit time in

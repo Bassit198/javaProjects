@@ -12,6 +12,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.LinkedList;
+import java.util.List;
 
 @Log
 @Service
@@ -73,6 +74,41 @@ public class TimesheetService {
         }
     }
 
+    //get list of clock in for employee on specific date
+    public List<Timesheet> listTimes(Timesheet timesheet) {
+        return timesheetRepository.findAllByEmployeeIDAndDate(timesheet.getEmployeeID(), timesheet.getDate());
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //clock in helper method
     public void clockInEmployee(Employee employee){
         Timesheet timeEntry = new Timesheet();
@@ -82,6 +118,5 @@ public class TimesheetService {
         timeEntry.setPayRate(employee.getPayRate());
         timesheetRepository.save(timeEntry);
     }
-
 
 }
