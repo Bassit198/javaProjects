@@ -41,4 +41,16 @@ public class Timesheet {
     @Column
     private double amountEarned;
 
+    public Timesheet(Long employeeID, LocalDate date, LocalTime timeIn, LocalTime timeOut, double totalHours, double regularHours, double overtimeHours, double payRate, double amountEarned) {
+        this.employeeID = employeeID;
+        this.date = date;
+        this.timeIn = timeIn;
+        this.timeOut = timeOut;
+        this.totalHours = totalHours;
+        this.regularHours = regularHours;
+        this.overtimeHours = overtimeHours;
+        this.payRate = payRate;
+        this.amountEarned = amountEarned;
+    }
+
 }

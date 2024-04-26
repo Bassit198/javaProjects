@@ -2,11 +2,10 @@ package bassit.employeetracker.timesheet.controller;
 
 import bassit.employeetracker.timesheet.model.Timesheet;
 import bassit.employeetracker.timesheet.service.TimesheetService;
-import jakarta.persistence.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.LinkedList;
 
 @RestController
 @RequestMapping("api/v1/timesheet")
@@ -28,49 +27,49 @@ public class TimesheetController {
     //add clock out
     @PostMapping("/timeOut")
     public void addClockOut(@RequestBody Timesheet timesheet){
-        timesheetService.addClockOut();
+        timesheetService.addClockOut(timesheet);
     }
-
-    //get list of time in and time out for specific employee
-    @GetMapping("/list")
-    public List<Timesheet> listTime(){
-        return timesheetService.listTimes();
-    }
-
-    //admin
-    //edit time in
-    @PostMapping("/editTimeIn")
-    public void editTimeIn(@RequestBody Timesheet timesheet){
-        timesheetService.editTimeIn(timesheet);
-    }
-
-    //edit time out
-    @PostMapping("/editTimeOut")
-    public void editTimeOut(@RequestBody Timesheet timesheet){
-        timesheetService.editTimeOut(timesheet);
-    }
-
-    //add time in
-    @PostMapping("/addMissingTimeIn")
-    public void addMissingTimeIn(@RequestBody Timesheet timesheet){
-        timesheetService.addMissingTimeIn(timesheet);
-    }
-
-    //add time out
-    @PostMapping("/addMissingTimeOut")
-    public void addMissingTimeOut(@RequestBody Timesheet timesheet){
-        timesheetService.addMissingTimeOut(timesheet);
-    }
-
-    //remove time in
-    @PostMapping("/removeTimeIn")
-    public void removeTimeIn(@RequestBody Timesheet timesheet){
-        timesheetService.removeTimeIn(timesheet);
-    }
-
-    //remove time out
-    @PostMapping("/removeTimeOut")
-    public void removeTimeOut(@RequestBody Timesheet timesheet){
-        timesheetService.removeTimeOut(timesheet);
-    }
+//
+//    //get list of time in and time out for specific employee
+//    @GetMapping("/list")
+//    public List<Timesheet> listTime(){
+//        return timesheetService.listTimes();
+//    }
+//
+//    //admin
+//    //edit time in
+//    @PostMapping("/editTimeIn")
+//    public void editTimeIn(@RequestBody Timesheet timesheet){
+//        timesheetService.editTimeIn(timesheet);
+//    }
+//
+//    //edit time out
+//    @PostMapping("/editTimeOut")
+//    public void editTimeOut(@RequestBody Timesheet timesheet){
+//        timesheetService.editTimeOut(timesheet);
+//    }
+//
+//    //add time in
+//    @PostMapping("/addMissingTimeIn")
+//    public void addMissingTimeIn(@RequestBody Timesheet timesheet){
+//        timesheetService.addMissingTimeIn(timesheet);
+//    }
+//
+//    //add time out
+//    @PostMapping("/addMissingTimeOut")
+//    public void addMissingTimeOut(@RequestBody Timesheet timesheet){
+//        timesheetService.addMissingTimeOut(timesheet);
+//    }
+//
+//    //remove time in
+//    @PostMapping("/removeTimeIn")
+//    public void removeTimeIn(@RequestBody Timesheet timesheet){
+//        timesheetService.removeTimeIn(timesheet);
+//    }
+//
+//    //remove time out
+//    @PostMapping("/removeTimeOut")
+//    public void removeTimeOut(@RequestBody Timesheet timesheet){
+//        timesheetService.removeTimeOut(timesheet);
+//    }
 }

@@ -21,4 +21,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     List<Employee> findAllByStatus(Integer status);
 
     List<Employee> findAllByAdminAccess(Integer adminAccess);
+
+    Employee findByEmployeeID(Long employeeID);
 }
