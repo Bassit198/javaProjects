@@ -22,6 +22,8 @@ public class MergeFormatterGUI {
     private JLabel selectedLabel;
     private JRadioButton dayRadioButton;
     private JRadioButton monthRadioButton;
+    private JRadioButton ccFirstDigitYesRadioButton;
+    private JRadioButton ccFirstDigitNoRadioButton;
     private String path;
 
     public MergeFormatterGUI() {
@@ -31,6 +33,10 @@ public class MergeFormatterGUI {
         ButtonGroup group = new ButtonGroup();
         group.add(dayRadioButton);
         group.add(monthRadioButton);
+
+        ButtonGroup ccButtonGroup = new ButtonGroup();
+        ccButtonGroup.add(ccFirstDigitYesRadioButton);
+        ccButtonGroup.add(ccFirstDigitNoRadioButton);
 
         //button styles
         HashMap<String, String> buttonStyle = getButtonStyleHashMap();
@@ -278,9 +284,7 @@ public class MergeFormatterGUI {
                         builder.append(content[i].charAt(content[i].length() - 1));
                         String result = builder.toString();
                         formatDates[i] = result;
-                    }
-
-                    if (cont.length() == 4) {
+                    } else if (cont.length() == 4) {
                         StringBuilder builder = new StringBuilder();
                         builder.append(content[i].charAt(0));
                         builder.append(content[i].charAt(1));
@@ -289,6 +293,8 @@ public class MergeFormatterGUI {
                         builder.append(content[i].charAt(content[i].length() - 1));
                         String result = builder.toString();
                         formatDates[i] = result;
+                    } else {
+                        return content;
                     }
                 } else {
                     break;
@@ -356,25 +362,32 @@ public class MergeFormatterGUI {
     }
 
     //method used to format cc type required
-    public static String[] ccTypeIDFormat(String[][] columnList) {
+    public String[] ccTypeIDFormat(String[][] columnList) {
         String[] ccExpDate = new String[columnList[6].length];
-        for (int i = 0; i < columnList[6].length; i++) {
-            if (columnList[6][i].charAt(0) == '2') {
-                ccExpDate[i] = String.valueOf(2);
-            } else if (columnList[6][i].charAt(0) == '3') {
-                ccExpDate[i] = String.valueOf(4);
-            } else if (columnList[6][i].charAt(0) == '4') {
-                ccExpDate[i] = String.valueOf(1);
-            } else if (columnList[6][i].charAt(0) == '5') {
-                ccExpDate[i] = String.valueOf(2);
-            } else if (columnList[6][i].charAt(0) == '6') {
-                ccExpDate[i] = String.valueOf(3);
-            } else {
+        if (ccFirstDigitYesRadioButton.isSelected()) {
+            for (int i = 0; i < columnList[6].length; i++) {
+                if (columnList[6][i].charAt(0) == '2') {
+                    ccExpDate[i] = String.valueOf(2);
+                } else if (columnList[6][i].charAt(0) == '3') {
+                    ccExpDate[i] = String.valueOf(4);
+                } else if (columnList[6][i].charAt(0) == '4') {
+                    ccExpDate[i] = String.valueOf(1);
+                } else if (columnList[6][i].charAt(0) == '5') {
+                    ccExpDate[i] = String.valueOf(2);
+                } else if (columnList[6][i].charAt(0) == '6') {
+                    ccExpDate[i] = String.valueOf(3);
+                } else {
+                    ccExpDate[i] = String.valueOf(5);
+                }
+            }
+            return ccExpDate;
+        } else {
+            for (int i = 0; i < columnList[6].length; i++) {
                 ccExpDate[i] = String.valueOf(5);
             }
-
+            return ccExpDate;
         }
-        return ccExpDate;
+
     }
 
     //creates an output .csv file to specified path
@@ -450,8 +463,8 @@ public class MergeFormatterGUI {
         mainPanel = new JPanel();
         mainPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         basePanel = new JPanel();
-        basePanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(10, 4, new Insets(2, 10, 10, 10), -1, -1));
-        mainPanel.add(basePanel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(500, 300), null, 0, false));
+        basePanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(12, 4, new Insets(2, 10, 10, 10), -1, -1));
+        mainPanel.add(basePanel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(500, 400), null, 0, false));
         TitleLabel = new JLabel();
         Font TitleLabelFont = this.$$$getFont$$$("Courier New", Font.PLAIN, 28, TitleLabel.getFont());
         if (TitleLabelFont != null) TitleLabel.setFont(TitleLabelFont);
@@ -465,13 +478,13 @@ public class MergeFormatterGUI {
         label1.setText("Choose .csv File");
         basePanel.add(label1, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 1, false));
         final com.intellij.uiDesigner.core.Spacer spacer2 = new com.intellij.uiDesigner.core.Spacer();
-        basePanel.add(spacer2, new com.intellij.uiDesigner.core.GridConstraints(7, 2, 2, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        basePanel.add(spacer2, new com.intellij.uiDesigner.core.GridConstraints(9, 2, 2, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         browseButton = new JButton();
         browseButton.setText("Browse");
         basePanel.add(browseButton, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(81, 28), null, 0, false));
         generateButton = new JButton();
         generateButton.setText("Generate");
-        basePanel.add(generateButton, new com.intellij.uiDesigner.core.GridConstraints(7, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(90, 30), null, 0, false));
+        basePanel.add(generateButton, new com.intellij.uiDesigner.core.GridConstraints(9, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(90, 30), null, 0, false));
         selectedLabel = new JLabel();
         Font selectedLabelFont = this.$$$getFont$$$("Calibri", Font.PLAIN, 16, selectedLabel.getFont());
         if (selectedLabelFont != null) selectedLabel.setFont(selectedLabelFont);
@@ -482,18 +495,29 @@ public class MergeFormatterGUI {
         if (resultLabelFont != null) resultLabel.setFont(resultLabelFont);
         resultLabel.setHorizontalTextPosition(11);
         resultLabel.setText("Label");
-        basePanel.add(resultLabel, new com.intellij.uiDesigner.core.GridConstraints(9, 0, 1, 3, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        basePanel.add(resultLabel, new com.intellij.uiDesigner.core.GridConstraints(11, 0, 1, 3, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         dayRadioButton = new JRadioButton();
         dayRadioButton.setFocusable(false);
         dayRadioButton.setText("DD-MM-YYYY");
-        basePanel.add(dayRadioButton, new com.intellij.uiDesigner.core.GridConstraints(5, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        basePanel.add(dayRadioButton, new com.intellij.uiDesigner.core.GridConstraints(5, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_EAST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         monthRadioButton = new JRadioButton();
         monthRadioButton.setFocusable(false);
         monthRadioButton.setText("MM-DD-YYYY");
-        basePanel.add(monthRadioButton, new com.intellij.uiDesigner.core.GridConstraints(5, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        basePanel.add(monthRadioButton, new com.intellij.uiDesigner.core.GridConstraints(5, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label2 = new JLabel();
-        label2.setText("Source file date format:");
+        label2.setText("What is the source file date format for NBD and LBD?");
         basePanel.add(label2, new com.intellij.uiDesigner.core.GridConstraints(4, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label3 = new JLabel();
+        label3.setText("Is CC first digit provided?");
+        basePanel.add(label3, new com.intellij.uiDesigner.core.GridConstraints(7, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        ccFirstDigitYesRadioButton = new JRadioButton();
+        ccFirstDigitYesRadioButton.setText("Yes");
+        basePanel.add(ccFirstDigitYesRadioButton, new com.intellij.uiDesigner.core.GridConstraints(8, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_EAST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        ccFirstDigitNoRadioButton = new JRadioButton();
+        ccFirstDigitNoRadioButton.setText("No");
+        basePanel.add(ccFirstDigitNoRadioButton, new com.intellij.uiDesigner.core.GridConstraints(8, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final com.intellij.uiDesigner.core.Spacer spacer3 = new com.intellij.uiDesigner.core.Spacer();
+        basePanel.add(spacer3, new com.intellij.uiDesigner.core.GridConstraints(6, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_NORTHEAST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(1, 10), null, 0, false));
     }
 
     /**
