@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="JokesFun:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/JokesFun_jar</output-path>
+    <root id="archive" name="JokesFun.jar">
+      <element id="module-output" name="JokesFun" />
+    </root>
+  </artifact>
+</component>
