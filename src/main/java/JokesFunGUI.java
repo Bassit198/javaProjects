@@ -8,6 +8,7 @@ import java.net.http.HttpResponse;
 import java.util.*;
 
 public class JokesFunGUI {
+    private JPanel mainPanel;
     private JPanel basePanel;
     private JPanel containerPanel;
     private JPanel resultsPanel;
@@ -18,6 +19,7 @@ public class JokesFunGUI {
     private JRadioButton spookyRadioButton;
     private JRadioButton miscRadioButton;
     private JRadioButton programmingRadioButton;
+    private JLabel amountLabel;
     private JTextField amountText;
     private JLabel headingLabel;
     private JButton getJokeButton;
@@ -105,74 +107,74 @@ public class JokesFunGUI {
                 if(darkRadioButton.isSelected()){
                     String uri = "https://v2.jokeapi.dev/joke/Dark?format=txt";
                     HttpResponse<String> response = helperFunctions.sendApiGet(uri);
-                    resultsTextArea.setText("\n" + response.body() + "\n=====================================================================");
+                    resultsTextArea.setText("\n" + response.body() + "\n==================================================================");
                 }
                 //only Pun
                 if(punRadioButton.isSelected()){
                     String uri = "https://v2.jokeapi.dev/joke/Pun?format=txt";
                     HttpResponse<String> response = helperFunctions.sendApiGet(uri);
-                    resultsTextArea.setText("\n" + response.body() + "\n=====================================================================");
+                    resultsTextArea.setText("\n" + response.body() + "\n==================================================================");
                 }
                 //only Spooky
                 if(spookyRadioButton.isSelected()){
                     String uri = "https://v2.jokeapi.dev/joke/Spooky?format=txt";
                     HttpResponse<String> response = helperFunctions.sendApiGet(uri);
-                    resultsTextArea.setText("\n" + response.body() + "\n=====================================================================");
+                    resultsTextArea.setText("\n" + response.body() + "\n==================================================================");
                 }
                 //only Misc
                 if(miscRadioButton.isSelected()){
                     String uri = "https://v2.jokeapi.dev/joke/Miscellaneous?format=txt";
                     HttpResponse<String> response = helperFunctions.sendApiGet(uri);
-                    resultsTextArea.setText("\n" + response.body() + "\n=====================================================================");
+                    resultsTextArea.setText("\n" + response.body() + "\n==================================================================");
                 }
                 //only Programming
                 if(programmingRadioButton.isSelected()){
                     String uri = "https://v2.jokeapi.dev/joke/Programming?format=txt";
                     HttpResponse<String> response = helperFunctions.sendApiGet(uri);
-                    resultsTextArea.setText("\n" + response.body() + "\n=====================================================================");
+                    resultsTextArea.setText("\n" + response.body() + "\n==================================================================");
                 }
                 //only Christmas
                 if(christmasRadioButton.isSelected()){
                     String uri = "https://v2.jokeapi.dev/joke/Christmas?format=txt";
                     HttpResponse<String> response = helperFunctions.sendApiGet(uri);
-                    resultsTextArea.setText("\n" + response.body() + "\n=====================================================================");
+                    resultsTextArea.setText("\n" + response.body() + "\n==================================================================");
                 }
 
                 //amount
                 if(darkRadioButton.isSelected() && !amountText.getText().isEmpty()){
                     String uri = "https://v2.jokeapi.dev/joke/Dark?format=txt&amount=" + amountText.getText();
                     HttpResponse<String> response = helperFunctions.sendApiGet(uri);
-                    resultsTextArea.setText("\n" + response.body() + "\n=====================================================================");
+                    resultsTextArea.setText("\n" + response.body() + "\n==================================================================");
                 }
                 //only Pun
                 if(punRadioButton.isSelected() && !amountText.getText().isEmpty()){
                     String uri = "https://v2.jokeapi.dev/joke/Pun?format=txt&amount=" + amountText.getText();
                     HttpResponse<String> response = helperFunctions.sendApiGet(uri);
-                    resultsTextArea.setText("\n" + response.body() + "\n=====================================================================");
+                    resultsTextArea.setText("\n" + response.body() + "\n==================================================================");
                 }
                 //only Spooky
                 if(spookyRadioButton.isSelected() && !amountText.getText().isEmpty()){
                     String uri = "https://v2.jokeapi.dev/joke/Spooky?format=txt&amount=" + amountText.getText();
                     HttpResponse<String> response = helperFunctions.sendApiGet(uri);
-                    resultsTextArea.setText("\n" + response.body() + "\n=====================================================================");
+                    resultsTextArea.setText("\n" + response.body() + "\n==================================================================");
                 }
                 //only Misc
                 if(miscRadioButton.isSelected() && !amountText.getText().isEmpty()){
                     String uri = "https://v2.jokeapi.dev/joke/Miscellaneous?format=txt&amount=" + amountText.getText();;
                     HttpResponse<String> response = helperFunctions.sendApiGet(uri);
-                    resultsTextArea.setText("\n" + response.body() + "\n=====================================================================");
+                    resultsTextArea.setText("\n" + response.body() + "\n==================================================================");
                 }
                 //only Programming
                 if(programmingRadioButton.isSelected() && !amountText.getText().isEmpty()){
                     String uri = "https://v2.jokeapi.dev/joke/Programming?format=txt&amount=" + amountText.getText();;
                     HttpResponse<String> response = helperFunctions.sendApiGet(uri);
-                    resultsTextArea.setText("\n" + response.body() + "\n=====================================================================");
+                    resultsTextArea.setText("\n" + response.body() + "\n==================================================================");
                 }
                 //only Christmas
                 if(christmasRadioButton.isSelected() && !amountText.getText().isEmpty()){
                     String uri = "https://v2.jokeapi.dev/joke/Christmas?format=txt&amount=" + amountText.getText();;
                     HttpResponse<String> response = helperFunctions.sendApiGet(uri);
-                    resultsTextArea.setText("\n" + response.body() + "\n=====================================================================");
+                    resultsTextArea.setText("\n" + response.body() + "\n==================================================================");
                 }
             }
         });
