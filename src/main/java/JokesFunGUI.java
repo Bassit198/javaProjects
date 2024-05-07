@@ -1,3 +1,9 @@
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
@@ -5,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.http.HttpResponse;
+import java.time.Period;
 import java.util.*;
 
 public class JokesFunGUI {
@@ -14,7 +21,7 @@ public class JokesFunGUI {
     private JPanel resultsPanel;
     private JLabel categoryLabel;
     private JRadioButton darkRadioButton;
-    private JRadioButton christmasRadioButton;
+    private JRadioButton randomRadioButton;
     private JRadioButton punRadioButton;
     private JRadioButton spookyRadioButton;
     private JRadioButton miscRadioButton;
@@ -27,6 +34,9 @@ public class JokesFunGUI {
 
     private final DefaultListModel<String> listOfAccountsModel = new DefaultListModel<>();
 
+    private RestTemplate restTemplate = new RestTemplate();
+    private ObjectMapper mapper = new ObjectMapper();
+
     public JokesFunGUI() throws IOException, InterruptedException {
 
         ButtonGroup categoryGroup = new ButtonGroup();
@@ -35,7 +45,7 @@ public class JokesFunGUI {
         categoryGroup.add(spookyRadioButton);
         categoryGroup.add(miscRadioButton);
         categoryGroup.add(programmingRadioButton);
-        categoryGroup.add(christmasRadioButton);
+        categoryGroup.add(randomRadioButton);
 
         HelperFunctions helperFunctions = new HelperFunctions();
 
@@ -47,7 +57,7 @@ public class JokesFunGUI {
         helperFunctions.paintRadioButton(spookyRadioButton, categoryLabel);
         helperFunctions.paintRadioButton(miscRadioButton, categoryLabel);
         helperFunctions.paintRadioButton(programmingRadioButton, categoryLabel);
-        helperFunctions.paintRadioButton(christmasRadioButton, categoryLabel);
+        helperFunctions.paintRadioButton(randomRadioButton, categoryLabel);
 
         helperFunctions.paintTextField(amountText, categoryLabel);
 
@@ -100,6 +110,8 @@ public class JokesFunGUI {
             }
         });
 
+
+
         getJokeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -107,77 +119,152 @@ public class JokesFunGUI {
                 if(darkRadioButton.isSelected()){
                     String uri = "https://v2.jokeapi.dev/joke/Dark?format=txt";
                     HttpResponse<String> response = helperFunctions.sendApiGet(uri);
-                    resultsTextArea.setText("\n" + response.body() + "\n==================================================================");
+                    resultsTextArea.setText("\n" + response.body() + "\n===============================================================");
                 }
                 //only Pun
                 if(punRadioButton.isSelected()){
                     String uri = "https://v2.jokeapi.dev/joke/Pun?format=txt";
                     HttpResponse<String> response = helperFunctions.sendApiGet(uri);
-                    resultsTextArea.setText("\n" + response.body() + "\n==================================================================");
+                    resultsTextArea.setText("\n" + response.body() + "\n===============================================================");
                 }
                 //only Spooky
                 if(spookyRadioButton.isSelected()){
                     String uri = "https://v2.jokeapi.dev/joke/Spooky?format=txt";
                     HttpResponse<String> response = helperFunctions.sendApiGet(uri);
-                    resultsTextArea.setText("\n" + response.body() + "\n==================================================================");
+                    resultsTextArea.setText("\n" + response.body() + "\n===============================================================");
                 }
                 //only Misc
                 if(miscRadioButton.isSelected()){
                     String uri = "https://v2.jokeapi.dev/joke/Miscellaneous?format=txt";
                     HttpResponse<String> response = helperFunctions.sendApiGet(uri);
-                    resultsTextArea.setText("\n" + response.body() + "\n==================================================================");
+                    resultsTextArea.setText("\n" + response.body() + "\n===============================================================");
                 }
                 //only Programming
                 if(programmingRadioButton.isSelected()){
                     String uri = "https://v2.jokeapi.dev/joke/Programming?format=txt";
                     HttpResponse<String> response = helperFunctions.sendApiGet(uri);
-                    resultsTextArea.setText("\n" + response.body() + "\n==================================================================");
+                    resultsTextArea.setText("\n" + response.body() + "\n===============================================================");
                 }
-                //only Christmas
-                if(christmasRadioButton.isSelected()){
-                    String uri = "https://v2.jokeapi.dev/joke/Christmas?format=txt";
-                    HttpResponse<String> response = helperFunctions.sendApiGet(uri);
-                    resultsTextArea.setText("\n" + response.body() + "\n==================================================================");
+                //only random
+                if(randomRadioButton.isSelected()){
+                    String uri = "https://official-joke-api.appspot.com/random_joke";
+                    ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
+
+                    ObjectMapper mapper = new ObjectMapper();
+                    JsonNode root = null;
+                    try {
+                        root = mapper.readTree(response.getBody());
+                    } catch (JsonProcessingException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    JsonNode setup = root.path("setup");
+                    JsonNode punchline = root.path("punchline");
+                    String setupString = String.valueOf(setup);
+                    String punchlineString = String.valueOf(punchline);
+                    resultsTextArea.setText("\n" + setupString + "\n" + punchlineString + "\n===============================================================");
                 }
 
                 //amount
                 if(darkRadioButton.isSelected() && !amountText.getText().isEmpty()){
                     String uri = "https://v2.jokeapi.dev/joke/Dark?format=txt&amount=" + amountText.getText();
                     HttpResponse<String> response = helperFunctions.sendApiGet(uri);
-                    resultsTextArea.setText("\n" + response.body() + "\n==================================================================");
+                    resultsTextArea.setText("\n" + response.body() + "\n===============================================================");
                 }
                 //only Pun
                 if(punRadioButton.isSelected() && !amountText.getText().isEmpty()){
                     String uri = "https://v2.jokeapi.dev/joke/Pun?format=txt&amount=" + amountText.getText();
                     HttpResponse<String> response = helperFunctions.sendApiGet(uri);
-                    resultsTextArea.setText("\n" + response.body() + "\n==================================================================");
+                    resultsTextArea.setText("\n" + response.body() + "\n===============================================================");
                 }
                 //only Spooky
                 if(spookyRadioButton.isSelected() && !amountText.getText().isEmpty()){
                     String uri = "https://v2.jokeapi.dev/joke/Spooky?format=txt&amount=" + amountText.getText();
                     HttpResponse<String> response = helperFunctions.sendApiGet(uri);
-                    resultsTextArea.setText("\n" + response.body() + "\n==================================================================");
+                    resultsTextArea.setText("\n" + response.body() + "\n===============================================================");
                 }
                 //only Misc
                 if(miscRadioButton.isSelected() && !amountText.getText().isEmpty()){
                     String uri = "https://v2.jokeapi.dev/joke/Miscellaneous?format=txt&amount=" + amountText.getText();;
                     HttpResponse<String> response = helperFunctions.sendApiGet(uri);
-                    resultsTextArea.setText("\n" + response.body() + "\n==================================================================");
+                    resultsTextArea.setText("\n" + response.body() + "\n===============================================================");
                 }
                 //only Programming
                 if(programmingRadioButton.isSelected() && !amountText.getText().isEmpty()){
                     String uri = "https://v2.jokeapi.dev/joke/Programming?format=txt&amount=" + amountText.getText();;
                     HttpResponse<String> response = helperFunctions.sendApiGet(uri);
-                    resultsTextArea.setText("\n" + response.body() + "\n==================================================================");
+                    resultsTextArea.setText("\n" + response.body() + "\n===============================================================");
                 }
                 //only Christmas
-                if(christmasRadioButton.isSelected() && !amountText.getText().isEmpty()){
+                if(randomRadioButton.isSelected() && !amountText.getText().isEmpty()){
                     String uri = "https://v2.jokeapi.dev/joke/Christmas?format=txt&amount=" + amountText.getText();;
                     HttpResponse<String> response = helperFunctions.sendApiGet(uri);
-                    resultsTextArea.setText("\n" + response.body() + "\n==================================================================");
+                    resultsTextArea.setText("\n" + response.body() + "\n===============================================================");
                 }
             }
         });
+
+        darkRadioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                amountLabel.setBackground(categoryLabel.getBackground());
+                amountLabel.setForeground(categoryLabel.getForeground());
+                helperFunctions.paintTextField(amountText, categoryLabel);
+                amountText.setEditable(true);
+
+            }
+        });
+        punRadioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                amountLabel.setBackground(categoryLabel.getBackground());
+                amountLabel.setForeground(categoryLabel.getForeground());
+                helperFunctions.paintTextField(amountText, categoryLabel);
+                amountText.setEditable(true);
+
+            }
+        });
+        spookyRadioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                amountLabel.setBackground(categoryLabel.getBackground());
+                amountLabel.setForeground(categoryLabel.getForeground());
+                helperFunctions.paintTextField(amountText, categoryLabel);
+                amountText.setEditable(true);
+
+            }
+        });
+        miscRadioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                amountLabel.setBackground(categoryLabel.getBackground());
+                amountLabel.setForeground(categoryLabel.getForeground());
+                helperFunctions.paintTextField(amountText, categoryLabel);
+                amountText.setEditable(true);
+
+            }
+        });
+        programmingRadioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                amountLabel.setBackground(categoryLabel.getBackground());
+                amountLabel.setForeground(categoryLabel.getForeground());
+                helperFunctions.paintTextField(amountText, categoryLabel);
+                amountText.setEditable(true);
+
+            }
+        });
+        randomRadioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(randomRadioButton.isSelected()){
+                    amountLabel.setBackground(Color.RED);
+                    amountLabel.setForeground(Color.RED);
+                    amountText.setEditable(false);
+                }
+            }
+        });
+
+
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
