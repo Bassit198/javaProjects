@@ -37,7 +37,7 @@ public class JokesFunGUI {
     private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper mapper = new ObjectMapper();
 
-    public JokesFunGUI() throws IOException, InterruptedException {
+    public JokesFunGUI() {
 
         ButtonGroup categoryGroup = new ButtonGroup();
         categoryGroup.add(darkRadioButton);
@@ -123,7 +123,6 @@ public class JokesFunGUI {
                 //only Misc
                 if(miscRadioButton.isSelected()){
                     helperFunctions.printJoke("https://v2.jokeapi.dev/joke/Miscellaneous?format=txt", resultsTextArea);
-
                 }
                 //only Programming
                 if(programmingRadioButton.isSelected()){
@@ -143,9 +142,7 @@ public class JokesFunGUI {
                     }
                     JsonNode setup = root.path("setup");
                     JsonNode punchline = root.path("punchline");
-                    String setupString = String.valueOf(setup);
-                    String punchlineString = String.valueOf(punchline);
-                    resultsTextArea.setText("\n" + setupString + "\n\n" + punchlineString + "\n===============================================================");
+                    resultsTextArea.setText("\n" + setup + "\n\n" + punchline + "\n===============================================================");
                 }
 
                 //amount
