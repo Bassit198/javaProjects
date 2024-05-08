@@ -69,4 +69,9 @@ public class HelperFunctions {
         }
         return response;
     }
+
+    public void printJoke(String uri, JTextArea textArea){
+        HttpResponse<String> response = sendApiGet(uri);
+        textArea.setText("\n" + response.body() + "\n===============================================================");
+    }
 }
