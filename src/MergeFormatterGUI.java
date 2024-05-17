@@ -356,7 +356,7 @@ public class MergeFormatterGUI {
         } else {
             String[] replaceSlashLBD = formatDateReplaceSlash(lastBillDateColumn, "last_Bill_Date");
             String[] replaceSlashNBD = formatDateReplaceSlash(nextBillDateColumn, "next_Bill_Date");
-            return new String[][]{dataCapAuth, dataCapToken, dataCapCCExp, dataCapCC, membersAuth, membersPlan, membersCC, formattedExpDate, membersFirstName, membersLastName, membersAddress, membersCity, membersState, membersZip, membersPhone, membersEmail, membersRFID, replaceSlashLBD, replaceSlashNBD, blankColumn, licensePlateColumn};
+            return new String[][]{dataCapAuth, dataCapToken, dataCapCCExp, dataCapCC, membersAuth, membersPlan, membersCC, formattedExpDate, membersFirstName, membersLastName, membersAddress, membersCity, membersState, membersZip, membersPhone, membersEmail, membersRFID, replaceSlashNBD, replaceSlashLBD, blankColumn, licensePlateColumn};
         }
 
     }
