@@ -179,25 +179,34 @@
         align-items: center;
         justify-content: center;
         padding: 48px;
+        height:950px;
+        margin: 0 auto;
+        background-image: linear-gradient(to bottom right, #9aee83, #b87ee0);
     }
 
     .formbold-form-wrapper {
-        margin: 0 auto;
         max-width: 570px;
         width: 100%;
         background: white;
         padding: 40px;
+        border-style: solid;
+        border-color: white;
+        border-radius: 50px;
+        box-shadow: 20px 20px 50px 15px grey;
+        height: 900px;
+
     }
 
     .formbold-form-title {
-        margin-bottom: 30px;
+        margin-bottom: 20px;
     }
 
     .formbold-form-title h2 {
         font-weight: 600;
         font-size: 28px;
-        line-height: 34px;
-        color: #4c18ad
+        line-height: 30px;
+        color: #4c18ad;
+        margin-top: 5px;
     }
 
     .formbold-form-title p {
@@ -210,7 +219,7 @@
     .formbold-input-flex {
         display: flex;
         gap: 20px;
-        margin-bottom: 15px;
+        margin-bottom: 10px;
     }
 
     .formbold-input-flex > div {
@@ -241,7 +250,7 @@
         font-size: 14px;
         line-height: 24px;
         display: block;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
     }
 
     .formbold-btn {
@@ -253,11 +262,12 @@
         background-color: #6a64f1;
         color: white;
         cursor: pointer;
-        margin-top: 25px;
+        margin-top: 12px;
     }
 
     .formbold-btn:hover {
-        box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+        /*box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);*/
+        box-shadow: 20px 20px 50px 10px pink inset;
     }
 
     .cancel-btn {
@@ -270,17 +280,21 @@
         color: white;
         cursor: pointer;
         margin-top: 5px;
+        margin-bottom: 1px;
 
     }
 
     .cancel-btn:hover {
-        box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+        /*box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);*/
+        box-shadow: 20px 20px 50px 10px pink inset;
+
     }
 
     .icon {
         width: 60px;
         height: 60px;
         margin-left: -12px;
+        margin-top: -10px;
     }
 </style>
 

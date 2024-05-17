@@ -47,6 +47,9 @@
         align-items: center;
         justify-content: center;
         padding: 48px;
+        height:950px;
+        margin: 0 auto;
+        background-image: linear-gradient(to bottom right, #9aee83, #b87ee0);
     }
 
     .formbold-form-wrapper {
@@ -96,7 +99,8 @@
     }
 
     .home-btn:hover {
-        box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+        /*box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);*/
+        box-shadow: 20px 20px 50px 10px pink inset;
     }
 
     .icon {
