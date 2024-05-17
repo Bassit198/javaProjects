@@ -1,0 +1,51 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="AutoCloseableResource" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="METHOD_MATCHER_CONFIG" value="java.util.Formatter,format,java.io.Writer,append,com.google.common.base.Preconditions,checkNotNull,org.hibernate.Session,close,java.io.PrintWriter,printf,java.io.PrintStream,printf,org.apache.http.impl.client.HttpClientBuilder,build,org.apache.http.impl.client.HttpClients,createDefault" />
+    </inspection_tool>
+    <inspection_tool class="HtmlUnknownTag" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myValues">
+        <value>
+          <list size="7">
+            <item index="0" class="java.lang.String" itemvalue="nobr" />
+            <item index="1" class="java.lang.String" itemvalue="noembed" />
+            <item index="2" class="java.lang.String" itemvalue="comment" />
+            <item index="3" class="java.lang.String" itemvalue="noscript" />
+            <item index="4" class="java.lang.String" itemvalue="embed" />
+            <item index="5" class="java.lang.String" itemvalue="script" />
+            <item index="6" class="java.lang.String" itemvalue="style" />
+          </list>
+        </value>
+      </option>
+      <option name="myCustomValuesEnabled" value="true" />
+    </inspection_tool>
+    <inspection_tool class="VulnerableLibrariesLocal" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="isIgnoringEnabled" value="true" />
+      <option name="ignoredModules">
+        <list>
+          <option value="WebRegistration" />
+          <option value="WebRegistration" />
+          <option value="WebRegistration" />
+          <option value="WebRegistration" />
+        </list>
+      </option>
+      <option name="ignoredPackages">
+        <list>
+          <option value="org.json:json:20190722" />
+          <option value="commons-codec:commons-codec:1.9" />
+          <option value="org.apache.httpcomponents:httpclient:4.5.1" />
+          <option value="commons-io:commons-io:2.5" />
+        </list>
+      </option>
+      <option name="ignoredReasons">
+        <list>
+          <option value="Other" />
+          <option value="Other" />
+          <option value="Other" />
+          <option value="Other" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
