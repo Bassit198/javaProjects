@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -10,7 +9,7 @@
 <body>
 <div class="container">
     <div class="card">
-        <div class="front"></div>
+        <div class="front">Hello</div>
         <div class="back">
             <h1>Back of Card</h1>
             <p>Additional info on the back of the card</p>
@@ -70,6 +69,10 @@
 
     .front {
         background-image: url(https://source.unsplash.com/random/350x500);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 
     .back {
