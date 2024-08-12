@@ -34,7 +34,6 @@ public class UsersService {
             usersRepo.insertUser(user.getUsername(), user.getPassword_hash(), user.getEmail(), LocalDateTime.now());
             log.info("User added to user table on database");
 
-
             //grab user_id from created user
             int checkUserId = usersRepo.findUsersByUsername(user.getUsername()).getUser_id();
 
@@ -52,12 +51,10 @@ public class UsersService {
                 log.info("User role for: " + user.getUsername() + " added to the user role table on database");
             }
 
-
-
         }
 
-
     }
+
 
 
 }
