@@ -5,6 +5,8 @@ import bassit.admindatabaseapi.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 //this controller is what the user will interact with - the endpoints
 @RestController
 @RequestMapping("/api/v1/users")
@@ -19,12 +21,23 @@ public class UsersController {
     @PostMapping("/create/{roleID}")
     public void createUser(@RequestBody Users user, @PathVariable int roleID) {
         usersService.createUserService(user, roleID);
-
     }
 
-
+    //return all user information given user id
+    @GetMapping("/all")
+    public List<Users> viewAllUsers(){
+        return usersService.getAllUsers();
+    }
 
     //return a user information given user id
+    @GetMapping("/userid/{user_id}")
+    public List<Users> viewAllUsersGivenUserID(@PathVariable int user_id){
+        return usersService.getUserByID(user_id);
+    }
+
+    //return all users given role_id
+
+
     //update user password given user id
     //update user username given user id
     //update user email given user id

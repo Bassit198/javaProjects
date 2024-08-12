@@ -22,6 +22,10 @@ public class UsersService {
     @Autowired
     private UserRolesRepo userRolesRepo;
 
+    //service used to create the user
+    //first we will check if the user name already exists and if it does then throw an error
+    //if username does not exist, create user then check if the created user id is present in the user roles table
+    //if the user id is present, then throw an error and if not then create db entry for user id using user created
     public void createUserService(Users user,  int role_id) {
         Users checkUser = usersRepo.findUsersByUsername(user.getUsername());
 
@@ -55,6 +59,25 @@ public class UsersService {
 
     }
 
+    //return all users in DB
+    public List<Users> getAllUsers() {
+        List<Users> checkUsers = usersRepo.findAll();
+        if(checkUsers.isEmpty()){
+            log.info("No Users found.");
+            throw new IllegalStateException("No users found");
+        }else{
+            return checkUsers;
+        }
+    }
 
-
+    //return the user given a user id
+    public List<Users> getUserByID(int userId) {
+        List<Users> checkUsers = usersRepo.findUsersGivenID(userId);
+        if(checkUsers == null){
+            log.info("No Users found.");
+            throw new IllegalStateException("No users found");
+        }else {
+            return checkUsers;
+        }
+    }
 }

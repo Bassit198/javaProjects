@@ -27,6 +27,9 @@ public interface UsersRepo extends JpaRepository<Users, Integer> {
     @Query(value = "INSERT INTO UserRoles (user_id, role_id) VALUES (:fieldA, :fieldB)", nativeQuery = true)
     void insertUserRole(@Param("fieldA") int fieldA, @Param("fieldB") int fieldB);
 
+    @Query(value = "SELECT * FROM Users WHERE user_id = :userID", nativeQuery = true)
+    List<Users> findUsersGivenID(@Param("userID") int userID);
+
 
 
 
