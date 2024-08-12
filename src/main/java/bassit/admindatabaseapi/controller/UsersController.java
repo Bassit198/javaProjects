@@ -19,8 +19,8 @@ public class UsersController {
 
     //create a user given role id and user id
     @PostMapping("/create/{roleID}")
-    public void createUser(@RequestBody Users user, @PathVariable int roleID) {
-        usersService.createUserService(user, roleID);
+    public String createUser(@RequestBody Users user, @PathVariable int roleID) {
+        return usersService.createUserService(user, roleID);
     }
 
     //return all user information given user id
@@ -30,9 +30,9 @@ public class UsersController {
     }
 
     //return a user information given user id
-    @GetMapping("/userid/{user_id}")
-    public List<Users> viewAllUsersGivenUserID(@PathVariable int user_id){
-        return usersService.getUserByID(user_id);
+    @GetMapping("/userid/{userID}")
+    public List<Users> viewAllUsersGivenUserID(@PathVariable int userID){
+        return usersService.getUserByID(userID);
     }
 
     //return all users given role_id

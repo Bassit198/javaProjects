@@ -26,7 +26,7 @@ public class UsersService {
     //first we will check if the user name already exists and if it does then throw an error
     //if username does not exist, create user then check if the created user id is present in the user roles table
     //if the user id is present, then throw an error and if not then create db entry for user id using user created
-    public void createUserService(Users user,  int role_id) {
+    public String createUserService(Users user,  int role_id) {
         Users checkUser = usersRepo.findUsersByUsername(user.getUsername());
 
         //check if user is created
@@ -53,6 +53,7 @@ public class UsersService {
                 //create userRole if user id does not exist
                 usersRepo.insertUserRole(checkUserId, role_id);
                 log.info("User role for: " + user.getUsername() + " added to the user role table on database");
+                return "User successfully created with User ID: " + checkUserId;
             }
 
         }
