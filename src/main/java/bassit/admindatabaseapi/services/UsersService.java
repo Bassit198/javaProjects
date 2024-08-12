@@ -25,36 +25,6 @@ public class UsersService {
     public void createUserService(Users user,  int role_id) {
         Users checkUser = usersRepo.findUsersByUsername(user.getUsername());
 
-        //check if user exists in user table
-        /*if(checkUser != null){
-            log.info("User already exist with username: " + user.getUsername());
-            throw new IllegalStateException("User already exists with username.");
-        }else{
-            //check if user id already exists in user role table
-            List<UserRoles> checkUserRoles = userRolesRepo.findUserID(user_id);
-            if(!checkUserRoles.isEmpty()){
-                System.out.println(user_id);
-                log.info("User already exist with user_id: " + user_id);
-                throw new IllegalStateException("User already exists with user ID.");
-            }else{
-                usersRepo.insertUser(user.getUsername(), user.getPassword_hash(), user.getEmail(), LocalDateTime.now());
-                log.info("User added to user table on database");
-            }
-
-            //check if user is created before adding user role since user role has a foreign key of user_id
-            //if user_id from user table is not created, we cannot create a user role
-
-            Users checkUserExist = usersRepo.findUsersByUsername(user.getUsername());
-            if(checkUserExist == null){
-                throw new IllegalStateException("User not created");
-            }else{
-                //check if user is created then run this
-                usersRepo.insertUserRole(user.getUser_id(), role_id);
-                log.info("User role for: " + user.getUsername() + " added to the user role table on database");
-            }
-
-        }*/
-
         //check if user is created
         if(checkUser != null){
             log.info("User already exist with username: " + user.getUsername());
@@ -71,15 +41,17 @@ public class UsersService {
             //check if user_id exists
             List<UserRoles> checkUserRoles = userRolesRepo.findUserID(checkUserId);
             if(!checkUserRoles.isEmpty()){
+
                 //implement delete user created above
 
                 log.info("User already exist with user_id: " + checkUserId);
                 throw new IllegalStateException("User already exists with user ID.");
             }else{
+                //create userRole if user id does not exist
                 usersRepo.insertUserRole(checkUserId, role_id);
                 log.info("User role for: " + user.getUsername() + " added to the user role table on database");
             }
-            //create userRole if user id does not exist
+
 
 
         }
