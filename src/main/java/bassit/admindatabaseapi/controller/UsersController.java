@@ -16,14 +16,14 @@ public class UsersController {
     public UsersController(UsersService usersService) {this.usersService = usersService;}
 
     //create a user given role id and user id
-    @PostMapping("/create/{userID}/{roleID}")
-    public void createUser(@RequestBody Users user, @PathVariable int userID, @PathVariable int roleID) {
-        usersService.createUserService(user, userID, roleID);
+    @PostMapping("/create/{roleID}")
+    public void createUser(@RequestBody Users user, @PathVariable int roleID) {
+        usersService.createUserService(user, roleID);
 
     }
 
 
-    //populate userRoles table when user is created with the role id and user id
+
     //return a user information given user id
     //update user password given user id
     //update user username given user id
