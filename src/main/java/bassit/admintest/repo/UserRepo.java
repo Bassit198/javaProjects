@@ -15,6 +15,8 @@ public interface UserRepo extends JpaRepository<UserModel, Integer> {
 
     UserModel findUserModelByUsername(String username);
 
+    UserModel findUserModelByUserid(int userId);
+
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO adminTest.user_model (username, passwordhash, email, created) VALUES (:field1, :field2, :field3, :field4)", nativeQuery = true)

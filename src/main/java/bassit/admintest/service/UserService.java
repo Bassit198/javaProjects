@@ -69,4 +69,16 @@ public class UserService {
             }
         }
     }
+
+    public UserModel getUserInfoService(int userID) {
+        UserModel checkUser =  userRepo.findUserModelByUserid(userID);
+        return new UserModel(checkUser.getUsername(), "******", checkUser.getEmail(), checkUser.getCreated());
+
+
+    }
+
+    public UserModel getUserInfoUsername(String username) {
+        UserModel checkUser = userRepo.findUserModelByUsername(username);
+        return new UserModel(checkUser.getUsername(), "******", checkUser.getEmail(), checkUser.getCreated());
+    }
 }

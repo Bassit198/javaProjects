@@ -21,6 +21,16 @@ public class UserController {
         return usersService.createUserService(userModel, roleID);
     }
 
+    @GetMapping("/get/userid/{userID}")
+    public UserModel getUserInfo(@PathVariable int userID){
+        return usersService.getUserInfoService(userID);
+    }
+
+    @GetMapping("/get/username/{username}")
+    public UserModel getUserInfoUsername(@PathVariable String username){
+        return usersService.getUserInfoUsername(username);
+    }
+
 
 
 }

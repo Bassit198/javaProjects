@@ -39,6 +39,7 @@ public class UserModel {
     private LocalDateTime created;
 
     //one user model can have multiple roles
+    @JsonIgnore
     @OneToMany(mappedBy = "userModel", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserRolesModel> userRolesModels;
 
@@ -48,4 +49,5 @@ public class UserModel {
         this.email = email;
         this.created = created;
     }
+
 }
