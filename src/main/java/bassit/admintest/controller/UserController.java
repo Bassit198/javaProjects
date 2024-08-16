@@ -31,6 +31,11 @@ public class UserController {
         return usersService.getUserInfoUsername(username);
     }
 
+    @GetMapping("/checkuser/{username}/{password}")
+    public int checkUserCredentials(@PathVariable String username, @PathVariable String password){
+        return usersService.checkCredentialsService(username, password);
+    }
+
 
 
 }

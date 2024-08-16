@@ -81,4 +81,19 @@ public class UserService {
         UserModel checkUser = userRepo.findUserModelByUsername(username);
         return new UserModel(checkUser.getUsername(), "******", checkUser.getEmail(), checkUser.getCreated());
     }
+
+    public int checkCredentialsService(String username, String password) {
+        UserModel checkUser = userRepo.findUserModelByUsername(username);
+
+        if(checkUser == null){
+            return 2; //user not in db
+        }else{
+            if(bcrypt.matches(password, checkUser.getPasswordhash())){
+                return 1; //user in db and password is correct
+            }else{
+                return -1; //incorrect password
+            }
+        }
+
+    }
 }
